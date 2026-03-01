@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Calculadora de Ponderacions i Notes de Tall 2026 | SJ Pro</title>
+    <meta name="description" content="Calculadora oficial per a alumnes de Batxillerat. Consulta les notes de tall 2025/2026, ponderacions de matèries de la PAU i sortides professionals de tots els graus universitaris a Catalunya.">
+    <meta name="keywords" content="batxillerat, materies, assignatures, ponderacions 2026, notes de tall 2025, selectivitat catalunya, PAU 2026, simulador notes PAU, universitats catalanes, orientació universitària, graus universitaris">
+    <meta name="author" content="SJ Pro">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Calculadora de Ponderacions i Notes de Tall 2026">
+    <meta property="og:description" content="Eina d'orientació universitària: calcula la teva nota i troba el teu grau ideal segons les teves matèries de modalitat.">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:url" content="batxi2uni.netlify.app">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    
+    <style>
+        :root { --primary: #3498db; --secondary: #27ae60; --dark: #2c3e50; --light: #f1f2f6; --accent: #8e44ad; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f4f7f6; padding: 20px; color: #333; margin: 0; }
+        
+        .container { max-width: 1050px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        
+        .header-area { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 25px; }
+        .logo-main { height: 70px; margin-bottom: 10px; }
+        
+        h1 { text-align: center; color: var(--dark); margin: 0; font-weight: 800; font-size: 1.6em; line-height: 1.2; }
+        h2 { text-align: center; color: #666; font-size: 1.1em; font-weight: 400; margin-top: 8px; }
+
+        .panel { background: var(--light); padding: 18px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #ddd; }
+        .reverse-filter { border-left: 5px solid var(--accent); background: #fdfaff; }
+        .step-number { background: var(--dark); color: white; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-size: 0.85em; display: inline-block; }
+
+        .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: start; }
+        label { font-weight: bold; font-size: 0.75em; text-transform: uppercase; color: #555; display: block; margin-bottom: 6px; }
+        
+        select, .multiselect-header { 
+            width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; 
+            background: white; font-size: 0.95em; cursor: pointer; box-sizing: border-box;
+        }
+
+        /* FILTRE POBLACIÓ PERSONALITZAT */
+        .multiselect-container { position: relative; width: 100%; }
+        .multiselect-header { display: flex; justify-content: space-between; align-items: center; min-height: 40px; position: relative; }
+        .multiselect-header::after { content: '▼'; font-size: 0.7em; color: #999; }
+        
+        .multiselect-options { 
+            position: absolute; top: 100%; left: 0; width: 100%; background: white; 
+            border: 1px solid #ccc; border-radius: 0 0 6px 6px; 
+            display: none; z-index: 100; max-height: 200px; overflow-y: auto; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .multiselect-options label { 
+            display: flex; align-items: center; padding: 10px; margin: 0; 
+            text-transform: none; font-weight: normal; color: #333; cursor: pointer;
+            border-bottom: 1px solid #f0f0f0; font-size: 0.9em;
+        }
+        .multiselect-options label:hover { background: #f9f9f9; }
+        .multiselect-options input { margin-right: 10px; width: 18px; height: 18px; }
+
+        /* TABLA I BOTONS */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
+        th { background: var(--dark); color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+        
+        .score-big { font-size: 1.4em; font-weight: 900; color: var(--secondary); text-align: right; }
+        .prof-badge { width: 28px; height: 28px; border-radius: 6px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; flex-shrink: 0; font-size: 0.9em; }
+        .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 1px 5px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.85em; margin-right: 6px; }
+        .tag { display: inline-flex; align-items: center; background: #eef2f7; padding: 2px 8px; border-radius: 10px; margin-right: 5px; border: 1px solid #dde3ea; margin-bottom: 4px; font-size: 0.8em; color: #555; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .btn { padding: 10px; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; font-size: 0.85em; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.3em; }
+            .btn { font-size: 0.7em; flex-direction: column; }
+            .controls-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        #zonaCarga { text-align: center; padding: 50px; }
+        .spinner { border: 4px solid rgba(0,0,0,0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .back-btn { background: none; border: none; text-decoration: underline; color: #777; cursor: pointer; margin-bottom: 15px; font-size: 0.9em; }
+        
+        #pantallaInicio { text-align: center; padding: 30px 10px; }
+        .btn-decision { font-size: 1.1em; padding: 14px 30px; margin: 10px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; max-width: 250px; }
+        .btn-si { background: var(--primary); color: white; }
+        .btn-no { background: var(--accent); color: white; }
+    </style>
+</head>
+<body onload="iniciarApp()">
+
+<div class="container">
+    <div class="header-area">
+        <img src="logo.png" alt="Batxi2Uni" class="logo-main">
+        <h1>Calculadora Universitària SJ</h1>
+    </div>
+
+    <div id="zonaCarga">
+        <div class="spinner"></div>
+        <h3 id="msgCarga">Carregant dades del servidor...</h3>
+    </div>
+
+    <div id="pantallaInicio" style="display:none;">
+        <h2>Tens clar quin Grau universitari vols cursar?</h2>
+        <div style="margin-top:25px; display:flex; flex-wrap:wrap; justify-content:center;">
+            <button class="btn-decision btn-si" onclick="setModo('SI')">SÍ, ho tinc clar</button>
+            <button class="btn-decision btn-no" onclick="setModo('NO')">NO, vull explorar</button>
+        </div>
+    </div>
+
+    <div id="mainUI" style="display:none;">
+        <button class="back-btn" onclick="volverInicio()">« Tornar a l'inici</button>
+        
+        <div id="panelGrado" class="panel reverse-filter" style="display:none;">
+            <label><span class="step-number">1</span> Escull el grau</label>
+            <select id="selGrado" onchange="cambioGrado()">
+                <option value="">-- Selecciona un Grau --</option>
+            </select>
+        </div>
+
+        <div class="panel">
+            <label id="lblMaterias"><span class="step-number">2</span> Escull matèries</label>
+            <div class="controls-grid">
+                <select id="m1" class="m-sel" onchange="actualizarTodo()"></select>
+                <select id="m2" class="m-sel" onchange="actualizarTodo()"></select>
+                <select id="m3" class="m-sel" onchange="actualizarTodo()"></select>
+                <select id="m4" class="m-sel" onchange="actualizarTodo()"></select>
+            </div>
+        </div>
+
+        <div id="zonaResultados" style="display:none;">
+            <div class="panel">
+                <label><span class="step-number">3</span> Filtres de refinament</label>
+                <div class="controls-grid">
+                    <div class="multiselect-container">
+                        <label>Població</label>
+                        <div class="multiselect-header" id="pobHeader" onclick="togglePobMenu()">Totes</div>
+                        <div class="multiselect-options" id="pobOptions"></div>
+                    </div>
+                    <div>
+                        <label>Sortida Professional</label>
+                        <select id="fMinOpor" onchange="actualizarTodo()">
+                            <option value="0">Totes</option>
+                            <option value="4">Mín 4</option>
+                            <option value="6">Mín 6</option>
+                            <option value="8">Mín 8</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Ponderació</label>
+                        <select id="fMinPond" onchange="actualizarTodo()">
+                            <option value="0">Totes</option>
+                            <option value="0.4">Mín 0.4</option>
+                            <option value="0.6">Mín 0.6</option>
+                            <option value="0.8">Mín 0.8</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Ordre</label>
+                        <select id="fOrden" onchange="actualizarTodo()">
+                            <option value="total">Ponderació ↓</option>
+                            <option value="nota_num_desc">Nota Tall ↓</option>
+                            <option value="nota_num_asc">Nota Tall ↑</option>
+                            <option value="oportunidades">Oportunitat ↓</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn" style="background:#3498db" onclick="window.print()">🖨️ PDF</button>
+                    <button class="btn" style="background:#27ae60" onclick="exportarExcel()">📊 Excel</button>
+                    <button class="btn" style="background:#95a5a6" onclick="location.reload()">🔄 Inici</button>
+                </div>
+            </div>
+
+            <table id="tablaRes">
+                <thead>
+                    <tr>
+                        <th>Resultats <span id="txtContador" style="float:right; opacity: 0.6; font-weight:normal;">0</span></th>
+                        <th style="text-align:right;">Total</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+let LINEAS = [];
+let ASIG_MAP = {}; 
+let MODO_APP = "";
+
+function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
+function aNum(v) { 
+    if(!v) return 0;
+    let n = parseFloat(v.toString().replace(/"/g, '').replace(',', '.').trim());
+    return isNaN(n) ? 0 : n;
+}
+
+// FUNCIÓ DE CARGA AUTOMÀTICA DES DEL SERVIDOR
+async function iniciarApp() {
+    try {
+        const response = await fetch('ponderaciones.csv'); 
+        if (response.ok) {
+            const data = await response.text();
+            parseData(data);
+        } else {
+            throw new Error("No s'ha trobat l'arxiu ponderaciones.csv al servidor.");
+        }
+    } catch (e) {
+        document.getElementById('msgCarga').innerHTML = `<span style="color:red;">Error de carga:</span><br>${e.message}`;
+        document.querySelector('.spinner').style.display = 'none';
+    }
+}
+
+function parseData(textoRaw) {
+    LINEAS = textoRaw.split(/\r?\n/).filter(l => l.trim() !== "").map(l => l.split(';'));
+    document.getElementById('zonaCarga').style.display = 'none';
+    
+    const h = LINEAS[0];
+    for(let i=7; i<h.length; i++){
+        let nom = limpiar(h[i]);
+        if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
+    }
+    
+    document.getElementById('pantallaInicio').style.display = 'block';
+    llenarGrados();
+}
+
+function togglePobMenu() {
+    const opt = document.getElementById('pobOptions');
+    opt.style.display = (opt.style.display === 'block') ? 'none' : 'block';
+}
+
+window.onclick = function(event) {
+    if (!event.target.closest('.multiselect-container')) {
+        document.getElementById("pobOptions").style.display = 'none';
+    }
+}
+
+function setModo(modo) {
+    MODO_APP = modo;
+    document.getElementById('pantallaInicio').style.display = 'none';
+    document.getElementById('mainUI').style.display = 'block';
+    if (modo === 'SI') {
+        document.getElementById('panelGrado').style.display = 'block';
+        renderSelMaterias([]); 
+    } else {
+        document.getElementById('panelGrado').style.display = 'none';
+        renderSelMaterias(Object.keys(ASIG_MAP).sort());
+        document.getElementById('zonaResultados').style.display = 'block'; 
+        actualizarTodo();
+    }
+}
+
+function volverInicio() { location.reload(); }
+
+function llenarGrados() {
+    const grados = [...new Set(LINEAS.slice(1).map(r => limpiar(r[2])))].filter(x => x).sort();
+    document.getElementById('selGrado').innerHTML = '<option value="">-- Selecciona un Grau --</option>' + 
+        grados.map(g => `<option value="${g}">${g}</option>`).join('');
+}
+
+function renderSelMaterias(lista) {
+    document.querySelectorAll('.m-sel').forEach(s => {
+        s.innerHTML = '<option value="">-- Matèria --</option>' + lista.map(m => `<option value="${m}">${m}</option>`).join('');
+    });
+}
+
+function cambioGrado() {
+    const grado = document.getElementById('selGrado').value;
+    if(!grado) return;
+    const ok = new Set();
+    LINEAS.forEach((r, i) => {
+        if(i>0 && limpiar(r[2]) === grado) {
+            for(let m in ASIG_MAP) { ASIG_MAP[m].forEach(idx => { if(aNum(r[idx]) >= 0.2) ok.add(m); }); }
+        }
+    });
+    renderSelMaterias(Array.from(ok).sort());
+    document.getElementById('zonaResultados').style.display = 'block';
+    actualizarTodo();
+}
+
+function actualizarTodo() {
+    const selects = Array.from(document.querySelectorAll('.m-sel'));
+    const elegidas = selects.map(s => s.value).filter(v => v);
+
+    selects.forEach(selActual => {
+        const miValor = selActual.value;
+        Array.from(selActual.options).forEach(opt => {
+            if (opt.value && elegidas.includes(opt.value) && opt.value !== miValor) opt.disabled = true;
+            else opt.disabled = false;
+        });
+    });
+
+    const minOpor = parseFloat(document.getElementById('fMinOpor').value);
+    const minPond = parseFloat(document.getElementById('fMinPond').value);
+    const ord = document.getElementById('fOrden').value;
+    const gradoFiltro = document.getElementById('selGrado').value;
+
+    let preFiltrados = [];
+    LINEAS.forEach((row, idx) => {
+        if(idx === 0 || !row[2]) return;
+        if(MODO_APP === 'SI' && elegidas.length === 0 && limpiar(row[2]) !== gradoFiltro) return;
+
+        let suma = 0;
+        elegidas.forEach(m => {
+            let max = 0;
+            if(ASIG_MAP[m]) ASIG_MAP[m].forEach(c => { let v = aNum(row[c]); if(v > max) max = v; });
+            suma += max;
+        });
+        
+        if((suma >= minPond && aNum(row[0]) >= minOpor) || (MODO_APP === 'SI' && elegidas.length === 0 && limpiar(row[2]) === gradoFiltro)) {
+            preFiltrados.push({
+                oportunidades: aNum(row[0]), id: limpiar(row[1]), grado: limpiar(row[2]),
+                univ: limpiar(row[3]), poblacio: limpiar(row[4]),
+                plazas: limpiar(row[5]), nota: limpiar(row[6]),
+                nota_num: aNum(row[6]), total: suma
+            });
+        }
+    });
+
+    const poblacionesDisponibles = [...new Set(preFiltrados.map(r => r.poblacio))].sort();
+    const container = document.getElementById('pobOptions');
+    const marcadasAnteriormente = Array.from(document.querySelectorAll('#pobOptions input:checked')).map(i => i.value);
+    
+    container.innerHTML = poblacionesDisponibles.map(p => `
+        <label><input type="checkbox" value="${p}" ${marcadasAnteriormente.includes(p) ? 'checked' : ''} onchange="actualizarTodo()"> ${p}</label>
+    `).join('');
+
+    const pSel = Array.from(document.querySelectorAll('#pobOptions input:checked')).map(i => i.value);
+    const header = document.getElementById('pobHeader');
+    header.innerText = pSel.length === 0 ? "Totes" : (pSel.length === 1 ? pSel[0] : `${pSel.length} seleccionats`);
+
+    let filtrados = preFiltrados;
+    if(pSel.length > 0) {
+        filtrados = preFiltrados.filter(r => pSel.includes(r.poblacio));
+    }
+
+    filtrados.sort((a, b) => {
+        if (ord === "nota_num_asc") return a.nota_num - b.nota_num;
+        if (ord === "nota_num_desc") return b.nota_num - a.nota_num;
+        if (ord === "oportunidades") return b.oportunidades - a.oportunidades;
+        return b.total - a.total;
+    });
+
+    const tbody = document.querySelector('#tablaRes tbody');
+    document.getElementById('txtContador').innerText = filtrados.length;
+
+    tbody.innerHTML = filtrados.map(r => `
+        <tr>
+            <td>
+                <div style="display:flex;">
+                    <div class="prof-badge" style="background:${hsl(r.oportunidades)}">${r.oportunidades}</div>
+                    <div>
+                        <div style="font-weight:bold;"><span class="grade-id">${r.id}</span>${r.grado}</div>
+                        <div style="font-size:0.85em; color:#444;">${r.univ}</div>
+                        <div style="margin-top:4px;">
+                            <span class="tag">📍 ${r.poblacio}</span>
+                            <span class="tag">📝 ${r.nota}</span>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
+        </tr>
+    `).join('');
+    window.ULTIMOS_DATOS = filtrados;
+}
+
+function hsl(n) { return `hsl(${(n-1)*26}, 60%, 45%)`; }
+
+function exportarExcel() {
+    if(!window.ULTIMOS_DATOS) return;
+    const ws = XLSX.utils.json_to_sheet(window.ULTIMOS_DATOS.map(d => ({ Grau: d.grado, Univ: d.univ, Poblacio: d.poblacio, Ponderacio: d.total })));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Resultats");
+    XLSX.writeFile(wb, "Calcul_SJ.xlsx");
+}
+</script>
+</body>
+</html>

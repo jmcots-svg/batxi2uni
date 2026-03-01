@@ -1,0 +1,658 @@
+﻿Oportunitats;ID;Grau;Universitat;Poblacio;Plaçes orientatives;Nota;Anàlisi Musical (*);Arts Escèniques (*);Biologia;Ciències Generals (*);Cor i tècnica Vocal (*);Dibuix Artístic;Dibuix Tècnic;Dibuix Tècnic aplicat a les Arts;Disseny (2n);Física;Historia de l'Art;Funcionament de l’Empresa i Models de Negoci (Empresa);Geografia (2n);Geologia i Ciències Ambientals (*);Història de la Música i de la Dansa (*);Història de l'Art (2n);Literatura Castellana (*);Literatura Catalana (*);Literatura Dramàtica (*);Llengua i Cultura Gregues (Grec) (*);Llengua i Cultura Llatines (Llatí) (*);Matemàtiques;Matemàtiques Aplicades;Moviments culturals i artístics (*);Química;Tècniques d’Expressió Graficoplàstica (*);Tecnologia
+8;41029;"Administració d'Empreses i Gestió de la Innovació ""Tecnocampus""";UPF;Mataró;70;7,424;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;41036;"Administració d'Empreses i Gestió de la Innovació ""Tecnocampus"" (Docència en Anglès)";UPF;Mataró;35;5,154;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;41041;"Administració d'Empreses i Gestió de la Innovació / Màrqueting i Comunitats Digitals ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;60;6,313;0,2;0,2;0,2;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;
+9;41035;"Administració d'Empreses i Gestió de la Innovació / Turisme i Gestió del Lleure ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;40;5;0,1;0,1;0,2;0,2;0,1;;;;;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;
+8;11033;Administració i Direcció d'Empreses;UB;Barcelona;780;9,194;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;21014;Administració i Direcció d'Empreses;UAB;Cerdanyola del Vallès;160;9,8;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;21099;Administració i Direcció d'Empreses (Docència en Anglès);UAB;Cerdanyola del Vallès;70;10,01;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;61077;"Administració i Direcció d'Empreses i Transformació de Negocis ""Centre Universitari EAE""";UdL;Barcelona;150;5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;41008;Administració i Direcció d'Empreses;UPF;Barcelona;170;10,912;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;61003;Administració i Direcció d'Empreses;UdL;Lleida;120;7,666;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;61069;Administració i Direcció d'Empreses (Igualada);UdL;Igualada;40;8,122;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;81003;Administració i Direcció d'Empreses;UdG;Girona;100;9,162;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;71002;Administració i Direcció d'Empreses (Reus);URV;Reus;140;8,352;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;71004;Administració i Direcció d'Empreses (Tortosa);URV;Tortosa;45;6,979;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;71063;"Administració i Direcció d'Empreses ""IGEMA""";URV;Barcelona;80;5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;91003;Administració i Direcció d'Empreses;UVic-UCC;Vic;65;5,468;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;91042;Administració i Direcció d'Empreses (Campus Manresa);UVic-UCC;Manresa;50;5,304;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;11064;Administració i Direcció d'Empreses / Dret (Simultaneïtat);UB;Barcelona;60;10,444;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+9;21098;Administració i Direcció d'Empreses / Dret (Simultaneïtat);UAB;Cerdanyola del Vallès;80;9,804;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+9;61035;Administració i Direcció d'Empreses / Dret (Simultaneïtat);UdL;Lleida;30;9,396;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+9;81053;Administració i Direcció d'Empreses / Dret (Simultaneïtat);UdG;Girona;10;9,838;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+9;71055;Administració i Direcció d'Empreses / Dret (Simultaneïtat);URV;Tarragona, Reus;25;7,639;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+9;81052;Administració i Direcció d'Empreses / Economia (Simultaneïtat);UdG;Girona;30;9,962;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;41034;Administració i Direcció d'Empreses - Economia / Dret (Agrupació de Simultaneïtat);UPF;Barcelona;90;11,426;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+10;61070;Administració i Direcció d'Empreses / Enginyeria en Organització Industrial i Logística (simultaneïtat);UdL;Igualada;10;8,006;;;0,2;;;;0,2;0,1;0,1;0,2;;0,2;0,2;0,1;;;;;;;;0,2;0,2;;0,2;0,1;0,2
+10;81046;Administració i Direcció d'Empreses / Enginyeria en Tecnologies Industrials (Simultaneïtat);UdG;Girona;15;10,198;;;0,2;;;;0,2;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;0,2
+10;61036;Administració i Direcció d'Empreses / Enginyeria Informàtica (Simultaneïtat);UdL;Lleida;10;11,05;;;0,2;0,1;;;0,2;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;0,2
+9;71053;Administració i Direcció d'Empreses / Finances i Comptabilitat (Simultaneïtat);URV;Reus;30;10,131;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;71079;"Administració i Direcció d'Empreses / Màrqueting ""ESIC"" (simultaneïtat) Reus / Barcelona";URV;Reus, Barcelona;10;7,5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;71080;"Administració i Direcció d'Empreses / Màrqueting ""ESIC"" (simultaneïtat) Tortosa / Barcelona";URV;Tortosa, Barcelona;10;6,03;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+10;11066;Administració i Direcció d'Empreses / Matemàtiques (Simultaneïtat);UB;Barcelona;20;11,85;;;0,2;0,1;;;;;;0,2;;0,2;0,2;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+9;11095;Administració i Direcció d'Empreses / Química (Simultaneïtat);UB;Barcelona;20;10,808;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;11090;Administració i Direcció d'Empreses / Sociologia (Simultaneïtat);UB;Barcelona;20;9,014;;;0,2;;;;;;;0,2;;0,2;0,2;0,2;;0,2;;;;;0,2;0,2;0,2;0,1;0,2;;
+9;61053;Administració i Direcció d'Empreses / Turisme (Simultaneïtat);UdL;Lleida;20;7,284;0,1;0,1;0,2;0,2;0,1;;;;;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;
+5;71003;Anglès;URV;Tarragona;55;5,404;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;0,2;;;;;;
+4;71049;Antropologia i Evolució Humana (Virtual o Semipresencial);URV/UOC;Tarragona;120;5;;;;;;;;;;;;;0,2;;0,1;;;;;0,2;0,2;;0,2;;;;
+4;11001;Antropologia Social i Cultural;UB;Barcelona;100;5;;;;;;;;;;;;;0,2;;0,1;;;;;0,2;0,2;0,2;0,2;;;;
+4;21152;Antropologia Social i Cultural;UAB;Cerdanyola del Vallès;70;5;;;;;;;;;;;;;0,2;;0,1;;;;;0,2;0,2;0,2;0,2;;;;
+3;11029;Arqueologia;UB;Barcelona;75;5;;;;;;;;;;;0,2;;;;;0,2;;;;0,2;0,2;;;;;;
+3;21146;Arqueologia;UAB;Cerdanyola del Vallès;60;5;;;;;;;;;;;0,2;;;;;0,2;;;;0,2;0,2;;;;;;
+4;11096;Arqueologia / Història (Simultaneïtat);UB;Barcelona;20;6,362;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+8;71087;Arquitectura, Estudis d';URV;Reus;60;9,4;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;0,1;0,1;;0,2;;;;;;0,2;;;;0,2;0,1
+8;31078;Arquitectura, Estudis d' (Barcelona);UPC;Barcelona;342;10,092;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;0,1;0,1;;0,2;;;;;;0,2;;;;0,2;0,1
+8;31079;Arquitectura, Estudis d' (Sant Cugat del Vallès);UPC;Sant Cugat del Vallès;110;10,608;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;0,1;0,1;;0,2;;;;;;0,2;;;;0,2;0,1
+8;81057;Arquitectura, Estudis d';UdG;Girona;40;9,866;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;0,1;0,1;;0,2;;;;;;0,2;;;;0,2;0,1
+8;31016;Arquitectura Tècnica i Edificació;UPC;Barcelona;160;8,94;;;;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,1;0,1;0,1
+8;61016;Arquitectura Tècnica i Edificació;UdL;Lleida;30;8,39;;;;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,1;0,1;0,1
+8;81020;Arquitectura Tècnica i Edificació;UdG;Girona;25;8,549;;;;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,1;0,1;0,1
+8;81065;Arquitectura Tècnica i Edificació (Semipresencial);UdG;Girona;15;8,36;;;;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,1;0,1;0,1
+3;81045;"Arts Escèniques ""ERAM""";UdG;Salt;30;5;0,2;0,2;;;0,2;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;0,2;0,2;;;0,2;;;
+3;21020;"Arts i Disseny ""Massana""";UAB;Barcelona;95;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,1;0,1;0,2;;0,2;0,1
+7;91063;Audiologia General;UVic-UCC;Vic;40;5;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;;;
+3;11099;Belles Arts;UB;Barcelona;300;6,701;;;;;;0,2;0,2;0,2;0,2;;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;;0,2;
+3;91059;"Belles Arts ""BAU""";UVic-UCC;Barcelona;80;5;;;;;;0,2;0,2;0,2;0,2;;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;;0,2;
+10;91917;Bioinformàtica (Docència en Anglès);UPC/UB/ UAB/UPF;Barcelona, Cerdanyola del Vallès;50;10,714;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;11002;Biologia;UB;Barcelona;144;10,946;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;21009;Biologia;UAB;Cerdanyola del Vallès;80;10,891;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;81006;Biologia;UdG;Girona;90;9,77;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;91018;Biologia;UVic-UCC;Vic;50;5,394;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;21008;Biologia Ambiental;UAB;Cerdanyola del Vallès;60;10,714;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+8;81047;Biologia / Biotecnologia (Simultaneïtat);UdG;Girona;10;9,642;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+8;81048;Biologia / Ciències Ambientals (Simultaneïtat);UdG;Girona;20;9,692;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;41001;Biologia Humana;UPF;Barcelona;65;11,78;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+9;91058;Biomedicina;UVic-UCC;Vic;50;10,033;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;11003;Bioquímica;UB;Barcelona;60;11,592;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;21011;Bioquímica;UAB;Cerdanyola del Vallès;60;11,236;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;71005;Bioquímica i Biologia Molecular;URV;Tarragona;45;11,02;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;71054;Bioquímica i Biologia Molecular / Biotecnologia (Simultaneïtat);URV;Tarragona;15;12,18;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;11004;Biotecnologia;UB;Barcelona;80;11,772;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;21012;Biotecnologia;UAB;Cerdanyola del Vallès;80;11,506;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;61005;Biotecnologia;UdL;Lleida;50;9,694;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;81007;Biotecnologia;UdG;Girona;60;10,278;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;71006;Biotecnologia;URV;Tarragona;40;10,62;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;91004;Biotecnologia;UVic-UCC;Vic;50;7,254;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;81047;Biotecnologia / Biologia (Simultaneïtat);UdG;Girona;10;9,642;;;0,2;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+8;71054;Biotecnologia / Bioquímica i Biologia Molecular (Simultaneïtat);URV;Tarragona;15;12,18;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+10;71056;Biotecnologia / Enginyeria Informàtica (Simultaneïtat);URV;Tarragona;10;10,224;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;11109;Ciberseguretat - ENTI;UB;Barcelona;40;7,43;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;0,2;;;;0,2
+10;31089;Ciència i Enginyeria de Dades;UPC;Barcelona;50;12,514;;;0,2;;;;0,1;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,1;0,1;0,1
+9;61040;Ciència i Producció Animal / Veterinària (Simultaneïtat);UdL;Lleida;60;11,29;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;11054;Ciència i Tecnologia dels Aliments;UB;Santa Coloma de Gramenet;80;7,166;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,1
+7;21021;Ciència i Tecnologia dels Aliments;UAB;Cerdanyola del Vallès;70;8,233;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,1
+7;61008;Ciència i Tecnologia dels Aliments;UdL;Lleida;40;5,098;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,1
+5;21013;Ciència Política i Gestió Pública;UAB;Cerdanyola del Vallès;80;8,694;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+6;21104;Ciència Política i Gestió Pública / Dret (Simultaneïtat);UAB;Cerdanyola del Vallès;20;11,214;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+6;21125;Ciència Política i Gestió Pública / Sociologia (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,694;;;0,2;;;;;;;0,2;0,1;0,2;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,1;0,2;;
+5;21137;Ciència, Tecnologia i Humanitats;UAB/UAM/ UC3M;Cerdanyola del Vallès;15;5,086;;;0,2;0,2;;;;;;0,2;;0,2;0,2;0,2;0,1;0,2;0,2;0,2;0,1;0,2;0,2;0,2;0,2;0,2;0,2;;0,2
+6;21131;Ciències;UAB/UAM/ UC3M;Cerdanyola del Vallès;15;5,644;;;0,2;0,2;;;0,1;;;0,2;;;;0,2;;;;;;;;0,2;0,1;;0,2;;
+6;11005;Ciències Ambientals;UB;Barcelona;60;9,252;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+6;21147;Ciències Ambientals;UAB;Cerdanyola del Vallès;60;6,932;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+6;81008;Ciències Ambientals;UdG;Girona;60;5,758;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;81048;Ciències Ambientals / Biologia (Simultaneïtat);UdG;Girona;20;9,692;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;21151;Ciències Ambientals / Geologia (Simultaneïtat);UAB;Cerdanyola del Vallès;30;6,833;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+8;11006;Ciències Biomèdiques;UB;Barcelona, L'Hospitalet de Llobregat;165;12,062;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;21010;Ciències Biomèdiques;UAB;Cerdanyola del Vallès;60;12,367;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;61004;Ciències Biomèdiques;UdL;Lleida;45;11,49;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+6;11113;"Ciències Culinàries i Gastronòmiques ""CETT""";UB;Barcelona;80;5;;;0,2;0,2;;;;;;0,2;;0,2;;;;;;;;;;0,2;0,2;;0,2;;
+3;21117;Ciències de l'Antiguitat;UAB;Cerdanyola del Vallès;60;5;;;;;;;;;;;0,1;;;;;0,2;;;0,2;0,2;0,2;;;0,2;;;
+6;11007;Ciències de l'Activitat Física i de l'Esport;UB;Barcelona;150;10,2;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+6;41038;"Ciències de l'Activitat Física i de l'Esport ""Tecnocampus""";UPF;Mataró;60;7,796;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+6;61007;Ciències de l'Activitat Física i de l'Esport;UdL;Lleida;95;8,8;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+6;61071;Ciències de l'Activitat Física i de l'Esport (La Seu d'Urgell);UdL;La Seu d'Urgell;40;8,463;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+6;81082;"Ciències de l'Activitat Física i de l'Esport ""EUSES""";UdG;Salt;90;5,73;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+6;71086;"Ciències de l'Activitat Física i de l'Esport ""EUSES""";URV;Amposta;50;5,494;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+6;91001;Ciències de l'Activitat Física i de l'Esport;UVic-UCC;Vic;100;6,66;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,1;;0,2;;
+7;61038;Ciències de l'Activitat Física i de l'Esport / Educació Primària (Simultaneïtat);UdL;Lleida;30;8,956;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;91055;Ciències de l'Activitat Física i de l'Esport / Educació Primària (Menció en Educació Física) (Simultaneïtat);UVic-UCC;Vic;40;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+8;41037;"Ciències de l'Activitat Física i de l'Esport / Fisioteràpia ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;40;7,7;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+8;61039;Ciències de l'Activitat Física i de l'Esport / Fisioteràpia (Simultaneïtat);UdL;Lleida;25;11,336;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+8;81086;"Ciències de l'Activitat Física i de l'Esport / Fisioteràpia ""EUSES"" (simultaneïtat)";UdG;Salt;10;6,5;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+8;71088;"Ciències de l'Activitat Física i de l'Esport / Fisioteràpia ""EUSES"" (simultaneïtat)";URV;Tortosa, Amposta;10;5,344;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+7;31095;Grau en Gestió i Digitalització en l'Esport;UPC;Barcelona;No encontrado;5;;;0,2;0,2;;;0,1;0,1;0,1;0,2;;;0,1;;;;;;;;;0,2;0,1;;0,2;0,1;0,1
+6;11077;Ciències del Mar;UB;Barcelona;60;9,47;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+8;41009;Ciències Empresarials - Management;UPF;Barcelona;110;11,158;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;31096;Ciències i Tecnologies del Mar;UPC;Castelldefels, Barcelona, Vilanova i la Geltrú;60;7,305;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+5;11008;Ciències Polítiques i de l'Administració;UB;Barcelona;100;8,558;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+5;41010;Ciències Polítiques i de l'Administració;UPF;Barcelona;140;8,938;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+5;81010;Ciències Polítiques i de l'Administració;UdG;Girona;55;7,362;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+6;11065;Ciències Polítiques i de l'Administració / Dret (Simultaneïtat);UB;Barcelona;20;11,032;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+6;81054;Ciències Polítiques i de l'Administració / Dret (Simultaneïtat);UdG;Girona;15;9,556;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+4;11105;"Cinematografia ""ESCAC""";UB;Terrassa;110;5;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;0,2;;0,1;0,2;0,2;0,2;0,2;;0,2;
+8;21084;Comptabilitat i Finances;UAB;Sabadell;150;8,583;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;81011;Comptabilitat i Finances;UdG;Girona;140;7,718;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+5;11097;Comunicació Audiovisual;UB;Barcelona;45;11,182;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+5;21085;Comunicació Audiovisual;UAB;Cerdanyola del Vallès;80;10,783;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+5;41002;Comunicació Audiovisual;UPF;Barcelona;80;11,659;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+5;71007;Comunicació Audiovisual;URV;Tarragona;45;8,771;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+5;91006;Comunicació Audiovisual;UVic-UCC;Vic;40;5;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+5;81005;"Comunicació Audiovisual i Multimèdia ""ERAM""";UdG;Salt;50;5;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;;;;0,2;;;;;;0,2;0,2;0,2;;0,2;0,1
+5;81067;"Comunicació Audiovisual i Multimèdia ""ERAM"" (docència en anglès)";UdG;Salt;20;5;0,2;0,2;;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;;;;0,2;;;;;;0,2;0,2;0,2;;0,2;0,1
+6;11098;Comunicació Audiovisual / Gestió d'Informació i Documentació Digital (Simultaneïtat);UB;Barcelona;20;10,01;0,2;0,2;0,1;;0,2;0,2;0,2;0,2;0,2;0,1;0,2;0,2;0,2;0,1;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,1;0,2;
+5;81068;Comunicació Cultural;UdG;Girona;50;5;0,2;0,2;;0,2;0,2;0,2;;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;;;0,2;;0,2;0,2
+6;21121;Comunicació de les Organitzacions;UAB;Cerdanyola del Vallès;60;9,39;;;;0,2;;;;0,2;0,2;;;0,2;;;;;0,2;0,2;;;;;0,2;;;0,2;
+6;21126;Comunicació Interactiva;UAB;Cerdanyola del Vallès;60;7,6;;;;0,2;;;;0,2;0,2;0,2;0,2;;;;;0,2;;;;;;0,2;0,2;0,2;;0,2;0,2
+5;11067;Comunicació i Indústries Culturals;UB;Barcelona;No encontrado;9,125 ;0,1;0,1;;;0,1;;;0,2;0,2;;0,2;0,2;;;;0,2;0,2;0,2;;0,2;0,2;;;0,2;;0,2;
+5;61009;Comunicació i Periodisme Audiovisuals;UdL;Lleida;90;5,236;0,1;0,1;;0,1;0,1;0,2;;0,2;0,2;;0,2;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+9;61042;Conservació de la Natura / Enginyeria Forestal (Simultaneïtat);UdL;Lleida;25;5;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+3;11100;Conservació - Restauració de Béns Culturals;UB;Barcelona;50;5,188;;;;;;0,2;0,2;0,2;0,2;;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;;0,2;
+6;11010;Criminologia;UB;Barcelona;70;9,506;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;;;
+6;21068;Criminologia;UAB;Cerdanyola del Vallès;65;9,16;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;;;
+6;81013;Criminologia;UdG;Girona;55;8,491;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;;;
+6;91050;"Criminologia ""ESERP""";UVic-UCC;Barcelona;40;5;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;;;
+7;11088;Criminologia / Dret (Simultaneïtat);UB;Barcelona;No encontrado;NS;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;21108;Criminologia / Dret (Simultaneïtat);UAB;Cerdanyola del Vallès;25;10,826;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;81056;Criminologia / Dret (Simultaneïtat);UdG;Girona;15;8,76;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+6;41011;Criminologia i Polítiques Públiques de Prevenció;UPF;Barcelona;60;9,286;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;;;
+7;41043;Criminologia i Polítiques Públiques de Prevenció / Dret (Simultaneïtat);UPF;Barcelona;20;10,776;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;81083;Direcció d'Empreses Hoteleres i Gastronòmiques;UdG;Sant Pol de Mar;40;5;;;0,1;;;;;0,1;0,1;0,1;;0,2;0,2;;;;;;;;;0,2;0,2;;0,1;0,1;
+7;21107;Direcció Hotelera;UAB;Cerdanyola del Vallès;90;5;;;0,1;0,2;;;;;;0,1;0,1;0,2;0,2;;;0,1;;;;;0,1;0,2;0,2;0,1;0,1;;
+8;71085;"Direcció i Gestió d'Empreses en l'Àmbit Digital ""ESIC""";URV;Barcelona;80;5;;;0,2;;;;;0,2;0,2;;0,2;0,2;0,2;;;;;;;;0,2;0,2;0,2;;;0,2;0,2
+7;11110;"Direcció i Gestió Gastronòmica ""Barcelona Culinary Hub""";UB;L'Hospitalet de Llobregat;40;5;;;0,2;0,1;;;;;;0,2;;0,2;0,1;0,1;;;;;;;;0,1;0,1;;0,2;;0,1
+4;11101;Disseny;UB;Barcelona;60;10,58;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,1;0,1;0,2;;0,2;0,1
+4;21015;"Disseny ""EINA""";UAB;Barcelona;120;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,1;0,1;0,2;;0,2;0,1
+5;91056;"Disseny i Innovació ""Elisava""";UVic-UCC;Barcelona;175;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,1;0,1;0,2;;0,2;0,1
+4;91007;"Disseny ""BAU""";UVic-UCC;Barcelona;160;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,1;0,1;0,2;;0,2;0,1
+7;11107;"Disseny, Animació i Art Digital per a Videojocs i Jocs Aplicats ""ENTI""";UB;Barcelona;40;5,924;;;;;;0,2;0,2;0,2;0,2;;0,2;;;;;0,2;;;;;;;;0,2;;0,2;
+5;31122;Disseny, Animació i Art Digital;UPC;Terrassa;40;8,796;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,1;0,1;0,2;;0,2;0,1
+7;31121;Disseny Digital i Tecnologies Multimèdia;UPC;Terrassa;40;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;;0,2;0,2;0,2;;0,2;0,1
+7;61064;Disseny Digital i Tecnologies Creatives;UdL;Lleida;40;6,148;;;;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;0,2;0,2;0,2;0,2;;0,2;0,2
+8;41045;"Disseny i Producció de Videojocs ""Tecnocampus""";UPF;Mataró;55;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;;0,1;0,1;0,2;;0,2;0,1
+10;41052;"Disseny i Producció de Videojocs / Enginyeria Informàtica de Gestió i Sistemes d'Informació ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;30;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;;0,2;0,1;0,2;0,1;0,2;0,2
+8;11106;"Disseny i Desenvolupament de Videojocs i Jocs Aplicats ""ENTI""";UB;Barcelona;40;5;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;0,2;;;;0,2
+8;31074;Disseny i Desenvolupament de Videojocs (Campus Terrassa);UPC;Barcelona, Terrassa;40;5;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;0,2;;;;0,2
+8;31083;Disseny i Desenvolupament de Videojocs (Docència en Anglès) (Campus Barcelona);UPC;Barcelona, Terrassa;30;5;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;0,2;;;;0,2
+8;81059;Disseny i Desenvolupament de Videojocs;UdG;Girona;40;6,406;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;0,2;;;;0,2
+7;11012;Dret;UB;Barcelona;430;9,516;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;21086;Dret;UAB;Cerdanyola del Vallès;200;9,492;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;41013;Dret;UPF;Barcelona;260;10,463;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;61010;Dret;UdL;Lleida;115;7,98;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;81015;Dret;UdG;Girona;155;8,408;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;71008;Dret;URV;Tarragona;135;8,42;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+7;91053;"Dret ""ESERP""";UVic-UCC;Barcelona;90;5;;;;;;;;;;;;0,2;0,1;;;;;;;0,1;0,2;0,2;0,2;;;;
+8;11064;Dret / Administració i Direcció d'Empreses (Simultaneïtat);UB;Barcelona;60;10,444;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+8;21098;Dret / Administració i Direcció d'Empreses (Simultaneïtat);UAB;Cerdanyola del Vallès;80;9,804;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+8;61035;Dret / Administració i Direcció d'Empreses (Simultaneïtat);UdL;Lleida;30;9,396;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+8;81053;Dret / Administració i Direcció d'Empreses (Simultaneïtat);UdG;Girona;10;9,838;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+8;71055;Dret / Administració i Direcció d'Empreses (Simultaneïtat);URV;Tarragona, Reus;25;7,639;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+8;41034;Dret / Administració i Direcció d'Empreses - Economia (Agrupació de Simultaneïtat);UPF;Barcelona;90;11,426;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+8;21104;Dret / Ciència Política i Gestió Pública (Simultaneïtat);UAB;Cerdanyola del Vallès;20;11,214;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+8;11065;Dret / Ciències Polítiques i de l'Administració (Simultaneïtat);UB;Barcelona;20;11,032;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+8;81054;Dret / Ciències Polítiques i de l'Administració (Simultaneïtat);UdG;Girona;15;9,556;;;;;;;;;;;0,1;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;;;;
+8;11088;Dret / Criminologia (Simultaneïtat);UB;Barcelona;No encontrado;NS;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+8;21108;Dret / Criminologia (Simultaneïtat);UAB;Cerdanyola del Vallès;25;10,826;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+8;81056;Dret / Criminologia (Simultaneïtat);UdG;Girona;15;8,76;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+8;41043;Dret / Criminologia i Polítiques Públiques de Prevenció (Simultaneïtat);UPF;Barcelona;20;10,776;;;;0,2;;;;;;;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;;;
+8;11070;Dret / Gestió i Administració Pública (Simultaneïtat);UB;Barcelona;No encontrado;NS;;;0,1;;;;;;;0,1;;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;0,1;;0,2
+8;21145;Dret / Relacions Internacionals (Simultaneïtat);UAB;Cerdanyola del Vallès;20;12,681;;;0,1;;;0,1;;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;0,1;0,1;
+8;21109;Dret / Relacions Laborals (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,896;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+8;71083;Dret / Relacions Laborals i Recursos Humans (Simultaneïtat);URV;Tarragona;25;8,638;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+8;11103;Economia;UB;Barcelona;300;8,944;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;21070;Economia;UAB;Cerdanyola del Vallès;115;9,072;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;21110;Economia (Docència en Anglès);UAB;Cerdanyola del Vallès;40;8,77;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;41014;Economia;UPF;Barcelona;170;10,554;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;81016;Economia;UdG;Girona;50;8,758;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;71009;Economia;URV;Reus;50;7,548;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;81052;Economia / Administració i Direcció d'Empreses (Simultaneïtat);UdG;Girona;30;9,962;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;41034;Economia - Administració i Direcció d'Empreses / Dret (Agrupació de Simultaneïtat);UPF;Barcelona;90;11,426;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;0,1;0,2;0,2;0,2;;0,2;;
+10;91914;Economia / Estadística (Simultaneïtat);UB/UPC;Barcelona;20;10,9;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;81069;Economia / Filosofia (Simultaneïtat);UdG;Girona;10;7,24;0,1;0,1;0,2;0,1;0,1;;;;;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;11013;Educació Infantil;UB;Barcelona;180;8,84;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;21016;Educació Infantil;UAB;Cerdanyola del Vallès;130;9,109;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;61011;Educació Infantil;UdL;Lleida;90;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;81017;Educació Infantil;UdG;Girona;80;8,148;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;71010;Educació Infantil;URV;Tarragona;80;7,874;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;71029;Educació Infantil (Tortosa);URV;Tortosa;40;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;71034;Educació Infantil (El Vendrell);URV;el Vendrell;40;7,787;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;91008;Educació Infantil;UVic-UCC;Vic;70;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;91038;Educació Infantil (Campus Manresa);UVic-UCC;Manresa;50;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;11072;Educació Infantil / Educació Primària (5 anys) (Simultaneïtat);UB;Barcelona;40;10,71;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;21111;Educació Infantil / Educació Primària (5 anys) (Simultaneïtat);UAB;Cerdanyola del Vallès;20;10,693;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;61037;Educació Infantil / Educació Primària (5 anys) (Simultaneïtat);UdL;Lleida;35;8,82;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;81049;Educació Infantil / Educació Primària (5 anys) (Simultaneïtat);UdG;Girona;50;9,9;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;71050;Educació Infantil / Educació Primària (5 anys) (Simultaneïtat);URV;Tarragona;30;9,968;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;71076;Educació Infantil / Educació Primària (5 anys) (Simultaneïtat);URV;Tortosa;10;8,596;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;91030;Educació Infantil / Educació Primària (Menció en Llengua Anglesa) (5 anys) (Simultaneïtat);UVic-UCC;Vic;40;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;11014;Educació Primària;UB;Barcelona;375;8,922;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;21018;Educació Primària;UAB;Cerdanyola del Vallès;180;8,96;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;21102;Educació Primària (Docència en Anglès);UAB;Cerdanyola del Vallès;75;8,136;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;61072;Educació Primària (modalitat bilingüe);UdL;Lleida;30;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;61073;Educació Primària (modalitat dual);UdL;Lleida;95;7,374;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;81018;Educació Primària;UdG;Girona;80;8,766;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;71011;Educació Primària;URV;Tarragona;80;8,956;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;71033;Educació Primària;URV;Tortosa;40;7,294;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;91009;Educació Primària;UVic-UCC;Vic;70;5,468;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;71076;Educació Primària / Educació Infantil (5 anys) (Simultaneïtat);URV;Tortosa;10;8,596;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;91030;Educació Primària / Educació Infantil (Menció en Llengua Anglesa) (5 anys) (Simultaneïtat);UVic-UCC;Vic;40;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;61038;Educació Primària / Ciències de l'Activitat Física i de l'Esport (Simultaneïtat);UdL;Lleida;30;8,956;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;91055;Educació Primària (Menció en Educació Física) / Ciències de l'Activitat Física i de l'Esport (Simultaneïtat);UVic-UCC;Vic;40;5;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;11072;Educació Primària / Educació Infantil (5 anys) (Simultaneïtat);UB;Barcelona;40;10,71;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;21111;Educació Primària / Educació Infantil (5 anys) (Simultaneïtat);UAB;Cerdanyola del Vallès;20;10,693;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;61037;Educació Primària / Educació Infantil (5 anys) (Simultaneïtat);UdL;Lleida;35;8,82;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;81049;Educació Primària / Educació Infantil (5 anys) (Simultaneïtat);UdG;Girona;50;9,9;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+7;71050;Educació Primària / Educació Infantil (5 anys) (Simultaneïtat);URV;Tarragona;30;9,968;0,2;0,2;0,2;0,2;0,2;0,2;;;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;11015;Educació Social;UB;Barcelona;180;7,787;0,2;0,2;;0,2;0,2;;;;;;0,1;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;;
+6;21019;Educació Social;UAB;Cerdanyola del Vallès;80;8,77;0,2;0,2;;0,2;0,2;;;;;;0,1;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;;
+6;61013;Educació Social;UdL;Lleida;80;7,213;0,2;0,2;;0,2;0,2;;;;;;0,1;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;;
+6;81019;Educació Social;UdG;Girona;60;7,68;0,2;0,2;;0,2;0,2;;;;;;0,1;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;;
+6;71012;Educació Social;URV;Tarragona;55;7,977;0,2;0,2;;0,2;0,2;;;;;;0,1;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;;
+6;91010;Educació Social;UVic-UCC;Vic;45;5;0,2;0,2;;0,2;0,2;;;;;;0,1;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;;
+8;11073;Empresa Internacional (Docència en Anglès);UB;Barcelona;80;11,316;;;0,1;;;;;;;0,1;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;0,1;;
+8;21087;Empresa i Tecnologia;UAB;Sabadell;80;9,474;;;0,1;0,1;;;;;;0,1;;0,2;0,2;;;;;;;;0,2;0,2;0,2;;0,1;;
+8;31125;"Empresa, Innovació i Tecnologia ""EUNCET"" (Campus 22@) (semipresencial)";UPC;Barcelona;35;5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;31126;"Empresa, Innovació i Tecnologia ""EUNCET"" (Campus 22@)";UPC;Barcelona;70;5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;31127;"Empresa, Innovació i Tecnologia ""EUNCET"" (Campus Terrassa) (semipresencial)";UPC;Terrassa;35;5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;31128;"Empresa, Innovació i Tecnologia ""EUNCET"" (Campus Terrassa)";UPC;Terrassa;70;5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;31129;"Empresa, Innovació i Tecnologia ""EUNCET"" / Màrqueting, Innovació i Tecnologia ""EUNCET"" (Campus 22@) (simultaneïtat)";UPC;Barcelona;35;5;0,2;0,2;0,2;;0,2;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;31130;"Empresa, Innovació i Tecnologia ""EUNCET"" / Màrqueting, Innovació i Tecnologia ""EUNCET"" (Campus Terrassa) (simultaneïtat)";UPC;Terrassa;35;5;0,2;0,2;0,2;;0,2;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;61006;Enginyeria Agrària i Alimentària;UdL;Lleida;60;6,69;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+8;81032;Enginyeria Agroalimentària;UdG;Girona;40;6,842;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+8;31004;Enginyeria Alimentària;UPC;Castelldefels;55;7,446;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+8;31100;Enginyeria Ambiental;UPC;Castelldefels, Barcelona;60;7,252;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+9;11059;Enginyeria Biomèdica;UB;Barcelona;40;12,74;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+9;31051;Enginyeria Biomèdica;UPC;Barcelona, Sant Adrià de Besòs;55;11,946;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+9;41033;Enginyeria Biomèdica;UPF;No encontrado;40;12,418;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+9;81063;Enginyeria Biomèdica;UdG;Girona;40;10,426;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+9;71064;Enginyeria Biomèdica;URV;Tarragona;40;9,78;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;71070;Enginyeria Biomèdica / Enginyeria de Sistemes i Serveis de Telecomunicacions (Simultaneïtat);URV;Tarragona;10;10,242;;;0,2;;;;0,1;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+8;31103;Enginyeria Civil;UPC;Barcelona;120;9,926;;;;;;;0,2;;;0,2;;;;0,1;;;;;;;;0,2;;;0,2;;0,2
+9;31113;Enginyeria Civil, Grau en + Màster Universitari en Enginyeria de Camins, Canals i Ports (PARS: Enginyer/a de Camins, Canals i Ports);UPC;Barcelona;40;11,498;;;;;;;0,2;;;0,2;;;;0,1;;;;;;;;0,2;;;0,2;;0,2
+9;31091;Enginyeria d'Automoció (Campus Manresa);UPC;Manresa, Barcelona;50;10,55;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+9;21132;"Enginyeria d'Automoció ""EU Salesiana de Sarrià""";UAB;Barcelona;55;5;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+8;71061;Enginyeria de Bioprocessos Alimentaris;URV;Tarragona;40;6,238;;;0,2;;;;0,2;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+8;31097;Enginyeria de Ciències Agronòmiques;UPC;Castelldefels;55;6,756;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;21118;Enginyeria de Dades;UAB;Cerdanyola del Vallès;60;10,284;;;0,2;0,1;;;0,1;0,1;0,1;0,2;;0,1;;;;;;;;;;0,2;;;0,1;0,1;0,1
+9;91057;"Enginyeria de Disseny Industrial ""Elisava""";UVic-UCC;Barcelona;90;5;;;;;;0,2;0,2;0,2;0,2;0,2;;0,1;;;;;;;;;;0,2;0,1;;;0,2;0,2
+9;31006;Enginyeria de Disseny Industrial i Desenvolupament del Producte (Vilanova i la Geltrú);UPC;Vilanova i la Geltrú;100;8,2;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;;;;;;;0,2;;;0,2;0,2;0,2
+9;31022;Enginyeria de Disseny Industrial i Desenvolupament del Producte (Terrassa);UPC;Terrassa;60;10,826;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;;;;;;;0,2;;;0,2;0,2;0,2
+9;91051;Enginyeria de l'Automoció;UVic-UCC;Granollers;45;6,85;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+9;31052;Enginyeria de l'Energia;UPC;Barcelona, Sant Adrià de Besòs;70;9,038;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;61061;Enginyeria de l'Energia i Sostenibilitat / Enginyeria en Electrònica Industrial i Automàtica / Enginyeria Mecànica (Agrupació);UdL;Lleida;110;6,884;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+10;61075;Enginyeria de l'Energia i Sostenibilitat / Enginyeria en Electrònica Industrial i Automàtica / Enginyeria Mecànica (agrupació) Grau en + Màster Universitari en Enginyeria Industrial (PARS: Enginyer/a Industrial);UdL;Lleida;10;9,978;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+10;61065;Enginyeria de l'Energia i Sostenibilitat / Enginyeria Mecànica (Simultaneïtat);UdL;Lleida;10;10,218;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+9;11060;Enginyeria de Materials;UB;Barcelona;40;8,49;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;31025;Enginyeria de Materials;UPC;Barcelona, Sant Adrià de Besòs;40;8,662;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31104;Eng. de Recursos Minerals i el seu Reciclatge / Eng. Electrònica, Industrial i Automàtica / Eng. Mecànica / Eng. Química (Agrupació);UPC;Manresa;180;7,776;;;;;;;0,2;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;31123;Enginyeria de Satèl·lits;UPC;Castelldefels;50;11,028;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31084;Enginyeria de Sistemes Aeroespacials;UPC;Castelldefels;120;10,942;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+10;31085;Eng. de Sistemes Aeroespacials / Eng. de Sistemes de Telecomunicació - Eng. Telemàtica (Agrupació de Simultaneïtat);UPC;Castelldefels;40;10,917;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+9;31010;Enginyeria de Sistemes Audiovisuals;UPC;Terrassa;60;7,144;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+9;31011;Enginyeria de Sistemes Biològics;UPC;Castelldefels;55;9,247;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;21115;Enginyeria de Sistemes de Telecomunicació / Enginyeria Electrònica de Telecomunicació (Agrupació);UAB;Cerdanyola del Vallès;140;7,9;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31076;Enginyeria Telemàtica / Enginyeria de Sistemes de Telecomunicació (inclou xarxes i Internet) (agrupació);UPC;Castelldefels;80;7,912;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31077;Enginyeria de Sistemes de Telecomunicació / Enginyeria Telemàtica (Inclou Xarxes i Internet) (Febrer) (Agrupació);UPC;Castelldefels;20;6,97;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31085;Eng. de Sistemes de Telecomunicació - Eng. Telemàtica / Eng. de Sistemes Aeroespacials (Agrupació de Simultaneïtat);UPC;Castelldefels;40;10,917;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+10;21105;Enginyeria de Sistemes de Telecomunicació / Enginyeria Informàtica (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,66;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;71042;Enginyeria de Sistemes i Serveis de Telecomunicacions;URV;Tarragona;40;7,747;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;71070;Enginyeria de Sistemes i Serveis de Telecomunicacions / Enginyeria Biomèdica (Simultaneïtat);URV;Tarragona;10;10,242;;;0,2;;;;0,1;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;31065;Enginyeria de Sistemes TIC (Àmbit d'Informàtica i Comunicacions);UPC;Manresa;44;7,34;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;0,1;0,2
+10;31015;Eng. de Tecnologia i Disseny Tèxtil / Eng. Elèctrica / Eng. Electrònica Industrial i Automàtica / Eng. Mecànica / Eng. Química (Agrupació);UPC;Terrassa;270;9;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31086;Enginyeria de Tecnologies i Serveis de Telecomunicació;UPC;Barcelona;180;8,646;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31111;Enginyeria de Tecnologies i Serveis de Telecomunicació, Grau en + Màster Universitari en Enginyeria de Telecomunicació (PARS: Enginyer/a de Telecomunicació);UPC;Barcelona;40;11,006;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;41020;Enginyeria de Xarxes de Telecomunicació;UPF;No encontrado;40;NS;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;41057;"Eng. d'Organització Industrial / Eng. Electrònica Industrial i Automàtica / Eng. Mecànica ""Tecnocampus"" (Agrupació)";UPF;Mataró;80;6,682;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;31053;Enginyeria Elèctrica;UPC;Barcelona, Sant Adrià de Besòs;80;8,904;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;81040;Enginyeria Elèctrica;UdG;Girona;40;7,266;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;71037;Enginyeria Elèctrica;URV;Tarragona;50;7,102;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;81050;Eng. Elèctrica / Eng. Electrònica, Industrial i Automàtica (Simultaneïtat);UdG;Girona;15;7,126;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;71058;Eng. Elèctrica / Eng. Electrònica, Industrial i Automàtica (Simultaneïtat);URV;Tarragona;10;9,078;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31124;Eng. Elèctrica i Sistemes Ferroviaris / Eng. Electrònica, Industrial i Automàtica / Eng. Mecànica (Agrupació);UPC;Vilanova i la Geltrú;200;7,728;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31015;Eng. Elèctrica / Eng. de Tecnologia i Disseny Tèxtil / Eng. Electrònica Industrial i Automàtica / Eng. Mecànica / Eng. Química  (Agrupació);UPC;Terrassa;270;9;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;11017;Enginyeria Electrònica de Telecomunicació;UB;Barcelona;40;8,954;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31099;Enginyeria Electrònica de Telecomunicació;UPC;Barcelona;50;9,894;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;21115;Enginyeria Electrònica de Telecomunicació / Enginyeria de Sistemes de Telecomunicació (Agrupació);UAB;Cerdanyola del Vallès;140;7,9;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;21106;Enginyeria Electrònica de Telecomunicació / Enginyeria Informàtica (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,458;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+9;21025;"Enginyeria Electrònica Industrial i Automàtica ""EU Salesiana de Sarrià""";UAB;Barcelona;30;5,092;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;31054;Enginyeria Electrònica Industrial i Automàtica;UPC;Barcelona, Sant Adrià de Besòs;135;8,954;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;81021;Enginyeria Electrònica Industrial i Automàtica;UdG;Girona;50;7,056;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;71038;Enginyeria Electrònica Industrial i Automàtica;URV;Tarragona;80;6,878;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;41057;"Eng. Electrònica Industrial i Automàtica / Eng. d'Organització Industrial / Eng. Mecànica ""Tecnocampus"" (Agrupació)";UPF;Mataró;80;6,682;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;61075;Enginyeria en Electrònica Industrial i Automàtica / Enginyeria de l'Energia i Sostenibilitat / Enginyeria Mecànica (agrupació) Grau en + Màster Universitari en Enginyeria Industrial (PARS: Enginyer/a Industrial);UdL;Lleida;10;9,978;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+10;81050;Eng. Electrònica, Industrial i Automàtica / Eng. Elèctrica (Simultaneïtat);UdG;Girona;15;7,126;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;71058;Eng. Electrònica, Industrial i Automàtica / Eng. Elèctrica (Simultaneïtat);URV;Tarragona;10;9,078;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31124;Eng. Electrònica, Industrial i Automàtica / Eng. Elèctrica  i Sistemes Ferroviaris / Eng. Mecànica (Agrupació);UPC;Vilanova i la Geltrú;200;7,728;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31015;Eng. Electrònica Industrial i Automàtica / Eng. de Tecnologia i Disseny Tèxtil / Eng. Elèctrica / Eng. Mecànica / Eng. Química  (Agrupació);UPC;Terrassa;270;9;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;21112;"Enginyeria Electrònica Industrial i Automàtica / Enginyeria Mecànica ""EU Salesiana de Sarrià"" (simultaneïtat)";UAB;Barcelona;15;5,124;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31104;Eng. Electrònica, Industrial i Automàtica / Eng. Mecànica / Eng. Química / Eng. de Recursos Minerals i el seu Reciclatge (Agrupació);UPC;Manresa;180;7,776;;;;;;;0,2;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;61061;Enginyeria en Electrònica Industrial i Automàtica / Enginyeria Mecànica / Enginyeria de l'Energia i Sostenibilitat (agrupació);UdL;Lleida;110;6,884;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+9;21127;"Enginyeria en Energies Renovables i Eficiència Energètica ""EU Salesiana de Sarrià""";UAB;Barcelona;30;5,008;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,1;0,1;0,2
+9;31087;Enginyeria en Geoinformació i Geomàtica;UPC;Barcelona;50;6,928;;;;;;;0,2;;;0,2;;;0,1;0,2;;;;;;;;0,2;;;;;
+9;21022;"Enginyeria en Organització Industrial ""EU Salesiana de Sarrià""";UAB;Barcelona;45;5,092;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;;;0,2
+10;61070;Enginyeria en Organització Industrial i Logística / Administració i Direcció d'Empreses (simultaneïtat);UdL;Igualada;10;8,006;;;0,2;;;;0,2;0,1;0,1;0,2;;0,2;0,2;0,1;;;;;;;;0,2;0,2;;0,2;0,1;0,2
+10;61060;Enginyeria en Organització Industrial i Logística / Enginyeria Química (Agrupació);UdL;Igualada;50;6,832;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;0,1;0,2
+9;41018;Enginyeria en Sistemes Audiovisuals;UPF;No encontrado;55;9,733;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+9;31049;Enginyeria en Sistemes i Tecnologia Naval;UPC;Barcelona;65;9,262;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31112;Enginyeria en Tecnologies Aeroespacials, Grau en + Màster Universitari en Enginyeria Aeronàutica (PARS: Enginyer/a Aeronàutic/a);UPC;Terrassa;60;12,93;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;81041;Enginyeria en Tecnologies Industrials;UdG;Girona;70;10,198;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;81046;Enginyeria en Tecnologies Industrials / Administració i Direcció d'Empreses (Simultaneïtat);UdG;Girona;15;10,198;;;0,2;;;;0,2;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;0,2
+10;31114;Enginyeria en Tecnologies Industrials, Grau en + Màster Universitari en Enginyeria Industrial (PARS: Enginyer/a Industrial)) (Terrassa);UPC;Terrassa;180;10,04;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31115;Enginyeria en Tecnologies Industrials, Grau en + Màster Universitari en Enginyeria Industrial (PARS: Enginyer/a Industrial) (Barcelona);UPC;Barcelona;400;11,09;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31031;Enginyeria en Vehicles Aeroespacials;UPC;Terrassa;60;12,5;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;31067;Enginyeria Física;UPC;Barcelona;44;12,61;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;61014;Enginyeria Forestal;UdL;Lleida;40;5,26;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+9;61042;Enginyeria Forestal / Conservació de la Natura (Simultaneïtat);UdL;Lleida;25;5;;;0,2;;;;0,1;;;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;11018;Enginyeria Informàtica;UB;Barcelona;70;10,066;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;21071;Enginyeria Informàtica;UAB;Cerdanyola del Vallès;190;9,845;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;31037;Enginyeria Informàtica (Vilanova i la Geltrú);UPC;Vilanova i la Geltrú;55;9,65;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;31059;Enginyeria Informàtica (Barcelona);UPC;Barcelona;360;10,544;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;41019;Enginyeria en Informàtica;UPF;No encontrado;55;10,89;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;61015;Enginyeria Informàtica;UdL;Lleida;60;7,888;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;61074;Enginyeria Informàtica;UdL;Igualada;35;7,372;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;81042;Enginyeria Informàtica;UdG;Girona;100;8,514;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;71039;Enginyeria Informàtica;URV;Tarragona;110;8,662;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;31116;Enginyeria Informàtica, Grau en + Màster Universitari en Enginyeria Informàtica (PARS: Enginyer/a Informàtic/a);UPC;Barcelona;40;11,708;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;61076;Enginyeria Informàtica, Grau en + Màster Universitari en Enginyeria Informàtica (PARS: Enginyer/a Informàtic/a);UdL;Lleida;10;7,633;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;41047;"Eng. Informàtica de Gestió i Sistemes d'Informació ""Tecnocampus""";UPF;Mataró;50;7,236;;;;;;;0,1;;;0,2;;0,1;;;;;;;;;;0,2;;;0,1;;0,2
+10;41052;"Enginyeria Informàtica de Gestió i Sistemes d'Informació / Disseny i Producció de Videojocs ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;30;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;;0,2;0,1;0,2;0,1;0,2;0,2
+10;61036;Enginyeria Informàtica / Administració i Direcció d'Empreses (Simultaneïtat);UdL;Lleida;10;11,05;;;0,2;0,1;;;0,2;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;0,2
+10;71056;Enginyeria Informàtica / Biotecnologia (Simultaneïtat);URV;Tarragona;10;10,224;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;21106;Enginyeria Informàtica / Enginyeria Electrònica de Telecomunicació (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,458;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;21105;Enginyeria Informàtica / Enginyeria de Sistemes de Telecomunicació (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,66;;;0,2;0,1;;;0,2;;;0,2;;0,1;;;;;;;;;;0,2;;;0,2;;0,2
+10;11016;Enginyeria Informàtica / Matemàtiques (Simultaneïtat);UB;Barcelona;20;12,378;;;0,2;0,1;;;0,2;;;0,2;;0,1;;0,1;;;;;;;;0,2;0,2;;0,2;;0,2
+10;41056;Enginyeria Matemàtica en Ciència de Dades;UPF;No encontrado;40;11,526;;;;0,1;;;0,1;;;0,2;;0,1;;;;;;;;;;0,2;;;0,1;;0,2
+10;71081;Enginyeria Matemàtica i Física;URV;Tarragona;20;11,81;;;0,1;0,1;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+9;21026;"Enginyeria Mecànica ""EU Salesiana de Sarrià""";UAB;Barcelona;40;6,882;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;31027;Enginyeria Mecànica;UPC;Barcelona, Sant Adrià de Besòs;235;10,014;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;81022;Enginyeria Mecànica;UdG;Girona;90;8,077;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;71040;Enginyeria Mecànica;URV;Tarragona;65;7,595;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;61065;Enginyeria Mecànica / Enginyeria de l'Energia i Sostenibilitat (Simultaneïtat);UdL;Lleida;10;10,218;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+10;61075;Enginyeria Mecànica / Enginyeria de l'Energia i Sostenibilitat / Enginyeria en Electrònica Industrial i Automàtica /  (agrupació) Grau en + Màster Universitari en Enginyeria Industrial (PARS: Enginyer/a Industrial);UdL;Lleida;10;9,978;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+10;21112;"Enginyeria Mecànica / Enginyeria Electrònica Industrial i Automàtica ""EU Salesiana de Sarrià"" (simultaneïtat)";UAB;Barcelona;15;5,124;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31104;Eng. Mecànica / Eng. Electrònica, Industrial i Automàtica / Eng. Química / Eng. de Recursos Minerals i el seu Reciclatge (Agrupació);UPC;Manresa;180;7,776;;;;;;;0,2;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;41057;"Eng. Mecànica / Eng. d'Organització Industrial / Eng. Electrònica Industrial i Automàtica ""Tecnocampus"" (Agrupació)";UPF;Mataró;80;6,682;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31124;Eng. Mecànica / Eng. Electrònica, Industrial i Automàtica / Eng. Elèctrica i Sistemes Ferroviaris (Agrupació);UPC;Vilanova i la Geltrú;200;7,728;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31015;Eng. Mecànica / Eng. Electrònica Industrial i Automàtica / Eng. de Tecnologia i Disseny Tèxtil / Eng. Elèctrica / Eng. Química (Agrupació);UPC;Terrassa;270;9;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;61061;Enginyeria Mecànica / Enginyeria de l'Energia i Sostenibilitat / Enginyeria en Electrònica Industrial i Automàtica (Agrupació);UdL;Lleida;110;6,884;;;0,2;;;;0,2;0,1;0,1;0,2;;0,1;;0,2;;;;;;;;0,2;;;0,2;0,1;0,2
+9;91011;Enginyeria Mecatrònica;UVic-UCC;Vic;45;5;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;0,1;0,2
+9;11019;Enginyeria Química;UB;Barcelona;70;10,916;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;21090;Enginyeria Química;UAB;Cerdanyola del Vallès;80;9,438;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;31055;Enginyeria Química;UPC;Barcelona, Sant Adrià de Besòs;100;9,572;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;81023;Enginyeria Química;UdG;Girona;40;8,178;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+9;71041;Enginyeria Química;URV;Tarragona;80;8,735;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31015;Eng. Química / Eng. Elèctrica / Eng. Electrònica Industrial i Automàtica / Eng. de Tecnologia i Disseny Tèxtil / Eng. Mecànica (Agrupació);UPC;Terrassa;270;9;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+10;31104;Eng. Química / Eng. Electrònica, Industrial i Automàtica / Eng. Mecànica / Eng. de Recursos Minerals i el seu Reciclatge (Agrupació);UPC;Manresa;180;7,776;;;;;;;0,2;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+9;61060;Enginyeria Química / Enginyeria en Organització Industrial i Logística  (Agrupació);UdL;Igualada;50;6,832;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;0,1;0,2
+10;31076;Eng. Telemàtica (Inclou Xarxes i Internet) / Eng. de Sistemes de Telecomunicació (Agrupació);UPC;Castelldefels;80;7,912;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31077;Enginyeria Telemàtica / Enginyeria de Sistemes de Telecomunicació (inclou xarxes i Internet) (febrer) (agrupació);UPC;Castelldefels;20;6,97;;;;;;;0,1;;;0,2;;;;;;;;;;;;0,2;;;0,1;;0,2
+10;31085;Eng. Telemàtica - Eng. de Sistemes de Telecomunicació / Eng. de Sistemes Aeroespacials (Agrupació de Simultaneïtat);UPC;Castelldefels;40;10,917;;;0,1;;;;0,2;0,1;0,1;0,2;;0,1;;0,1;;;;;;;;0,2;;;0,2;;0,2
+7;71013;Enologia;URV;Tarragona;35;5,49;;;0,2;0,1;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;91902;Estadística;UB/UPC;Barcelona;50;10,11;;;0,2;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+10;21128;Estadística Aplicada;UAB;Cerdanyola del Vallès;40;9,5;;;0,2;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+10;91914;Estadística / Economia (Simultaneïtat);UB/UPC;Barcelona;20;10,9;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+10;21129;Estadística Aplicada / Sociologia (Simultaneïtat);UAB;Cerdanyola del Vallès;20;8,776;;;0,2;;;;;;;0,2;;0,2;0,2;0,2;;0,2;;;;;0,2;0,2;0,2;0,1;0,2;;
+5;11021;Estudis Anglesos (Docència en Anglès);UB;Barcelona;160;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;21135;Estudis Anglesos;UAB;Cerdanyola del Vallès;80;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;61054;Estudis Anglesos;UdL;Lleida;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+6;61051;Estudis Anglesos / Llengües Aplicades i Traducció (Simultaneïtat);UdL;Lleida;10;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;0,2;;;;
+3;11094;Estudis Àrabs i Hebreus;UB;Barcelona;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+5;21140;Estudis d'Anglès i Català;UAB;Cerdanyola del Vallès;30;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;21141;Estudis d'Anglès i de Clàssiques;UAB;Cerdanyola del Vallès;30;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;21142;Estudis d'Anglès i Espanyol;UAB;Cerdanyola del Vallès;30;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;21143;Estudis d'Anglès i Francès;UAB;Cerdanyola del Vallès;30;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;21030;Estudis d'Àsia Oriental -Japonès-;UAB;Cerdanyola del Vallès;40;5,604;;;;;;;;;;;;0,2;0,2;;;0,2;0,2;0,2;0,1;0,2;0,2;;;;;;
+4;21067;Estudis d'Àsia Oriental -Xinès-;UAB;Cerdanyola del Vallès;40;5,19;;;;;;;;;;;;0,2;0,2;;;0,2;0,2;0,2;0,1;0,2;0,2;;;;;;
+5;21144;Estudis de Català i Espanyol;UAB;Cerdanyola del Vallès;30;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;21133;Estudis d'Espanyol i Xinès: Llengua, Literatura i Cultura;UAB;Cerdanyola del Vallès;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;41065;Estudis Globals;UPF;Barcelona;40;11,724;;;0,1;;;0,1;;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,2;;;;0,1;0,1;0,2;0,2;0,2;0,1;0,1;
+5;81084;Estudis Globals / Global Studies (docència en Anglès);UdG;Girona;40;7,25;;;0,1;;;0,1;;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,2;;;;0,1;0,1;0,2;0,2;0,2;0,1;0,1;
+5;91062;Estudis Globals / Global Studies (docència en Anglès);UVic-UCC;Vic;40;5;;;0,1;;;0,1;;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,2;;;;0,1;0,1;0,2;0,2;0,2;0,1;0,1;
+6;81085;Estudis Globals / Global Studies (docència en Anglès) / Turisme (simultaneïtat);UdG;Girona;20;6,808;0,1;0,1;0,1;0,2;0,1;0,1;;0,1;0,1;0,1;0,2;0,2;0,2;0,1;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,1;0,1;
+8;41022;Estudis Internacionals d'Economia i Empresa - International Business Economics (docència en Anglès);UPF;Barcelona;90;12,214;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+4;11023;Estudis Literaris;UB;Barcelona;100;5;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;0,2;;;;;;
+4;21148;Estudis Socioculturals de Gènere;UAB;Cerdanyola del Vallès;60;5;0,2;0,2;0,2;;0,2;0,2;;0,2;0,2;;0,2;0,2;0,2;0,1;;0,1;0,2;0,2;0,2;0,1;0,1;;0,2;0,1;;0,2;
+9;11024;Farmàcia;UB;Barcelona;340;11,026;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+10;11075;Farmàcia / Nutrició Humana i Dietètica (Simultaneïtat);UB;Barcelona, Santa Coloma de Gramenet;20;11,192;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+4;11025;Filologia Catalana;UB;Barcelona;70;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;81070;Filologia Catalana;UdG;Girona;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;21134;Filologia Catalana: Estudis de Literatura i Lingüística;UAB;Cerdanyola del Vallès;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;81080;Filologia Catalana / Filologia Hispànica (simultaneïtat);UdG;Girona;10;6,378;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;61055;Filologia Catalana i Estudis Occitans;UdL;Lleida;20;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;61058;Filologia Catalana i Estudis Occitans / Llengües Aplicades i Traducció (Simultaneïtat);UdL;Lleida;10;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;0,2;;;;
+3;11026;Filologia Clàssica;UB;Barcelona;60;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;11027;Filologia Hispànica;UB;Barcelona;120;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;61079;Filologia Hispànica;UdL;Lleida;20;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;81071;Filologia Hispànica;UdG;Girona;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;81080;Filologia Hispànica / Filologia Catalana (simultaneïtat);UdG;Girona;10;6,378;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;61080;Filologia Hispànica / Llengües Aplicades i Traducció (Simultaneïtat);UdL;Lleida;10;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;0,2;;;;
+3;11061;Filosofia;UB;Barcelona;200;5;0,1;0,1;;0,1;0,1;;;;;;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;;;
+3;21032;Filosofia;UAB;Cerdanyola del Vallès;70;5;0,1;0,1;;0,1;0,1;;;;;;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;;;
+3;81072;Filosofia;UdG;Girona;35;5;0,1;0,1;;0,1;0,1;;;;;;0,2;;;;;0,2;;;;0,2;0,2;;;0,2;;;
+9;81069;Filosofia / Economia (Simultaneïtat);UdG;Girona;10;7,24;0,1;0,1;0,2;0,1;0,1;;;;;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;41042;Filosofia, Política i Economia;UPF/UAB/ UAM/UC3M;Cerdanyola del Vallès, Barcelona;30;12,046;;;;;;;;;;0,2;;0,2;0,2;;;;;;;0,2;0,2;0,2;0,2;0,2;;;
+8;71014;Finances i Comptabilitat;URV;Reus;115;6,864;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;71053;Finances i Comptabilitat / Administració i Direcció d'Empreses (Simultaneïtat);URV;Reus;30;10,131;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;11030;Física;UB;Barcelona;162;11,706;;;0,1;;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;;;0,2;;0,1
+9;21001;Física;UAB;Barcelona;70;11,77;;;0,1;;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;;;0,2;;0,1
+10;11020;Física / Matemàtiques (Simultaneïtat);UB;Barcelona;20;12,924;;;0,1;0,1;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+10;21005;Física / Matemàtiques (Simultaneïtat);UAB;Barcelona;20;13,438;;;0,1;0,1;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+10;21100;Física / Química (Simultaneïtat);UAB;Barcelona;No encontrado;12,348;;;0,1;;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;;;0,2;;0,1
+7;21095;Fisioteràpia;UAB;Cerdanyola del Vallès;80;11,057;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;21033;"Fisioteràpia ""Gimbernat""";UAB;Sant Cugat del Vallès;240;6,323;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;41055;"Fisioteràpia ""Tecnocampus""";UPF;Mataró;40;8,463;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;61019;Fisioteràpia;UdL;Lleida;25;10,484;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;81087;"Fisioteràpia ""EUSES""";UdG;Salt;165;7,19;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;71043;Fisioteràpia (Reus);URV;Reus;80;9,9;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;71048;Fisioteràpia (Tortosa);URV;Tortosa;60;6,836;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;91012;Fisioteràpia;UVic-UCC;Vic;160;6,953;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;91041;Fisioteràpia (Campus Manresa);UVic-UCC;Manresa;160;7,109;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;91918;Fisioteràpia (Docència en Anglès) (Només per a estudiants espanyols o estrangers amb residència);UdG/UB;L'Hospitalet de Llobregat;18;6,974;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+7;91919;Fisioteràpia (docència en Anglès) (només per a estudiants sense nacionalitat espanyola ni residència a l'Estat Espanyol);UdG/UB;L'Hospitalet de Llobregat;42;7,028;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;;;
+8;61039;Fisioteràpia / Ciències de l'Activitat Física i de l'Esport (Simultaneïtat);UdL;Lleida;25;11,336;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+8;81086;"Fisioteràpia / Ciències de l'Activitat Física i de l'Esport ""EUSES"" (simultaneïtat)";UdG;Salt;10;6,5;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+8;71088;"Fisioteràpia / Ciències de l'Activitat Física i de l'Esport ""EUSES"" (simultaneïtat)";URV;Tortosa, Amposta;10;5,344;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+8;41037;"Fisioteràpia / Ciències de l'Activitat Física i de l'Esport ""Tecnocampus"" (simultaneïtat)";UPF;Mataró;40;7,7;;;0,2;0,2;;;;;;0,2;;;0,1;;0,1;;;;;;;0,2;0,2;;0,2;;
+10;61044;Fisioteràpia / Infermeria (Simultaneïtat);UdL;Lleida;25;11,017;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;0,2;;
+8;61057;Fisioteràpia / Nutrició Humana i Dietètica (Simultaneïtat);UdL;Igualada;20;10,16;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;0,2;;
+7;21035;Genètica;UAB;Cerdanyola del Vallès;60;11,302;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+5;11108;Geografia i Canvi Global;UB;Barcelona;50;5;;;0,1;;;0,1;;;;;0,1;0,1;0,2;0,2;0,1;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+5;61026;Geografia;UdL;Lleida;20;5;;;0,1;;;0,1;;;;;0,1;0,1;0,2;0,2;0,1;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+5;71015;Geografia, Anàlisi Territorial i Sostenibilitat;URV;Vila-Seca;35;5;;;0,1;;;0,1;;;;;0,1;0,1;0,2;0,2;0,1;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+5;21124;Geografia, Medi Ambient i Planificació Territorial;UAB;Cerdanyola del Vallès;60;5;;;0,1;;;0,1;;;;;0,1;0,1;0,2;0,2;0,1;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+5;81073;Geografia, Territori i Medi Ambient;UdG;Girona;35;5;;;0,1;;;0,1;;;;;0,1;0,1;0,2;0,2;0,1;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+6;81076;Geografia, Territori i Medi Ambient / Turisme (simultaneïtat);UdG;Girona;10;5;0,1;0,1;0,1;0,2;0,1;0,1;;;;;0,2;0,2;0,2;0,2;0,1;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+6;11032;Geologia;UB;Barcelona;60;5;;;0,1;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+6;21037;Geologia;UAB;Cerdanyola del Vallès;40;5;;;0,1;0,1;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+7;21151;Geologia / Ciències Ambientals (Simultaneïtat);UAB;Cerdanyola del Vallès;30;6,833;;;0,2;0,2;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;
+8;21038;Gestió Aeronàutica;UAB;Sabadell;65;8,05;;;0,1;0,1;;0,1;0,1;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;0,1;0,1;
+6;21149;Gestió de Ciutats Intel·ligents i Sostenibles;UAB;Cerdanyola del Vallès;60;6,936;;;0,1;;;;0,1;0,1;0,1;0,2;;0,2;0,2;0,2;;;;;;;;0,2;0,2;;0,2;0,1;0,2
+7;91060;Gestió de la Societat Digital (Campus Manresa);UVic-UCC;Manresa;40;5;;;0,2;;;;;0,1;0,1;0,2;;0,2;0,2;0,2;;0,1;;;;;;0,2;0,2;0,1;0,2;0,1;0,2
+5;11091;Gestió d'Informació i Documentació Digital;UB;Barcelona;60;5;;;0,1;;;0,1;0,1;0,1;0,1;0,1;0,1;0,2;0,1;0,1;;0,1;0,2;0,2;;0,2;0,2;0,1;0,1;0,1;0,1;0,1;
+6;11098;Gestió d'Informació i Documentació Digital / Comunicació Audiovisual (Simultaneïtat);UB;Barcelona;20;10,01;0,2;0,2;0,1;;0,2;0,2;0,2;0,2;0,2;0,1;0,2;0,2;0,2;0,1;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,1;0,2;
+6;71068;Gestió en Turisme i Hoteleria;URV;Vila-Seca;75;5;0,1;0,1;0,1;0,2;0,1;0,1;0,1;0,1;0,1;0,1;0,2;0,2;0,2;0,1;;0,2;0,1;0,1;;0,1;0,1;0,2;0,2;0,2;0,1;0,1;
+5;11052;Gestió i Administració Pública;UB;Barcelona;80;7,884;;;0,1;;;;;;;0,1;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;0,1;;0,2
+6;11070;Gestió i Administració Pública / Dret (Simultaneïtat);UB;Barcelona;No encontrado;NS;;;0,1;;;;;;;0,1;;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;0,1;;0,2
+5;41064;Grau Obert, Programa de (Agrupació);UPF;Barcelona;30;11,201;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2;0,2
+4;11035;Història;UB;Barcelona;255;5;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+4;21040;Història;UAB;Cerdanyola del Vallès;140;5;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+4;61028;Història;UdL;Lleida;40;5;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+4;71077;Història;URV;Tarragona;45;5,496;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+4;81074;Història;UdG;Girona;55;5;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+5;11096;Història / Arqueologia (Simultaneïtat);UB;Barcelona;20;6,362;;;;;;;;;;;0,2;;0,1;;;0,2;;;;0,2;0,2;;;0,2;;;
+5;11104;Història / Història de l'Art (Simultaneïtat);UB;Barcelona;20;7,314;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+5;81078;Història / Història de l'Art (simultaneïtat);UdG;Girona;10;5,888;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+3;11034;Història de l'Art;UB;Barcelona;170;5;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+3;21039;Història de l'Art;UAB;Cerdanyola del Vallès;80;5;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+3;81075;Història de l'Art;UdG;Girona;45;5;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+4;11104;Història de l'Art / Història (Simultaneïtat);UB;Barcelona;20;7,314;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+4;81078;Història de l'Art / Història (Simultaneïtat);UdG;Girona;10;5,888;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+3;71078;Història de l'Art i Arqueologia;URV;Tarragona;30;5;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;;;;0,2;0,2;;;0,2;;;
+3;61081;Història de l'Art i Gestió del Patrimoni Artístic;UdL;Lleida;40;5;0,2;0,2;;;0,2;;;;;;0,2;;0,1;;0,2;0,2;0,2;0,2;;0,2;0,2;;;0,2;;;
+6;21138;Història, Política i Economia Contemporànies;UAB;Cerdanyola del Vallès;60;8,984;;;;;;;;;;;;0,2;0,2;;;0,1;0,1;0,1;;0,1;0,2;;0,2;0,1;;;
+4;21101;Humanitats;UAB;Cerdanyola del Vallès;70;5;0,2;0,2;;;0,2;0,2;;0,1;0,1;;0,2;0,1;0,2;;0,1;0,2;0,2;0,2;0,2;0,2;0,2;;;0,2;;0,1;
+4;41003;Humanitats;UPF;Barcelona;170;5;0,2;0,2;;;0,2;0,2;;0,1;0,1;;0,2;0,1;0,2;;0,1;0,2;0,2;0,2;0,2;0,2;0,2;;;0,2;;0,1;
+9;11037;Infermeria (Campus Bellvitge);UB;L'Hospitalet de Llobregat;395;10,596;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;11081;Infermeria (Campus Clínic);UB;Barcelona;135;10,48;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;11036;"Infermeria ""Sant Joan de Déu""";UB;Barcelona;Barcelona;8,66;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;21044;Infermeria;UAB;Cerdanyola del Vallès;240;10,702;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;21041;Infermeria EUIT de Terrassa;UAB;Terrassa;165;7,83;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;21042;"Infermeria ""Gimbernat""";UAB;Sant Cugat del Vallès;200;7,771;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;21043;"Infermeria ""Sant Pau""";UAB;Barcelona;93;10,023;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;41021;"Infermeria ""Escola Superior d'Infermeria del Mar""";UPF;Barcelona;85;9,636;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;41031;"Infermeria ""Tecnocampus""";UPF;Mataró;90;8,932;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;61029;Infermeria;UdL;Lleida;105;10,719;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;61046;Infermeria (Igualada);UdL;Igualada;85;10,264;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;81066;Infermeria;UdG;Girona;190;10,05;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;71016;Infermeria;URV;Tarragona;93;10,756;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;71028;Infermeria (Tortosa);URV;Tortosa;82;10,312;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;71032;Infermeria (El Vendrell);URV;el Vendrell;40;10,42;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;71084;Infermeria (Vilafranca del Penedès);URV;Vilafranca del Penedès, el Vendrell;40;10,31;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;91013;Infermeria;UVic-UCC;Vic;150;7,787;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+9;91043;Infermeria (Campus Manresa);UVic-UCC;Manresa;150;7,776;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;;
+10;61044;Infermeria / Fisioteràpia (Simultaneïtat);UdL;Lleida;25;11,017;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0,2;;0,2;;
+10;21046;Informàtica i Serveis;UAB;Sant Cugat del Vallès;50;5;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;;;0,2
+7;81058;Innovació i Seguretat Alimentària;UdG;Girona;40;5;;;0,2;;;;;;;0,2;;;;0,2;;;;;;;;0,2;;;0,2;;0,2
+10;31106;Intel·ligència Artificial;UPC;Barcelona;50;11,894;;;0,2;;;;0,1;;;0,2;;0,1;;;;;;;;;;0,2;;;0,1;;0,2
+10;21139;Intel·ligència Artificial / Artificial Intelligence (docència en anglès);UAB;Cerdanyola del Vallès;40;10,962;;;0,2;;;;0,1;;;0,2;;0,1;;;;;;;;;;0,2;;;0,1;;0,2
+5;10120;Investigació Privada (Títol propi, no oficial);UB;Barcelona;120;5;0,1;0,1;0,2;;0,1;0,2;0,1;0,1;0,1;0,2;0,2;0,1;0,2;0,1;;0,2;0,1;0,1;;0,1;0,2;0,2;0,2;0,2;0,2;0,1;0,1
+4;11039;Lingüística;UB;Barcelona;60;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+4;71072;Llengua i Literatura Catalanes;URV;Tarragona;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;21136;Llengua i Literatura Espanyoles;UAB;Cerdanyola del Vallès;60;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+4;71073;Llengua i Literatura Hispàniques;URV;Tarragona;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;;;;;
+5;41023;Llengües Aplicades;UPF;Barcelona;60;5;;;;;;;;;;;;;;;;;0,2;0,2;;0,2;0,2;;0,2;;;;
+6;41054;Llengües Aplicades / Traducció i Interpretació - Anglès - (Simultaneïtat);UPF;Barcelona;15;5,91;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;0,2;;;;
+6;61051;Llengües Aplicades i Traducció / Estudis Anglesos (Simultaneïtat);UdL;Lleida;10;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;0,2;;;;
+6;61058;Llengües Aplicades i Traducció / Filologia Catalana i Estudis Occitans (Simultaneïtat);UdL;Lleida;10;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;0,2;;;;
+6;61080;Llengües Aplicades i Traducció / Filologia Hispànica (Simultaneïtat);UdL;Lleida;10;5;;;;;;;;;;;;;;;;;0,2;0,2;0,2;0,2;0,2;;0,2;;;;
+4;11040;Llengües i Literatures Modernes;UB;Barcelona;100;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+4;11082;Llengües Romàniques i les seves Literatures;UB;Barcelona;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+8;81064;"Logística Empresarial ""Mediterrani""";UdG;Barcelona;50;5;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+8;41048;"Logística i Negocis Marítims ""Tecnocampus""";UPF;Mataró;45;5,384;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+7;21048;Logopèdia;UAB;Cerdanyola del Vallès;80;8,842;;;0,2;;;;;;;;;;;;;;;;;;;0,2;0,2;;;;
+7;81051;"Màrqueting ""Mediterrani""";UdG;Barcelona;70;5;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+7;71062;"Màrqueting ""ESIC""";URV;Barcelona;105;5;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+7;71074;"Màrqueting ""ESIC"" (Docència en Anglès)";URV;Barcelona;35;5;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+8;81062;"Màrqueting / Turisme ""Mediterrani"" (Simultaneïtat)";UdG;Barcelona;25;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+9;71079;"Màrqueting / Administració i Direcció d'Empreses ""ESIC"" (simultaneïtat) Reus / Barcelona";URV;Reus, Barcelona;10;7,5;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;71080;"Màrqueting / Administració i Direcció d'Empreses ""ESIC"" (simultaneïtat) Tortosa / Barcelona";URV;Tortosa, Barcelona;10;6,03;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;61078;"Màrqueting i Comunicació Digital ""Centre Universitari EAE""";UdL;Barcelona;90;5;0,2;0,2;;;0,2;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+8;31132;"Màrqueting, Innovació i Tecnologia ""EUNCET"" (Campus 22@)";UPC;Barcelona;35;5;0,2;0,2;;;0,2;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+8;31131;"Màrqueting, Innovació i Tecnologia ""EUNCET"" (Campus 22@) (semipresencial)";UPC;Barcelona;35;5;0,2;0,2;;;0,2;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+8;31134;"Màrqueting, Innovació i Tecnologia ""EUNCET"" (Campus Terrassa)";UPC;Terrassa;35;5;0,2;0,2;;;0,2;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+8;31133;"Màrqueting, Innovació i Tecnologia ""EUNCET"" (Campus Terrassa) (semipresencial)";UPC;Terrassa;35;5;0,2;0,2;;;0,2;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+9;31129;"Màrqueting, Innovació i Tecnologia / Empresa, Innovació i Tecnologia ""EUNCET"" (Campus 22@) (simultaneïtat)";UPC;Barcelona;35;5;0,2;0,2;0,2;;0,2;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+9;31130;"Màrqueting, Innovació i Tecnologia / Empresa, Innovació i Tecnologia ""EUNCET"" (Campus Terrassa) (simultaneïtat)";UPC;Terrassa;35;5;0,2;0,2;0,2;;0,2;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+7;91032;Màrqueting i Comunicació Empresarial;UVic-UCC;Vic;40;5;0,2;0,2;;;0,2;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+7;41039;"Màrqueting i Comunitats Digitals ""Tecnocampus""";UPF;Mataró;70;5;0,2;0,2;;;0,2;0,2;;0,2;0,2;;0,2;0,2;0,1;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;0,2;
+9;41041;"Màrqueting i Comunitats Digitals / Administració d'Empreses i Gestió de la Innovació ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;60;6,313;0,2;0,2;0,2;;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,2;
+8;41062;"Màrqueting i Comunitats Digitals / Turisme i Gestió del Lleure ""Tecnocampus"" (simultaneïtat)";UPF;Mataró;30;5;0,2;0,2;;0,2;0,2;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;0,2;
+10;21122;Matemàtica Computacional i Analítica de Dades;UAB;Cerdanyola del Vallès;40;11,378;;;0,1;0,1;;;;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,1;;0,1
+10;11041;Matemàtiques;UB;Barcelona;70;11,946;;;0,1;0,1;;;;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,1;;0,1
+10;21003;Matemàtiques;UAB;Cerdanyola del Vallès;60;11,908;;;0,1;0,1;;;;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,1;;0,1
+10;31040;Matemàtiques;UPC;Barcelona;75;12,644;;;0,1;0,1;;;;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,1;;0,1
+10;11066;Matemàtiques / Administració i Direcció d'Empreses (Simultaneïtat);UB;Barcelona;20;11,85;;;0,2;0,1;;;;;;0,2;;0,2;0,2;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+10;11016;Matemàtiques / Enginyeria Informàtica (Simultaneïtat);UB;Barcelona;20;12,378;;;0,2;0,1;;;0,2;;;0,2;;0,1;;0,1;;;;;;;;0,2;0,2;;0,2;;0,2
+10;11020;Matemàtiques / Física (Simultaneïtat);UB;Barcelona;20;12,924;;;0,1;0,1;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+10;21005;Matemàtiques / Física (Simultaneïtat);UAB;Barcelona;20;13,438;;;0,1;0,1;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;0,2;;0,2;;0,1
+10;11083;Medicina (Campus Bellvitge);UB;L'Hospitalet de Llobregat;100;12,478;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;11043;Medicina (Campus Clínic);UB;Barcelona;200;12,505;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;21079;Medicina;UAB;Cerdanyola del Vallès;385;12,389;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;41058;Medicina;UPF;Barcelona;64;12,516;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;61030;Medicina;UdL;Lleida;132;12,351;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;81001;Medicina;UdG;Girona;92;12,362;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;71019;Medicina;URV;Reus;130;12,36;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+10;91054;Medicina;UVic-UCC;Vic;115;11,615;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+7;21050;Microbiologia;UAB;Cerdanyola del Vallès;60;11,016;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+5;41049;"Mitjans Audiovisuals ""Tecnocampus""";UPF;Mataró;85;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;0,2;0,2;;;;0,2;0,2;0,2;;0,2;0,1
+4;81079;"Moda ""ERAM""";UdG;Girona, Salt;30;5;0,1;0,1;;;0,1;0,2;0,1;0,2;0,2;;0,2;0,2;;;;0,2;;;;;0,2;;;0,2;;0,2;
+8;91029;Multimèdia. Aplicacions i Videojocs;UVic-UCC;Vic;40;5;;;;;;0,2;0,2;0,2;0,2;0,2;0,2;0,1;;;;0,2;;;;;;0,2;0,2;0,2;;0,2;0,1
+3;21051;Musicologia;UAB;Cerdanyola del Vallès;60;5;0,2;0,2;;;0,2;;;;;;0,2;;;;0,2;0,2;;;0,2;0,2;0,2;;;0,2;;;
+9;21150;Nanociència i Nanotecnologia;UAB;Cerdanyola del Vallès;65;10,662;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;31045;Nàutica i Transport Marítim;UPC;Barcelona;50;7,93;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+7;11102;"Negoci Digital i Innovació en Turisme ""CETT""";UB;Barcelona;70;5;;;;;;;;0,2;0,2;;0,2;0,2;0,2;;;;;;;;;0,2;0,2;;;0,2;0,2
+7;11112;"Negoci Digital i Innovació en Turisme / Turisme ""CETT"" (simultaneïtat)";UB;Barcelona;10;5;0,1;0,1;;0,2;0,1;;;0,2;0,2;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;0,2;0,2
+8;41024;"Negocis i Màrqueting Internacionals - Bachelor in International Business and Marketing ""ESCI""";UPF;Barcelona;100;8,95;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+8;41063;"Negocis i Màrqueting Internacionals - Bachelor in International Business and Marketing ""ESCI"" (docència en anglès)";UPF;Barcelona;60;9,372;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+7;11062;Nutrició Humana i Dietètica;UB;Santa Coloma de Gramenet;60;9,238;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,1;;;0,2;;
+7;41061;"Nutrició Humana i Dietètica ""Tecnocampus""";UPF;Mataró;60;5;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,1;;;0,2;;
+7;61031;Nutrició Humana i Dietètica;UdL;Lleida;45;7,284;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,1;;;0,2;;
+7;81081;"Nutrició Humana i Dietètica ""EUSES""";UdG;Salt;40;5;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,1;;;0,2;;
+7;71044;Nutrició Humana i Dietètica;URV;Reus;85;7,91;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,1;;;0,2;;
+7;91021;Nutrició Humana i Dietètica;UVic-UCC;Vic;65;5;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,1;;;0,2;;
+9;11075;Nutrició Humana i Dietètica / Farmàcia (Simultaneïtat);UB;Barcelona, Santa Coloma de Gramenet;20;11,192;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;61057;Nutrició Humana i Dietètica / Fisioteràpia (Simultaneïtat);UdL;Igualada;20;10,16;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;0'2;;0,2;;
+9;11044;Odontologia;UB;L'Hospitalet de Llobregat;120;12,368;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+9;91061;Odontologia (Campus Medicina, Vic);UVic-UCC;Manresa, Vic;60;10;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+8;31105;Òptica i Optometria;UPC;Terrassa;90;7,81;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+5;31098;Paisatgisme;UPC;Barcelona, Castelldefels;50;7,833;;;0,2;;;0,2;0,2;;;0,2;;;;;;0,2;;;;;;0,2;;0,2;;;
+6;11045;Pedagogia;UB;Barcelona;216;7,904;0,1;0,1;;0,2;0,1;;;;;;;0,1;0,2;;0,1;;;;0,1;0,2;0,2;0,2;0,2;0,2;;;
+6;21052;Pedagogia;UAB;Cerdanyola del Vallès;75;8,596;0,1;0,1;;0,2;0,1;;;;;;;0,1;0,2;;0,1;;;;0,1;0,2;0,2;0,2;0,2;0,2;;;
+6;81043;Pedagogia;UdG;Girona;60;7,668;0,1;0,1;;0,2;0,1;;;;;;;0,1;0,2;;0,1;;;;0,1;0,2;0,2;0,2;0,2;0,2;;;
+6;71020;Pedagogia;URV;Tarragona;45;8,342;0,1;0,1;;0,2;0,1;;;;;;;0,1;0,2;;0,1;;;;0,1;0,2;0,2;0,2;0,2;0,2;;;
+5;21096;Periodisme;UAB;Cerdanyola del Vallès;160;9,36;;;;0,2;;;;;;;;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;;0,2
+5;41025;Periodisme;UPF;Barcelona;80;10,426;;;;0,2;;;;;;;;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;;0,2
+5;71021;Periodisme;URV;Tarragona;45;8,556;;;;0,2;;;;;;;;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;;0,2
+5;91014;Periodisme;UVic-UCC;Vic;40;5;;;;0,2;;;;;;;;;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;;0,2
+8;71045;Pilot d'Aviació Comercial i Operacions Aèries;URV;Reus;38;6,292;;;0,1;;;;0,2;;;0,2;;0,2;0,2;;;;;;;;;0,2;;;0,1;;0,2
+7;11046;Podologia;UB;L'Hospitalet de Llobregat;80;8,349;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+7;91045;Podologia (Campus Manresa);UVic-UCC;Manresa;80;5;;;0,2;;;;;;;0,2;;;;;;;;;;;;;;;0,2;;
+6;21054;Prevenció i Seguretat Integral;UAB;Cerdanyola del Vallès;88;5;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+6;21113;Prevenció i Seguretat Integral (En Xarxa);UAB;Cerdanyola del Vallès;33;5;;;;;;;;;;;;0,2;;;;;;;;;;0,2;0,2;;;;
+5;11111;Producció de Música i So per a la Indústria de l'Entreteniment;UB;Barcelona;60;5;0,2;0,2;;;0,2;;;0,1;0,1;0,2;0,2;0,2;;;;0,1;;;;;;0,2;0,2;0,1;;0,1;0,1
+6;11047;Psicologia;UB;Barcelona;432;9,767;;;0,2;;;;;;;0,1;;0,1;;;;;;;;;;0,2;0,2;;0,1;;
+6;21081;Psicologia;UAB;Cerdanyola del Vallès;360;9,84;;;0,2;;;;;;;0,1;;0,1;;;;;;;;;;0,2;0,2;;0,1;;
+6;61020;Psicologia;UdL;Lleida;60;9,552;;;0,2;;;;;;;0,1;;0,1;;;;;;;;;;0,2;0,2;;0,1;;
+6;81033;Psicologia;UdG;Girona;80;9,63;;;0,2;;;;;;;0,1;;0,1;;;;;;;;;;0,2;0,2;;0,1;;
+6;71022;Psicologia;URV;Tarragona;125;9,494;;;0,2;;;;;;;0,1;;0,1;;;;;;;;;;0,2;0,2;;0,1;;
+6;91022;Psicologia;UVic-UCC;Vic;120;7,465;;;0,2;;;;;;;0,1;;0,1;;;;;;;;;;0,2;0,2;;0,1;;
+7;11093;"Publicitat, Relacions Públiques i Màrqueting ""ESRP""";UB;Barcelona;150;7,91;;;;0,2;;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+6;21097;Publicitat i Relacions Públiques;UAB;Cerdanyola del Vallès;80;10,862;;;;0,2;;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+6;41004;Publicitat i Relacions Públiques;UPF;Barcelona;80;11,43;;;;0,2;;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+6;81002;Publicitat i Relacions Públiques;UdG;Girona;70;8,875;;;;0,2;;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+6;71023;Publicitat i Relacions Públiques;URV;Tarragona;45;9,45;;;;0,2;;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+6;91015;Publicitat i Relacions Públiques;UVic-UCC;Vic;60;5;;;;0,2;;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+7;81077;Publicitat i Relacions Públiques / Turisme (simultaneïtat);UdG;Girona;15;9,308;0,1;0,1;;0,2;0,1;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+7;11049;Química;UB;Barcelona;180;9,77;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;21082;Química;UAB;Cerdanyola del Vallès;120;9,726;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;81034;Química;UdG;Girona;60;8,462;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;71024;Química;URV;Tarragona;60;9,342;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+7;71066;Química (Docència en Anglès);URV;Tarragona;30;8,349;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+9;11095;Química / Administració i Direcció d'Empreses (Simultaneïtat);UB;Barcelona;20;10,808;;;0,2;;;;;;;0,2;;0,2;0,2;;;;;;;;;0,2;0,2;;0,2;;
+10;21100;Química / Física (Simultaneïtat);UAB;Barcelona;No encontrado;12,348;;;0,1;;;;0,1;;;0,2;;;;0,1;;;;;;;;0,2;;;0,2;;0,1
+6;21123;Relacions Internacionals;UAB;Cerdanyola del Vallès;50;11,55;;;0,1;;;0,1;;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;0,1;0,1;
+7;21145;Relacions Internacionals / Dret (Simultaneïtat);UAB;Cerdanyola del Vallès;20;12,681;;;0,1;;;0,1;;0,1;0,1;0,1;0,1;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;0,1;0,1;
+6;11050;Relacions Laborals;UB;Barcelona;180;8,176 ;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;;;
+6;21055;Relacions Laborals;UAB;Cerdanyola del Vallès;120;8,328;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;;;
+6;41026;Relacions Laborals;UPF;Barcelona;180;7,872;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;;;
+7;21109;Relacions Laborals / Dret (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,896;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+6;71082;Relacions Laborals i Recursos Humans;URV;Tarragona;65;7,286;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;;;
+6;61033;Relacions Laborals i Recursos Humans;UdL;Lleida;30;5;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;;;
+7;71083;Relacions Laborals i Recursos Humans / Dret (Simultaneïtat);URV;Tarragona;25;8,638;;;0,1;0,2;;;;;;;;0,2;0,2;0,1;;0,1;;;;0,1;0,2;0,2;0,2;0,1;;;
+6;11076;Seguretat;UB;Mollet del Vallès;60;8,646;;;0,1;;;;;;;0,1;;0,2;0,2;0,1;;0,1;;;;0,1;0,1;0,2;0,2;0,1;0,1;;0,2
+5;11063;Sociologia;UB;Barcelona;130;6,85;;;0,2;;;;;;;0,2;;0,2;0,2;0,2;;0,2;;;;;0,2;0,2;0,2;0,1;0,2;;
+5;21056;Sociologia;UAB;Cerdanyola del Vallès;110;6,91;;;0,2;;;;;;;0,2;;0,2;0,2;0,2;;0,2;;;;;0,2;0,2;0,2;0,1;0,2;;
+8;11090;Sociologia / Administració i Direcció d'Empreses (Simultaneïtat);UB;Barcelona;20;9,014;;;0,2;;;;;;;0,2;;0,2;0,2;0,2;;0,2;;;;;0,2;0,2;0,2;0,1;0,2;;
+6;21125;Sociologia / Ciència Política i Gestió Pública (Simultaneïtat);UAB;Cerdanyola del Vallès;20;9,694;;;0,2;;;;;;;0,2;0,1;0,2;0,2;0,2;;0,2;;;;0,2;0,2;0,2;0,2;0,1;0,2;;
+9;21129;Sociologia / Estadística Aplicada (Simultaneïtat);UAB;Cerdanyola del Vallès;20;8,776;;;0,2;;;;;;;0,2;;0,2;0,2;0,2;;0,2;;;;;0,2;0,2;0,2;0,1;0,2;;
+10;91915;Tecnologies Industrials amb Anàlisi Econòmica, Grau en + Màster Universitari en Enginyeria Industrial (PARS: Enginyer/a Industrial amb Anàlisi Econòmica) (docència en Anglès);UPC / UPF;Barcelona;50;12,54;;;;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+8;31038;Tecnologies Marines;UPC;Barcelona;44;7,432;;;;;;;0,2;;;0,2;;;;;;;;;;;;0,2;;;0,2;;0,2
+7;21057;Teràpia Ocupacional EUIT de Terrassa;UAB;Terrassa;60;5;;;0,2;;;;;;;0,1;;;0,2;0,2;;;;;;;;0,2;0,2;;;;
+7;91016;Teràpia Ocupacional (presencial / semipresencial);UVic-UCC;Vic;45;5;;;0,2;;;;;;;0,1;;;0,2;0,2;;;;;;;;0,2;0,2;;;;
+5;21058;Traducció i Interpretació - Alemany;UAB;Cerdanyola del Vallès;40;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+5;41040;Traducció i Interpretació - Alemany / Francès / Llengua de Signes Catalana -;UPF;Barcelona;70;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+5;21064;Traducció i Interpretació - Anglès;UAB;Cerdanyola del Vallès;140;5,462;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+5;41006;Traducció i Interpretació - Anglès;UPF;Barcelona;85;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+6;41054;Traducció i Interpretació - Anglès - / Llengües Aplicades (Simultaneïtat);UPF;Barcelona;15;5,91;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;0,2;;;;
+5;21065;Traducció i Interpretació - Francès;UAB;Cerdanyola del Vallès;50;5;;;;;;;;;;;;;;;;;0,2;0,2;0,1;0,2;0,2;;;;;;
+6;11051;Treball Social;UB;Barcelona;240;7,277;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;0,2;;;
+6;61034;Treball Social;UdL;Lleida;80;5,474;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;0,2;;;
+6;81044;Treball Social;UdG;Girona;60;6,19;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;0,2;;;
+6;71026;Treball Social;URV;Tarragona;85;7,255;;;;0,2;;;;;;;;0,2;0,2;;;;;;;;0,2;0,2;0,2;0,2;;;
+5;11011;"Turisme ""CETT""";UB;Barcelona;120;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;11086;"Turisme ""CETT"" (Docència en Anglès)";UB;Barcelona;65;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;21059;Turisme;UAB;Cerdanyola del Vallès;100;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;21114;Turisme (Docència en Anglès);UAB;Cerdanyola del Vallès;60;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;61021;Turisme;UdL;Lleida;35;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;81039;Turisme;UdG;Girona;70;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;81036;"Turisme ""Euroaula""";UdG;Barcelona;100;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+5;81038;"Turisme ""Mediterrani""";UdG;Barcelona;100;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+8;61053;Turisme / Administració i Direcció d'Empreses (Simultaneïtat);UdL;Lleida;20;7,284;0,1;0,1;0,2;0,2;0,1;;;;;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;
+6;81085;Turisme / Estudis Globals / Global Studies (docència en Anglès) (simultaneïtat);UdG;Girona;20;6,808;0,1;0,1;0,1;0,2;0,1;0,1;;0,1;0,1;0,1;0,2;0,2;0,2;0,1;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,1;0,1;
+6;81076;Turisme / Geografia, Territori i Medi Ambient (simultaneïtat);UdG;Girona;10;5;0,1;0,1;0,1;0,2;0,1;0,1;;;;;0,2;0,2;0,2;0,2;0,1;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+7;81062;"Turisme / Màrqueting ""Mediterrani"" (Simultaneïtat)";UdG;Barcelona;25;5;0,1;0,1;;0,2;0,1;;;;;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;;
+6;11112;"Turisme / Negoci Digital i Innovació en Turisme ""CETT"" (simultaneïtat)";UB;Barcelona;10;5;0,1;0,1;;;0,1;;;;;;;;;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;0,2;0,2
+6;81077;Turisme / Publicitat i Relacions Públiques (simultaneïtat);UdG;Girona;15;9,308;0,1;0,1;;0,2;0,1;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;0,2;0,2;;0,2;0,2;0,2;0,2;0,2;;0,2;
+8;41035;"Turisme i Gestió del Lleure / Administració d'Empreses i Gestió de la Innovació ""Tecnocampus"" (Simultaneïtat)";UPF;Mataró;40;5;0,1;0,1;0,2;0,2;0,1;;;;;0,2;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;0,2;;
+8;41062;"Turisme i Gestió del Lleure / Màrqueting i Comunitats Digitals ""Tecnocampus"" (simultaneïtat)";UPF;Mataró;30;5;0,2;0,2;;0,2;0,2;0,2;;0,2;0,2;;0,2;0,2;0,2;;;0,2;;;;0,2;0,2;0,2;0,2;0,2;;0,2;
+9;21083;Veterinària;UAB;Cerdanyola del Vallès;115;11,994;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
+9;61040;Veterinària / Ciència i Producció Animal (Simultaneïtat);UdL;Lleida;60;11,29;;;0,2;;;;;;;0,2;;;;;;;;;;;;0,2;;;0,2;;
