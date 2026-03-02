@@ -220,34 +220,37 @@ async function enviarConsultaIA() {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inputs: promptIA }) // Usamos 'inputs' que es el estándar
+            body: JSON.stringify({ inputs: promptIA })
         });
 
-        if (!response.ok) throw new Error("Error en el servidor: " + response.status);
-
+        // LEEMOS LA RESPUESTA JSON INDEPENDIENTEMENTE DEL CÓDIGO DE ESTADO
         const data = await response.json();
+
+        if (!response.ok) {
+            // Si hay error (ej: 500), lanzamos el mensaje que viene del servidor
+            throw new Error(data.error || "Error desconegut del servidor");
+        }
+
         let textoFinal = "";
 
         // Procesamos el formato de Hugging Face
         if (Array.isArray(data) && data[0] && data[0].generated_text) {
             textoFinal = data[0].generated_text;
-            
-            // TRUCO: Si la IA repite tu pregunta al principio, la quitamos
             if (textoFinal.includes(promptIA)) {
                 textoFinal = textoFinal.replace(promptIA, "").trim();
             }
-        } else if (data.error) {
-            textoFinal = "Error de la IA: " + (data.error.message || data.error);
+        } else if (data.generated_text) {
+             textoFinal = data.generated_text;
         } else {
-            textoFinal = "Resposta en format inesperat. Revisa la consola.";
-            console.log("Dades brutes:", data);
+            textoFinal = "Format inesperat: " + JSON.stringify(data);
         }
 
-        resultadoDiv.innerText = textoFinal || "La IA no ha pogut generar una resposta.";
+        resultadoDiv.innerText = textoFinal;
 
     } catch (e) {
         console.error(e);
-        resultadoDiv.innerText = "Error de connexió: " + e.message;
+        // AHORA VERÁS EL MENSAJE REAL DEL ERROR EN PANTALLA
+        resultadoDiv.innerHTML = `<span style="color:red; font-weight:bold;">Error:</span> ${e.message}`;
     } finally {
         btn.disabled = false;
         btn.style.opacity = "1";
