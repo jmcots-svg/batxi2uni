@@ -203,11 +203,11 @@ function setModo(modo) {
 
 // --- FUNCIÓN CONECTADA AL BACKEND DENO ---
 async function enviarConsultaIA() {
-    const prompt = document.getElementById("input-ia").value;
+    const promptIA = document.getElementById("input-ia").value;
     const resultadoDiv = document.getElementById("respuesta-ia");
     const btn = document.getElementById("btn-preguntar-ia");
 
-    if(!prompt) {
+    if(!promptIA) {
         alert("Si us plau, escriu una consulta.");
         return;
     }
@@ -219,38 +219,31 @@ async function enviarConsultaIA() {
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ prompt: prompt })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ inputs: promptIA }) // Usamos 'inputs' que es el estándar
         });
 
         if (!response.ok) throw new Error("Error en el servidor: " + response.status);
 
         const data = await response.json();
-        console.log("Dades rebudes de la IA:", data); // Mira la consola del navegador (F12) para ver esto
-        
         let textoFinal = "";
 
-        // Intentamos detectar el formato automáticamente
+        // Procesamos el formato de Hugging Face
         if (Array.isArray(data) && data[0] && data[0].generated_text) {
-            // Formato estándar Hugging Face (Array)
             textoFinal = data[0].generated_text;
-        } else if (data.generated_text) {
-            // Formato objeto directo
-            textoFinal = data.generated_text;
-        } else if (data.response) {
-            // Formato común en otros backends
-            textoFinal = data.response;
-        } else if (typeof data === 'string') {
-            // El servidor devuelve texto plano
-            textoFinal = data;
+            
+            // TRUCO: Si la IA repite tu pregunta al principio, la quitamos
+            if (textoFinal.includes(promptIA)) {
+                textoFinal = textoFinal.replace(promptIA, "").trim();
+            }
+        } else if (data.error) {
+            textoFinal = "Error de la IA: " + (data.error.message || data.error);
         } else {
-            // Si no reconoce nada, muestra el JSON crudo para diagnosticar
-            textoFinal = "Format desconegut. Resposta del servidor: " + JSON.stringify(data);
+            textoFinal = "Resposta en format inesperat. Revisa la consola.";
+            console.log("Dades brutes:", data);
         }
 
-        resultadoDiv.innerText = textoFinal;
+        resultadoDiv.innerText = textoFinal || "La IA no ha pogut generar una resposta.";
 
     } catch (e) {
         console.error(e);

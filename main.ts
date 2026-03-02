@@ -1,6 +1,5 @@
 // main.ts
 Deno.serve(async (req) => {
-  // 1. Configuración de cabeceras para permitir que tu web (GitHub Pages) se comunique con Deno
   const headers = new Headers({
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
@@ -8,12 +7,10 @@ Deno.serve(async (req) => {
     "Content-Type": "application/json",
   });
 
-  // 2. Responder a la verificación del navegador (Pre-flight OPTIONS)
   if (req.method === "OPTIONS") {
     return new Response(null, { headers });
   }
 
-  // 3. Responder al test de "Warm up" de Deno o si entras por el navegador (GET)
   if (req.method === "GET") {
     return new Response(JSON.stringify({ 
       status: "ok", 
@@ -21,10 +18,12 @@ Deno.serve(async (req) => {
     }), { status: 200, headers });
   }
 
-  // 4. Lógica principal para procesar la pregunta (POST)
   if (req.method === "POST") {
     try {
-      const { prompt } = await req.json();
+      const body = await req.json();
+      // Aceptamos 'inputs' o 'prompt' para evitar errores de envío
+      const textToSend = body.inputs || body.prompt; 
+      
       const token = Deno.env.get("HF_TOKEN");
 
       if (!token) {
@@ -33,7 +32,6 @@ Deno.serve(async (req) => {
         });
       }
 
-      // LA NUEVA URL ACTUALIZADA SEGÚN EL ERROR ANTERIOR
       const hfResponse = await fetch(
         "https://router.huggingface.co/hf-inference/models/google/gemma-2-2b-it",
         {
@@ -43,16 +41,14 @@ Deno.serve(async (req) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ 
-            inputs: prompt,
-            options: { wait_for_model: true }, // Espera a que la IA cargue si está inactiva
+            inputs: textToSend,
+            options: { wait_for_model: true },
             parameters: { max_new_tokens: 500 }
           }),
         }
       );
 
       const data = await hfResponse.json();
-      
-      // Enviamos la respuesta de la IA de vuelta a tu web
       return new Response(JSON.stringify(data), { headers });
 
     } catch (e) {
