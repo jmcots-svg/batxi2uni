@@ -13,7 +13,6 @@
         .logo-main { height: 70px; margin-bottom: 10px; }
         h1 { text-align: center; color: var(--dark); margin: 0; font-size: 1.6em; }
         
-        /* PANELES */
         .panel { background: var(--light); padding: 18px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #ddd; position: relative; }
         .reverse-filter { border-left: 5px solid var(--accent); background: #fdfaff; }
         .step-number { background: var(--dark); color: white; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-size: 0.85em; display: inline-block; }
@@ -22,36 +21,32 @@
         label { font-weight: bold; font-size: 0.75em; text-transform: uppercase; color: #555; display: block; margin-bottom: 6px; }
         select, textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; background: white; font-family: inherit; box-sizing: border-box; }
 
-        /* MULTISELECT POBLACIONS */
+        /* MULTISELECT */
         .multiselect-container { position: relative; width: 100%; }
         .multiselect-header { background: white; border: 1px solid #ccc; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.9em; display: flex; justify-content: space-between; }
         .multiselect-options { position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #ccc; display: none; z-index: 100; max-height: 200px; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .multiselect-options label { display: flex; align-items: center; padding: 8px; margin: 0; text-transform: none; font-weight: normal; cursor: pointer; border-bottom: 1px solid #eee; }
-        .multiselect-options input { margin-right: 10px; }
 
         /* IA PANEL */
         #panelIA { border-left: 5px solid var(--ai-color); display: none; margin-bottom: 20px; }
-        #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 40px; }
+        #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 40px; font-size: 0.95em; line-height: 1.4; }
         .btn-close-ia { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2em; color: #999; }
 
-        /* TABLA DE RESULTADOS */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { background: var(--dark); color: white; padding: 12px; text-align: left; font-size: 0.9em; }
-        td { padding: 15px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        
-        /* Columnas específicas */
-        .col-prof { width: 50px; text-align: center; }
-        .col-total { width: 80px; text-align: right; }
-        
-        .prof-badge { width: 35px; height: 35px; border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1em; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 2px 6px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.85em; margin-right: 8px; }
-        .tag { display: inline-block; background: #f0f0f0; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin: 4px 4px 0 0; color: #555; border: 1px solid #ddd; }
-        .score-big { font-size: 1.6em; font-weight: 900; color: var(--secondary); }
-        .btn-ia-small { margin-top: 10px; background: var(--ai-color); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.75em; font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        /* ACCIONS EXTERNES */
+        .btn-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .btn-tool { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85em; display: flex; align-items: center; gap: 6px; color: white; }
 
-        /* BOTONES DECISIÓN */
-        .btn-decision { font-size: 1.1em; padding: 15px 30px; margin: 10px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; max-width: 280px; transition: 0.3s; color: white; }
-        .btn-decision:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* TAULA */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: var(--dark); color: white; padding: 12px; text-align: left; font-size: 0.85em; text-transform: uppercase; }
+        td { padding: 15px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .prof-badge { width: 35px; height: 35px; border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 2px 6px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.8em; margin-right: 8px; }
+        .tag { display: inline-block; background: #f8f9fa; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin: 4px 4px 0 0; color: #444; border: 1px solid #e0e0e0; }
+        .score-big { font-size: 1.6em; font-weight: 900; color: var(--secondary); text-align: right; }
+        .btn-ia-small { margin-top: 10px; background: var(--ai-color); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.75em; font-weight: bold; }
+
+        @media print { .btn-actions, .panel, .btn-ia-small, .header-area, .back-btn { display: none !important; } .container { box-shadow: none; border: none; } }
     </style>
 </head>
 <body onload="iniciarApp()">
@@ -62,38 +57,34 @@
         <h1>Calculadora Universitària SJ</h1>
     </div>
 
-    <div id="zonaCarga" style="text-align:center; padding:50px;">
-        <h3 id="msgCarga">Carregant dades del sistema...</h3>
-    </div>
+    <div id="zonaCarga" style="text-align:center; padding:50px;"><h3>Carregant...</h3></div>
 
-    <div id="pantallaInicio" style="display:none; text-align:center; padding:20px;">
-        <h2>Com vols començar la teva cerca?</h2>
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-top:30px;">
-            <button class="btn-decision" style="background:var(--primary);" onclick="setModo('SI')">SÍ, sé quin grau vull</button>
-            <button class="btn-decision" style="background:var(--accent);" onclick="setModo('NO')">NO, vull explorar</button>
-        </div>
+    <div id="pantallaInicio" style="display:none; text-align:center; padding:40px 10px;">
+        <h2 style="margin-bottom:30px;">Com vols començar la teva cerca?</h2>
+        <button class="btn-decision" style="background:var(--primary); font-size:1.1em; padding:15px 30px; border-radius:50px; border:none; color:white; font-weight:bold; cursor:pointer; margin:10px;" onclick="setModo('SI')">SÍ, sé quin grau vull</button>
+        <button class="btn-decision" style="background:var(--accent); font-size:1.1em; padding:15px 30px; border-radius:50px; border:none; color:white; font-weight:bold; cursor:pointer; margin:10px;" onclick="setModo('NO')">NO, vull explorar</button>
     </div>
 
     <div id="mainUI" style="display:none;">
-        <button onclick="location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer; margin-bottom:15px; font-size:0.9em;">« Tornar a l'inici</button>
+        <button onclick="location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer; margin-bottom:15px;">« Tornar a l'inici</button>
         
         <div id="panelIA" class="panel">
             <button class="btn-close-ia" onclick="cerrarIA()">✕</button>
             <label>✨ Pregunta a l'IA sobre aquest grau</label>
-            <textarea id="input-ia" rows="2" placeholder="Dubtes sobre sortides, campus, horaris..."></textarea>
-            <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Enviar consulta</button>
+            <textarea id="input-ia" rows="2" placeholder="Ex: On és el campus? Quines sortides té?"></textarea>
+            <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Preguntar ara</button>
             <div id="respuesta-ia"></div>
         </div>
 
         <div id="panelGrado" class="panel reverse-filter" style="display:none;">
-            <label><span class="step-number">1</span> Escull el teu grau ideal</label>
+            <label><span class="step-number">1</span> Grau de referència</label>
             <select id="selGrado" onchange="cambioGrado()">
                 <option value="">-- Selecciona un Grau --</option>
             </select>
         </div>
 
         <div id="panelMaterias" class="panel">
-            <label><span class="step-number">2</span> Selecciona les teves matèries de modalitat (PAU)</label>
+            <label><span class="step-number">2</span> Les teves matèries de modalitat</label>
             <div class="controls-grid">
                 <select id="m1" class="m-sel" onchange="actualizarTodo()"></select>
                 <select id="m2" class="m-sel" onchange="actualizarTodo()"></select>
@@ -103,42 +94,46 @@
         </div>
 
         <div class="panel" style="background:#fff;">
-            <label>Filtres i Ordenació Avançada</label>
+            <label>Filtres i Ordenació</label>
             <div class="controls-grid">
-                <div>
-                    <label>Poblacions</label>
-                    <div class="multiselect-container">
-                        <div class="multiselect-header" onclick="toggleMultiselect()">Selecciona poblacions...</div>
-                        <div id="poblacionsList" class="multiselect-options"></div>
-                    </div>
+                <div class="multiselect-container">
+                    <label style="font-size:0.65em">Poblacions</label>
+                    <div class="multiselect-header" onclick="toggleMultiselect()">Totes les poblacions</div>
+                    <div id="poblacionsList" class="multiselect-options"></div>
                 </div>
                 <div>
-                    <label>Mín. Ponderació</label>
+                    <label style="font-size:0.65em">Mín. Ponderació</label>
                     <select id="fMinPond" onchange="actualizarTodo()">
                         <option value="0">Totes</option>
-                        <option value="0.4">> 0,4 punts</option>
-                        <option value="0.6">> 0,6 punts</option>
-                        <option value="0.8">> 0,8 punts</option>
+                        <option value="0.4">> 0,4</option>
+                        <option value="0.6">> 0,6</option>
+                        <option value="0.8">> 0,8</option>
                     </select>
                 </div>
                 <div>
-                    <label>Ordenar per</label>
+                    <label style="font-size:0.65em">Ordenar per</label>
                     <select id="fOrden" onchange="actualizarTodo()">
-                        <option value="total_desc">Puntuació (Major a Menor)</option>
-                        <option value="nota_desc">Nota de Tall (Major a Menor)</option>
-                        <option value="nota_asc">Nota de Tall (Menor a Major)</option>
+                        <option value="total_desc">Puntuació (Màx a Mín)</option>
+                        <option value="nota_desc">Nota de Tall (Màx a Mín)</option>
+                        <option value="nota_asc">Nota de Tall (Mín a Màx)</option>
                         <option value="prof_desc">Sortida Professional</option>
                     </select>
                 </div>
             </div>
         </div>
 
+        <div class="btn-actions">
+            <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">📄 PDF / Imprimir</button>
+            <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
+            <button class="btn-tool" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Reiniciar Filtres</button>
+        </div>
+
         <table id="tablaRes">
             <thead>
                 <tr>
-                    <th class="col-prof">Prof.</th>
-                    <th>Grau i Universitat (<span id="txtContador">0</span>)</th>
-                    <th class="col-total">Total</th>
+                    <th style="width:50px; text-align:center;">Sortida</th>
+                    <th>Informació del Grau (<span id="txtContador">0</span>)</th>
+                    <th style="width:100px; text-align:right;">Punts</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -151,14 +146,14 @@ let LINEAS = [];
 let ASIG_MAP = {}; 
 let MODO_APP = "";
 let gradoSeleccionadoIA = null;
-let poblacionsSeleccionades = [];
+let pobsSel = [];
 
 async function iniciarApp() {
     try {
         const response = await fetch('ponderaciones.csv');
         const text = await response.text();
         parseData(text);
-    } catch (e) { alert("Error carregant les dades."); }
+    } catch (e) { alert("Error carregant CSV"); }
 }
 
 function parseData(textoRaw) {
@@ -168,29 +163,11 @@ function parseData(textoRaw) {
         let nom = h[i].replace(/"/g, '').trim();
         if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
     }
-    
-    // Preparar Multiselector de Poblacions
     const pobs = [...new Set(LINEAS.slice(1).map(r => limpiar(r[4])))].filter(x => x).sort();
-    const container = document.getElementById('poblacionsList');
-    container.innerHTML = pobs.map(p => `
-        <label><input type="checkbox" value="${p}" onchange="updatePoblacions(this)"> ${p}</label>
-    `).join('');
-
+    document.getElementById('poblacionsList').innerHTML = pobs.map(p => `<label><input type="checkbox" value="${p}" onchange="updatePobs(this)"> ${p}</label>`).join('');
     llenarGrados();
     document.getElementById('zonaCarga').style.display = 'none';
     document.getElementById('pantallaInicio').style.display = 'block';
-}
-
-function updatePoblacions(cb) {
-    if(cb.checked) poblacionsSeleccionades.push(cb.value);
-    else poblacionsSeleccionades = poblacionsSeleccionades.filter(p => p !== cb.value);
-    document.querySelector('.multiselect-header').innerText = poblacionsSeleccionades.length > 0 ? poblacionsSeleccionades.join(', ') : "Selecciona poblacions...";
-    actualizarTodo();
-}
-
-function toggleMultiselect() {
-    const opt = document.getElementById('poblacionsList');
-    opt.style.display = opt.style.display === 'block' ? 'none' : 'block';
 }
 
 function setModo(modo) {
@@ -200,6 +177,14 @@ function setModo(modo) {
     document.getElementById('panelGrado').style.display = (modo === 'SI') ? 'block' : 'none';
     if(modo === 'NO') { renderSelMaterias(Object.keys(ASIG_MAP).sort()); actualizarTodo(); }
 }
+
+function updatePobs(cb) {
+    if(cb.checked) pobsSel.push(cb.value); else pobsSel = pobsSel.filter(p => p !== cb.value);
+    document.querySelector('.multiselect-header').innerText = pobsSel.length > 0 ? pobsSel.join(', ') : "Totes les poblacions";
+    actualizarTodo();
+}
+
+function toggleMultiselect() { const o = document.getElementById('poblacionsList'); o.style.display = o.style.display === 'block' ? 'none' : 'block'; }
 
 function llenarGrados() {
     const grados = [...new Set(LINEAS.slice(1).map(r => limpiar(r[2])))].filter(x => x).sort();
@@ -211,20 +196,16 @@ function cambioGrado() {
     const grado = document.getElementById('selGrado').value;
     if(!grado) return;
     const ok = new Set();
-    LINEAS.forEach((r, i) => {
-        if(i>0 && limpiar(r[2]) === grado) {
-            for(let m in ASIG_MAP) ASIG_MAP[m].forEach(idx => { if(aNum(r[idx]) >= 0.2) ok.add(m); }); 
-        }
-    });
+    LINEAS.forEach((r, i) => { if(i>0 && limpiar(r[2]) === grado) { for(let m in ASIG_MAP) ASIG_MAP[m].forEach(idx => { if(aNum(r[idx]) >= 0.2) ok.add(m); }); } });
     renderSelMaterias(Array.from(ok).sort());
-    actualizarTodo(); 
+    actualizarTodo();
 }
 
 function renderSelMaterias(lista) {
     document.querySelectorAll('.m-sel').forEach(s => {
-        const val = s.value;
+        const pre = s.value;
         s.innerHTML = '<option value="">-- Matèria --</option>' + lista.map(m => `<option value="${m}">${m}</option>`).join('');
-        s.value = val;
+        s.value = pre;
     });
 }
 
@@ -232,37 +213,25 @@ function actualizarTodo() {
     const elegidas = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v);
     const minPond = parseFloat(document.getElementById('fMinPond').value);
     const orden = document.getElementById('fOrden').value;
-    const gradoRef = document.getElementById('selGrado').value;
+    const gRef = document.getElementById('selGrado').value;
 
     let filtrados = [];
     LINEAS.forEach((row, idx) => {
         if(idx === 0 || !row[2]) return;
-        
-        const gNom = limpiar(row[2]);
-        const pNom = limpiar(row[4]);
-        const prof = aNum(row[0]);
-
-        // Lógica de filtrado
-        if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gradoRef) return;
-        if (poblacionsSeleccionades.length > 0 && !poblacionsSeleccionades.includes(pNom)) return;
+        const gNom = limpiar(row[2]), pNom = limpiar(row[4]), prof = aNum(row[0]);
+        if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gRef) return;
+        if (pobsSel.length > 0 && !pobsSel.includes(pNom)) return;
 
         let suma = 0;
         elegidas.forEach(m => {
-            let max = 0;
-            if(ASIG_MAP[m]) ASIG_MAP[m].forEach(c => { let v = aNum(row[c]); if(v > max) max = v; });
+            let max = 0; if(ASIG_MAP[m]) ASIG_MAP[m].forEach(c => { let v = aNum(row[c]); if(v > max) max = v; });
             suma += max;
         });
 
         if (suma < minPond) return;
-
-        filtrados.push({
-            prof: prof, id: limpiar(row[1]), grado: gNom,
-            univ: limpiar(row[3]), poblacio: pNom,
-            nota: aNum(row[6]), total: suma
-        });
+        filtrados.push({ prof, id: limpiar(row[1]), grado: gNom, univ: limpiar(row[3]), pNom, nota: aNum(row[6]), total: suma });
     });
 
-    // Lógica de ordenación
     filtrados.sort((a,b) => {
         if(orden === 'total_desc') return b.total - a.total;
         if(orden === 'nota_desc') return b.nota - a.nota;
@@ -273,47 +242,29 @@ function actualizarTodo() {
 
     const tbody = document.querySelector('#tablaRes tbody');
     document.getElementById('txtContador').innerText = filtrados.length;
-    
     tbody.innerHTML = filtrados.map(r => `
         <tr>
-            <td class="col-prof">
-                <div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div>
-            </td>
+            <td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
             <td>
-                <div>
-                    <span class="grade-id">${r.id}</span><span style="font-weight:bold; font-size:1.05em;">${r.grado}</span>
-                </div>
-                <div style="font-size:0.85em; color:#666; margin-top:3px;">${r.univ} | Codi Univ: ${r.id.substring(0,1)}</div>
-                <div style="margin-top:5px;">
-                    <span class="tag">📍 ${r.poblacio}</span>
-                    <span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span>
-                </div>
-                <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}')" class="btn-ia-small">
-                    ✨ Preguntar IA
-                </button>
+                <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
+                <div style="font-size:0.85em; color:#666;">${r.univ}</div>
+                <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
+                <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}', ${r.nota}, ${r.prof}, ${r.total})" class="btn-ia-small">✨ Preguntar IA</button>
             </td>
-            <td class="col-total">
-                <span class="score-big">${r.total.toFixed(1).replace('.', ',')}</span>
-            </td>
+            <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
         </tr>
     `).join('');
 }
 
-// Función térmica para Salida Profesional (Azul a Rojo)
-function getColorProf(n) {
-    // 10: Azul (210°), 1: Rojo (0°)
-    const hue = (n - 1) * 24; // De 0 a 240 aprox
-    return `hsl(${hue}, 70%, 45%)`;
-}
-
+function getColorProf(n) { const hue = (n - 1) * 25; return `hsl(${hue}, 70%, 45%)`; }
 function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
 function aNum(v) { let n = parseFloat(v.toString().replace(',', '.')); return isNaN(n) ? 0 : n; }
 
-// IA
-function abrirConsultaIA(grado, univ) {
-    gradoSeleccionadoIA = { grado, univ };
+// IA ENRIQUECIDA
+function abrirConsultaIA(grado, univ, nota, prof, total) {
+    gradoSeleccionadoIA = { grado, univ, nota, prof, total };
     document.getElementById('panelIA').style.display = 'block';
-    document.getElementById('respuesta-ia').innerText = `Dubtes sobre ${grado}? L'IA t'ajuda:`;
+    document.getElementById('respuesta-ia').innerText = `Consultant sobre ${grado} a la ${univ}...`;
     document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
 }
 function cerrarIA() { document.getElementById('panelIA').style.display = 'none'; }
@@ -322,28 +273,38 @@ async function enviarConsultaIA() {
     const input = document.getElementById("input-ia");
     const resDiv = document.getElementById("respuesta-ia");
     if(!input.value) return;
-    resDiv.innerText = "Consultant expert...";
+    resDiv.innerText = "Pensant...";
+    const ctx = `Grau: ${gradoSeleccionadoIA.grado}. Univ: ${gradoSeleccionadoIA.univ}. Nota tall: ${gradoSeleccionadoIA.nota}. Sortida Prof: ${gradoSeleccionadoIA.prof}/10. Ponderació alumne: ${gradoSeleccionadoIA.total}. Pregunta: ${input.value}`;
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inputs: `Grau: ${gradoSeleccionadoIA.grado}. Univ: ${gradoSeleccionadoIA.univ}. Pregunta: ${input.value}` })
+            body: JSON.stringify({ inputs: ctx })
         });
         const data = await response.json();
         resDiv.innerText = data[0]?.generated_text || "Sense resposta.";
         input.value = "";
-    } catch (e) { resDiv.innerText = "Error IA."; }
+    } catch (e) { resDiv.innerText = "Error de connexió."; }
 }
 
-// Cerrar multiselect si se hace clic fuera
-window.onclick = function(event) {
-    if (!event.target.matches('.multiselect-header')) {
-        const dropdowns = document.getElementsByClassName("multiselect-options");
-        for (let i = 0; i < dropdowns.length; i++) {
-            if (dropdowns[i].style.display === 'block') dropdowns[i].style.display = 'none';
-        }
-    }
+function exportExcel() {
+    const rows = LINEAS.filter((r,i) => i === 0 || document.getElementById('txtContador').innerText > 0);
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Resultats");
+    XLSX.writeFile(wb, "Calculadora_SJ_Pro.xlsx");
 }
+
+function reiniciarFiltros() {
+    document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
+    pobsSel = [];
+    document.getElementById('fMinPond').value = "0";
+    document.getElementById('fOrden').value = "total_desc";
+    document.querySelectorAll('.m-sel').forEach(s => s.value = "");
+    actualizarTodo();
+}
+
+window.onclick = function(e) { if (!e.target.matches('.multiselect-header') && !e.target.closest('.multiselect-options')) document.getElementById('poblacionsList').style.display = 'none'; }
 </script>
 </body>
 </html>
