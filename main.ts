@@ -7,73 +7,63 @@ Deno.serve(async (req) => {
     "Content-Type": "application/json",
   });
 
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers });
-  }
+  // Manejo de Preflight (CORS)
+  if (req.method === "OPTIONS") return new Response(null, { headers });
 
+  // Test de funcionamiento
   if (req.method === "GET") {
-    return new Response(JSON.stringify({ 
-      status: "ok", 
-      message: "Servidor Proxy IA Activo" 
-    }), { status: 200, headers });
+    return new Response(JSON.stringify({ status: "ok" }), { status: 200, headers });
   }
 
   if (req.method === "POST") {
     try {
       const body = await req.json();
       const textToSend = body.inputs || body.prompt; 
-      
-      // 1. Verificación del Token con LOG
       const token = Deno.env.get("HF_TOKEN");
+
       if (!token) {
-        console.error("ERROR CRÍTICO: No se ha encontrado la variable HF_TOKEN");
-        return new Response(JSON.stringify({ error: "Error de configuración en el servidor (Falta Token)" }), { 
+        return new Response(JSON.stringify({ error: "Falta el token HF_TOKEN en Deno" }), { 
           status: 500, headers 
         });
       }
 
-      console.log("Enviando petición a Hugging Face...");
-
-      // 2. Llamada a Hugging Face
-	const hfResponse = await fetch(
-	  "https://router.huggingface.co/hf-inference/models/google/gemma-2-2b-it",
-	  {
-		method: "POST", // La IA solo acepta POST, no puedes verla cargando la URL en el navegador
-		headers: {
-		  "Authorization": `Bearer ${token}`,
-		  "Content-Type": "application/json",
-		},
-		body: JSON.stringify({ 
-		  inputs: textToSend,
-		  parameters: { 
-			max_new_tokens: 500,
-			return_full_text: false 
-		  }
-		}),
-	  }
-	);
-
-      // 3. Si Hugging Face da error, leemos el texto del error
-      if (!hfResponse.ok) {
-        const errorText = await hfResponse.text();
-        console.error("Error de Hugging Face:", errorText);
-        return new Response(JSON.stringify({ error: `Hugging Face Error: ${errorText}` }), { 
-          status: 500, headers 
-        });
-      }
+      // USAMOS MISTRAL-7B: Es el modelo más fiable para la API gratuita actualmente
+      const hfResponse = await fetch(
+        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3",
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            inputs: `<s>[INST] ${textToSend} [/INST]`, // Formato específico para Mistral
+            parameters: { max_new_tokens: 500, return_full_text: false }
+          }),
+        }
+      );
 
       const data = await hfResponse.json();
+
+      // Si el modelo se está cargando, Hugging Face devuelve un 503 con 'estimated_time'
+      if (hfResponse.status === 503) {
+        return new Response(JSON.stringify({ 
+          error: "El model s'està despertant... Torna a provar-ho en 20 segons." 
+        }), { status: 503, headers });
+      }
+
+      if (!hfResponse.ok) {
+        return new Response(JSON.stringify({ error: `IA Error: ${JSON.stringify(data)}` }), { 
+          status: hfResponse.status, headers 
+        });
+      }
+
       return new Response(JSON.stringify(data), { headers });
 
     } catch (e) {
-      console.error("EXCEPCIÓN EN DENO:", e);
-      return new Response(JSON.stringify({ error: "Excepción interna: " + e.message }), { 
-        status: 500, headers 
-      });
+      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
     }
   }
 
-  return new Response(JSON.stringify({ error: "Método no permitido" }), { 
-    status: 405, headers 
-  });
+  return new Response(JSON.stringify({ error: "Método no permitido" }), { status: 405, headers });
 });
