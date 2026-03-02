@@ -225,21 +225,36 @@ async function enviarConsultaIA() {
             body: JSON.stringify({ prompt: prompt })
         });
 
-        if (!response.ok) throw new Error("Error en la resposta del servidor");
+        if (!response.ok) throw new Error("Error en el servidor: " + response.status);
 
         const data = await response.json();
-        console.log("Dades rebudes de la IA:", data);
+        console.log("Dades rebudes de la IA:", data); // Mira la consola del navegador (F12) para ver esto
         
-        // Accedemos al texto generado según el formato que me has indicado
-        if (data && data[0] && data[0].generated_text) {
-            resultadoDiv.innerText = data[0].generated_text;
+        let textoFinal = "";
+
+        // Intentamos detectar el formato automáticamente
+        if (Array.isArray(data) && data[0] && data[0].generated_text) {
+            // Formato estándar Hugging Face (Array)
+            textoFinal = data[0].generated_text;
+        } else if (data.generated_text) {
+            // Formato objeto directo
+            textoFinal = data.generated_text;
+        } else if (data.response) {
+            // Formato común en otros backends
+            textoFinal = data.response;
+        } else if (typeof data === 'string') {
+            // El servidor devuelve texto plano
+            textoFinal = data;
         } else {
-            resultadoDiv.innerText = "La IA ha tornat una resposta buida o en un format inesperat.";
+            // Si no reconoce nada, muestra el JSON crudo para diagnosticar
+            textoFinal = "Format desconegut. Resposta del servidor: " + JSON.stringify(data);
         }
+
+        resultadoDiv.innerText = textoFinal;
 
     } catch (e) {
         console.error(e);
-        resultadoDiv.innerText = "S'ha produït un error al connectar amb el backend: " + e.message;
+        resultadoDiv.innerText = "Error de connexió: " + e.message;
     } finally {
         btn.disabled = false;
         btn.style.opacity = "1";
