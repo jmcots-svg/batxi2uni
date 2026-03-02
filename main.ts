@@ -42,11 +42,15 @@ Deno.serve(async (req) => {
           },
           body: JSON.stringify({
             model: "Qwen/Qwen2.5-7B-Instruct",  // Modelo que ya probaste y funciona
-            messages: [
-              { role: "user", content: text }
-            ],
+			 messages: [
+				{ 
+				  role: "system", 
+				  content: "Ets un expert en orientació universitària a Catalunya. Respon de forma molt concisa (màxim 3-4 frases). Si l'usuari pregunta per graus, notes de tall o matèries, basa't en la informació que et proporcioni. Si no saps la resposta, digues que consultin la taula de resultats." 
+				},
+				{ role: "user", content: text }
+			  ],
             max_tokens: 1024,
-            temperature: 0.7,
+            temperature: 0.3,
             top_p: 0.9,          // Opcional, pero ayuda a respuestas más coherentes
           }),
         }
