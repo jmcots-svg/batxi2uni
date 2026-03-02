@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
 			 messages: [
 				{ 
 				  role: "system", 
-				  content: "Ets un expert en orientació universitària a Catalunya. Respon de forma molt concisa (màxim 3-4 frases). Si l'usuari pregunta per graus, notes de tall o matèries, basa't en la informació que et proporcioni. Si no saps la resposta, digues que consultin la taula de resultats." 
+				  content: "Ets un expert en universitats catalanes. Respon sempre en català, de forma breu i directa. No parlis de temes que no estiguin relacionats amb bachillerat, assignatures, universitats o estudis unviersitaris. No inventis enllaços, suggereix cercar a Google si no tens la dada exacta." 
 				},
 				{ role: "user", content: text }
 			  ],

@@ -202,39 +202,55 @@ function setModo(modo) {
 }
 
 // --- FUNCIÓN CONECTADA AL BACKEND DENO ---
+let gradoSeleccionadoIA = null;
+
+function abrirConsultaIA(grado, univ, poblacio, id) {
+    gradoSeleccionadoIA = { grado, univ, poblacio, id };
+    
+    // Mostrar el panel de IA y hacer scroll hacia él
+    document.getElementById('panelIA').style.display = 'block';
+    document.getElementById('respuesta-ia').innerText = `Estàs preguntant sobre: ${grado} a la ${univ}.`;
+    document.getElementById('input-ia').placeholder = `Pregunta dubtes sobre ${grado}...`;
+    document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
+}
+
 async function enviarConsultaIA() {
-    const promptIA = document.getElementById("input-ia").value;
+    if (!gradoSeleccionadoIA) {
+        alert("Primer selecciona un grau de la llista.");
+        return;
+    }
+
+    const userQuery = document.getElementById("input-ia").value;
     const resultadoDiv = document.getElementById("respuesta-ia");
     const btn = document.getElementById("btn-preguntar-ia");
-    
-    if (!promptIA) return;
 
-    // --- MEJORA: Contexto de datos ---
-    // Extraemos los primeros 10 grados disponibles para que la IA sepa qué hay
-    const ejemplosGrados = LINEAS.slice(1, 15).map(r => `${limpiar(r[2])} (${limpiar(r[3])})`).join(", ");
+    if (!userQuery) return;
     
-    // Creamos un "Super Prompt" que incluye la temática y algunos datos
-    const fullPrompt = `Context d'estudi: Orientació Batxillerat Catalunya. 
-    Alguns graus disponibles: ${ejemplosGrados}. 
-    Pregunta de l'alumne: ${promptIA}`;
+    // Preparamos un prompt con datos específicos del grado seleccionado
+    const promptConContexto = `
+    Context: L'estudiant demana informació sobre el grau "${gradoSeleccionadoIA.grado}" 
+    Universitat: ${gradoSeleccionadoIA.univ}
+    Població: ${gradoSeleccionadoIA.poblacio}
+    Codi: ${gradoSeleccionadoIA.id}
+    
+    Pregunta: ${userQuery}
+    
+    Instruccions: Respon de forma concisa. Si demanen l'adreça o enllaç, indica que busquin a la web oficial de la ${gradoSeleccionadoIA.univ}.`;
 
-    resultadoDiv.innerText = "Pensant...";
+    resultadoDiv.innerText = "Consultant expert...";
     btn.disabled = true;
 
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inputs: fullPrompt }) // Enviamos el prompt con contexto
+            body: JSON.stringify({ inputs: promptConContexto })
         });
 
-        const rawText = await response.text();
-        const data = JSON.parse(rawText);
-        
-        let respuestaTexto = data[0]?.generated_text || data.choices?.[0]?.message?.content || "No s'ha pogut generar resposta.";
-
-        // Forzamos que si la respuesta es muy larga, la corte el propio JS por seguridad
-        resultadoDiv.innerText = respuestaTexto.length > 500 ? respuestaTexto.substring(0, 500) + "..." : respuestaTexto;
+        const data = await response.json();
+        // Ajuste según el formato compatible de tu main.ts (array [0].generated_text)
+        const respuesta = data[0]?.generated_text || "No s'ha pogut obtenir informació detallada.";
+        resultadoDiv.innerText = respuesta;
 
     } catch (e) {
         resultadoDiv.innerText = "Error: " + e.message;
@@ -308,15 +324,19 @@ function actualizarTodo() {
     filtrados.sort((a, b) => b.total - a.total);
     const tbody = document.querySelector('#tablaRes tbody');
     document.getElementById('txtContador').innerText = filtrados.length;
-    tbody.innerHTML = filtrados.map(r => `
-        <tr>
-            <td>
-                <div style="font-weight:bold;"><span class="grade-id">${r.id}</span>${r.grado}</div>
-                <div style="font-size:0.85em; color:#444;">${r.univ} | ${r.poblacio} | Nota: ${r.nota}</div>
-            </td>
-            <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
-        </tr>
-    `).join('');
+	tbody.innerHTML = filtrados.map(r => `
+		<tr>
+			<td>
+				<div style="font-weight:bold;"><span class="grade-id">${r.id}</span>${r.grado}</div>
+				<div style="font-size:0.85em; color:#444;">${r.univ} | ${r.poblacio} | Nota: ${r.nota}</div>
+				<button onclick="abrirConsultaIA('${r.grado}', '${r.univ}', '${r.poblacio}', '${r.id}')" 
+						style="margin-top:8px; background:var(--ai-color); color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer; font-size:0.8em;">
+					✨ Preguntar sobre aquest grau
+				</button>
+			</td>
+			<td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
+		</tr>
+	`).join('');
 }
 </script>
 </body>
