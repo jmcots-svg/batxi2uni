@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
             messages: [
               { role: "user", content: text }
             ],
-            max_tokens: 500,
+            max_tokens: 1024,
             temperature: 0.7,
             top_p: 0.9,          // Opcional, pero ayuda a respuestas más coherentes
           }),
