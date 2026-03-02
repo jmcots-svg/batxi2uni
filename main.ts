@@ -36,9 +36,9 @@ Deno.serve(async (req) => {
 
       // 2. Llamada a Hugging Face
 	const hfResponse = await fetch(
-	  "https://api-inference.huggingface.co/models/google/gemma-2-2b-it", // Nueva URL más robusta
+	  "https://router.huggingface.co/hf-inference/models/google/gemma-2-2b-it",
 	  {
-		method: "POST",
+		method: "POST", // La IA solo acepta POST, no puedes verla cargando la URL en el navegador
 		headers: {
 		  "Authorization": `Bearer ${token}`,
 		  "Content-Type": "application/json",
@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
 		  inputs: textToSend,
 		  parameters: { 
 			max_new_tokens: 500,
-			return_full_text: false // Evita que la IA repita tu pregunta en la respuesta
+			return_full_text: false 
 		  }
 		}),
 	  }
