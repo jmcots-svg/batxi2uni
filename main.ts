@@ -35,20 +35,23 @@ Deno.serve(async (req) => {
       console.log("Enviando petición a Hugging Face...");
 
       // 2. Llamada a Hugging Face
-      const hfResponse = await fetch(
-        "https://router.huggingface.co/hf-inference/models/google/gemma-2-2b-it",
-        {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            inputs: textToSend,
-            parameters: { max_new_tokens: 500, return_full_text: false }
-          }),
-        }
-      );
+	const hfResponse = await fetch(
+	  "https://api-inference.huggingface.co/models/google/gemma-2-2b-it", // Nueva URL más robusta
+	  {
+		method: "POST",
+		headers: {
+		  "Authorization": `Bearer ${token}`,
+		  "Content-Type": "application/json",
+		},
+		body: JSON.stringify({ 
+		  inputs: textToSend,
+		  parameters: { 
+			max_new_tokens: 500,
+			return_full_text: false // Evita que la IA repita tu pregunta en la respuesta
+		  }
+		}),
+	  }
+	);
 
       // 3. Si Hugging Face da error, leemos el texto del error
       if (!hfResponse.ok) {
