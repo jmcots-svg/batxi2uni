@@ -17,13 +17,13 @@
         .reverse-filter { border-left: 5px solid var(--accent); background: #fdfaff; }
         .step-number { background: var(--dark); color: white; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-size: 0.85em; display: inline-block; }
         
-        .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
         label { font-weight: bold; font-size: 0.75em; text-transform: uppercase; color: #555; display: block; margin-bottom: 6px; }
         select, textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; background: white; font-family: inherit; box-sizing: border-box; }
 
         /* MULTISELECT */
         .multiselect-container { position: relative; width: 100%; }
-        .multiselect-header { background: white; border: 1px solid #ccc; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.9em; display: flex; justify-content: space-between; }
+        .multiselect-header { background: white; border: 1px solid #ccc; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.9em; display: flex; justify-content: space-between; height: 40px; align-items: center; }
         .multiselect-options { position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #ccc; display: none; z-index: 100; max-height: 200px; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .multiselect-options label { display: flex; align-items: center; padding: 8px; margin: 0; text-transform: none; font-weight: normal; cursor: pointer; border-bottom: 1px solid #eee; }
 
@@ -32,7 +32,7 @@
         #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 40px; font-size: 0.95em; line-height: 1.4; }
         .btn-close-ia { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2em; color: #999; }
 
-        /* ACCIONS EXTERNES */
+        /* ACCIONS */
         .btn-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
         .btn-tool { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85em; display: flex; align-items: center; gap: 6px; color: white; }
 
@@ -44,7 +44,9 @@
         .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 2px 6px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.8em; margin-right: 8px; }
         .tag { display: inline-block; background: #f8f9fa; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin: 4px 4px 0 0; color: #444; border: 1px solid #e0e0e0; }
         .score-big { font-size: 1.6em; font-weight: 900; color: var(--secondary); text-align: right; }
-        .btn-ia-small { margin-top: 10px; background: var(--ai-color); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.75em; font-weight: bold; }
+        
+        .btn-ia-small { margin-top: 10px; background: var(--ai-color); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.72em; font-weight: bold; position: relative; }
+        .experimental-tag { font-size: 0.8em; opacity: 0.8; font-weight: normal; margin-left: 4px; font-style: italic; }
 
         @media print { .btn-actions, .panel, .btn-ia-small, .header-area, .back-btn { display: none !important; } .container { box-shadow: none; border: none; } }
     </style>
@@ -57,7 +59,7 @@
         <h1>Calculadora Universitària SJ</h1>
     </div>
 
-    <div id="zonaCarga" style="text-align:center; padding:50px;"><h3>Carregant...</h3></div>
+    <div id="zonaCarga" style="text-align:center; padding:50px;"><h3>Carregant dades...</h3></div>
 
     <div id="pantallaInicio" style="display:none; text-align:center; padding:40px 10px;">
         <h2 style="margin-bottom:30px;">Com vols començar la teva cerca?</h2>
@@ -70,21 +72,21 @@
         
         <div id="panelIA" class="panel">
             <button class="btn-close-ia" onclick="cerrarIA()">✕</button>
-            <label>✨ Pregunta a l'IA sobre aquest grau</label>
-            <textarea id="input-ia" rows="2" placeholder="Ex: On és el campus? Quines sortides té?"></textarea>
-            <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Preguntar ara</button>
+            <label>✨ Pregunta a l'IA <small>(Versió Experimental)</small></label>
+            <textarea id="input-ia" rows="2" placeholder="Ex: Té molta base de matemàtiques aquest grau?"></textarea>
+            <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Enviar consulta</button>
             <div id="respuesta-ia"></div>
         </div>
 
         <div id="panelGrado" class="panel reverse-filter" style="display:none;">
-            <label><span class="step-number">1</span> Grau de referència</label>
+            <label><span class="step-number">1</span> Escull el grau de referència</label>
             <select id="selGrado" onchange="cambioGrado()">
                 <option value="">-- Selecciona un Grau --</option>
             </select>
         </div>
 
         <div id="panelMaterias" class="panel">
-            <label><span class="step-number">2</span> Les teves matèries de modalitat</label>
+            <label><span class="step-number">2</span> Tria les teves matèries de modalitat</label>
             <div class="controls-grid">
                 <select id="m1" class="m-sel" onchange="actualizarTodo()"></select>
                 <select id="m2" class="m-sel" onchange="actualizarTodo()"></select>
@@ -94,12 +96,22 @@
         </div>
 
         <div class="panel" style="background:#fff;">
-            <label>Filtres i Ordenació</label>
+            <label>Filtres i Ordenació Avançada</label>
             <div class="controls-grid">
                 <div class="multiselect-container">
                     <label style="font-size:0.65em">Poblacions</label>
-                    <div class="multiselect-header" onclick="toggleMultiselect()">Totes les poblacions</div>
+                    <div class="multiselect-header" onclick="toggleMultiselect()">Totes</div>
                     <div id="poblacionsList" class="multiselect-options"></div>
+                </div>
+                <div>
+                    <label style="font-size:0.65em">Min. Sortida Prof.</label>
+                    <select id="fMinProf" onchange="actualizarTodo()">
+                        <option value="0">Totes</option>
+                        <option value="3">> 3</option>
+                        <option value="6">> 6</option>
+                        <option value="8">> 8</option>
+                        <option value="10">= 10</option>
+                    </select>
                 </div>
                 <div>
                     <label style="font-size:0.65em">Mín. Ponderació</label>
@@ -113,26 +125,26 @@
                 <div>
                     <label style="font-size:0.65em">Ordenar per</label>
                     <select id="fOrden" onchange="actualizarTodo()">
-                        <option value="total_desc">Puntuació (Màx a Mín)</option>
-                        <option value="nota_desc">Nota de Tall (Màx a Mín)</option>
-                        <option value="nota_asc">Nota de Tall (Mín a Màx)</option>
-                        <option value="prof_desc">Sortida Professional</option>
+                        <option value="total_desc">Punts (Màx-Mín)</option>
+                        <option value="nota_desc">Nota Tall (Màx-Mín)</option>
+                        <option value="nota_asc">Nota Tall (Mín-Màx)</option>
+                        <option value="prof_desc">Sortida Prof.</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="btn-actions">
-            <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">📄 PDF / Imprimir</button>
+            <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">📄 Exportar PDF</button>
             <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
-            <button class="btn-tool" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Reiniciar Filtres</button>
+            <button class="btn-tool" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Netejar Filtres</button>
         </div>
 
         <table id="tablaRes">
             <thead>
                 <tr>
                     <th style="width:50px; text-align:center;">Sortida</th>
-                    <th>Informació del Grau (<span id="txtContador">0</span>)</th>
+                    <th>Detall del Grau (<span id="txtContador">0</span>)</th>
                     <th style="width:100px; text-align:right;">Punts</th>
                 </tr>
             </thead>
@@ -153,7 +165,7 @@ async function iniciarApp() {
         const response = await fetch('ponderaciones.csv');
         const text = await response.text();
         parseData(text);
-    } catch (e) { alert("Error carregant CSV"); }
+    } catch (e) { alert("Error al carregar el fitxer de dades."); }
 }
 
 function parseData(textoRaw) {
@@ -180,7 +192,7 @@ function setModo(modo) {
 
 function updatePobs(cb) {
     if(cb.checked) pobsSel.push(cb.value); else pobsSel = pobsSel.filter(p => p !== cb.value);
-    document.querySelector('.multiselect-header').innerText = pobsSel.length > 0 ? pobsSel.join(', ') : "Totes les poblacions";
+    document.querySelector('.multiselect-header').innerText = pobsSel.length > 0 ? pobsSel.length + " sel." : "Totes";
     actualizarTodo();
 }
 
@@ -212,6 +224,7 @@ function renderSelMaterias(lista) {
 function actualizarTodo() {
     const elegidas = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v);
     const minPond = parseFloat(document.getElementById('fMinPond').value);
+    const minProf = parseFloat(document.getElementById('fMinProf').value);
     const orden = document.getElementById('fOrden').value;
     const gRef = document.getElementById('selGrado').value;
 
@@ -219,8 +232,10 @@ function actualizarTodo() {
     LINEAS.forEach((row, idx) => {
         if(idx === 0 || !row[2]) return;
         const gNom = limpiar(row[2]), pNom = limpiar(row[4]), prof = aNum(row[0]);
+        
         if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gRef) return;
         if (pobsSel.length > 0 && !pobsSel.includes(pNom)) return;
+        if (prof < minProf) return;
 
         let suma = 0;
         elegidas.forEach(m => {
@@ -233,7 +248,7 @@ function actualizarTodo() {
     });
 
     filtrados.sort((a,b) => {
-        if(orden === 'total_desc') return b.total - a.total;
+        if(orden === 'total_desc') return b.total - a.total || b.nota - a.nota;
         if(orden === 'nota_desc') return b.nota - a.nota;
         if(orden === 'nota_asc') return a.nota - b.nota;
         if(orden === 'prof_desc') return b.prof - a.prof;
@@ -249,22 +264,28 @@ function actualizarTodo() {
                 <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
                 <div style="font-size:0.85em; color:#666;">${r.univ}</div>
                 <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
-                <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}', ${r.nota}, ${r.prof}, ${r.total})" class="btn-ia-small">✨ Preguntar IA</button>
+                <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}', ${r.nota}, ${r.prof}, ${r.total})" class="btn-ia-small">
+                    ✨ Preguntar IA <span class="experimental-tag">(experimental)</span>
+                </button>
             </td>
             <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
         </tr>
     `).join('');
 }
 
-function getColorProf(n) { const hue = (n - 1) * 25; return `hsl(${hue}, 70%, 45%)`; }
+function getColorProf(n) { 
+    const hue = (n - 1) * 25; 
+    return `hsl(${hue}, 70%, 45%)`; 
+}
+
 function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
 function aNum(v) { let n = parseFloat(v.toString().replace(',', '.')); return isNaN(n) ? 0 : n; }
 
-// IA ENRIQUECIDA
+// IA
 function abrirConsultaIA(grado, univ, nota, prof, total) {
     gradoSeleccionadoIA = { grado, univ, nota, prof, total };
     document.getElementById('panelIA').style.display = 'block';
-    document.getElementById('respuesta-ia').innerText = `Consultant sobre ${grado} a la ${univ}...`;
+    document.getElementById('respuesta-ia').innerText = `Consultant IA sobre ${grado}...`;
     document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
 }
 function cerrarIA() { document.getElementById('panelIA').style.display = 'none'; }
@@ -273,8 +294,8 @@ async function enviarConsultaIA() {
     const input = document.getElementById("input-ia");
     const resDiv = document.getElementById("respuesta-ia");
     if(!input.value) return;
-    resDiv.innerText = "Pensant...";
-    const ctx = `Grau: ${gradoSeleccionadoIA.grado}. Univ: ${gradoSeleccionadoIA.univ}. Nota tall: ${gradoSeleccionadoIA.nota}. Sortida Prof: ${gradoSeleccionadoIA.prof}/10. Ponderació alumne: ${gradoSeleccionadoIA.total}. Pregunta: ${input.value}`;
+    resDiv.innerText = "Pensant la resposta...";
+    const ctx = `Dades del Grau: ${gradoSeleccionadoIA.grado}. Universitat: ${gradoSeleccionadoIA.univ}. Nota tall: ${gradoSeleccionadoIA.nota}. Sortida Professional: ${gradoSeleccionadoIA.prof}/10. Ponderació específica calculada per l'alumne: ${gradoSeleccionadoIA.total}. Pregunta de l'usuari: ${input.value}`;
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
             method: "POST",
@@ -282,29 +303,34 @@ async function enviarConsultaIA() {
             body: JSON.stringify({ inputs: ctx })
         });
         const data = await response.json();
-        resDiv.innerText = data[0]?.generated_text || "Sense resposta.";
+        resDiv.innerText = data[0]?.generated_text || "Ho sento, no he pogut generar una resposta en aquest moment.";
         input.value = "";
-    } catch (e) { resDiv.innerText = "Error de connexió."; }
+    } catch (e) { resDiv.innerText = "Error de connexió amb el servidor IA."; }
 }
 
 function exportExcel() {
-    const rows = LINEAS.filter((r,i) => i === 0 || document.getElementById('txtContador').innerText > 0);
-    const ws = XLSX.utils.json_to_sheet(rows);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Resultats");
-    XLSX.writeFile(wb, "Calculadora_SJ_Pro.xlsx");
+    // Exportació simplificada de la taula visible
+    const table = document.getElementById("tablaRes");
+    const wb = XLSX.utils.table_to_book(table, {sheet: "Resultats SJ Pro"});
+    XLSX.writeFile(wb, "Simulacio_Graus_2026.xlsx");
 }
 
 function reiniciarFiltros() {
     document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
     pobsSel = [];
+    document.querySelector('.multiselect-header').innerText = "Totes";
     document.getElementById('fMinPond').value = "0";
+    document.getElementById('fMinProf').value = "0";
     document.getElementById('fOrden').value = "total_desc";
     document.querySelectorAll('.m-sel').forEach(s => s.value = "");
     actualizarTodo();
 }
 
-window.onclick = function(e) { if (!e.target.matches('.multiselect-header') && !e.target.closest('.multiselect-options')) document.getElementById('poblacionsList').style.display = 'none'; }
+window.onclick = function(e) { 
+    if (!e.target.matches('.multiselect-header') && !e.target.closest('.multiselect-options')) {
+        document.getElementById('poblacionsList').style.display = 'none';
+    } 
+}
 </script>
 </body>
 </html>
