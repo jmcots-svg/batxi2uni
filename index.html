@@ -207,7 +207,7 @@ async function enviarConsultaIA() {
     const resultadoDiv = document.getElementById("respuesta-ia");
     const btn = document.getElementById("btn-preguntar-ia");
 
-    if(!promptIA) return alert("Escriu una pregunta");
+    if(!promptIA) return alert("Si us plau, escriu una consulta.");
 
     resultadoDiv.innerText = "Pensant...";
     btn.disabled = true;
@@ -216,25 +216,28 @@ async function enviarConsultaIA() {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inputs: promptIA })
+            body: JSON.stringify({ inputs: promptIA }) // Enviamos 'inputs'
         });
 
         const data = await response.json();
 
-        // Si el servidor nos avisa de un error controlado
         if (data.error) {
+            // Si el servidor o la IA devuelven un error
             resultadoDiv.innerText = "Error: " + (data.message || data.error);
-        } 
-        // Si recibimos la respuesta de la IA (Array)
-        else if (Array.isArray(data) && data[0].generated_text) {
-            resultadoDiv.innerText = data[0].generated_text.trim();
-        } 
-        else {
-            resultadoDiv.innerText = "Resposta desconeguda. Revisa la consola.";
-            console.log("Data:", data);
+        } else if (Array.isArray(data) && data[0] && data[0].generated_text) {
+            // Formato estándar de Hugging Face
+            let respuesta = data[0].generated_text.trim();
+            // Si la IA repite tu pregunta, la limpiamos:
+            if (respuesta.startsWith(promptIA)) {
+                respuesta = respuesta.replace(promptIA, "").trim();
+            }
+            resultadoDiv.innerText = respuesta;
+        } else {
+            console.log("Respuesta cruda:", data);
+            resultadoDiv.innerText = "La IA ha respòs en un format inesperat.";
         }
-
     } catch (e) {
+        console.error(e);
         resultadoDiv.innerText = "Error de connexió: " + e.message;
     } finally {
         btn.disabled = false;
