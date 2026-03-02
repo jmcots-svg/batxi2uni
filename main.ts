@@ -32,25 +32,25 @@ Deno.serve(async (req) => {
         });
       }
 
-      const hfResponse = await fetch(
-        "https://router.huggingface.co/hf-inference/models/google/gemma-2-2b-it",
-        {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            inputs: text,
-            options: { wait_for_model: true },
-            parameters: {
-              max_new_tokens: 500,
-              return_full_text: false
-            }
-          }),
-        }
-      );
-
+	const hfResponse = await fetch(
+	  "https://router.huggingface.co/v1/chat/completions",
+	  {
+		method: "POST",
+		headers: {
+		  "Authorization": `Bearer ${token}`,
+		  "Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+		  model: "google/gemma-2-2b-it",  // ← especifica el modelo aquí
+		  messages: [
+			{ role: "user", content: text }
+		  ],
+		  max_tokens: 500,
+		  temperature: 0.7,
+		  // Puedes añadir top_p, etc.
+		}),
+	  }
+	);
       if (!hfResponse.ok) {
         const errorText = await hfResponse.text();
         return new Response(JSON.stringify({
