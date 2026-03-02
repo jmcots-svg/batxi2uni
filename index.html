@@ -3,114 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Calculadora de Ponderacions i Notes de Tall 2026 | SJ Pro</title>
-    <meta name="description" content="Calculadora oficial per a alumnes de Batxillerat. Consulta les notes de tall 2025/2026, ponderacions de matèries de la PAU i sortides professionals de tots els graus universitaris a Catalunya.">
-    
-    <link rel="icon" type="image/png" href="logo.png">
-    
+    <title>Calculadora de Ponderacions | SJ Pro</title>
     <style>
         :root { --primary: #3498db; --secondary: #27ae60; --dark: #2c3e50; --light: #f1f2f6; --accent: #8e44ad; --ai-color: #f39c12; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f4f7f6; padding: 20px; color: #333; margin: 0; }
-        
         .container { max-width: 1050px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        
-        .header-area { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 25px; }
+        .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
         .logo-main { height: 70px; margin-bottom: 10px; }
-        
-        h1 { text-align: center; color: var(--dark); margin: 0; font-weight: 800; font-size: 1.6em; line-height: 1.2; }
-        h2 { text-align: center; color: #666; font-size: 1.1em; font-weight: 400; margin-top: 8px; }
-
+        h1 { text-align: center; color: var(--dark); margin: 0; font-size: 1.6em; }
         .panel { background: var(--light); padding: 18px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #ddd; position: relative; }
         .reverse-filter { border-left: 5px solid var(--accent); background: #fdfaff; }
-        .step-number { background: var(--dark); color: white; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-size: 0.85em; display: inline-block; }
-
-        .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: start; }
+        .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
         label { font-weight: bold; font-size: 0.75em; text-transform: uppercase; color: #555; display: block; margin-bottom: 6px; }
-        
-        select, textarea { 
-            width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccc; 
-            background: white; font-size: 0.95em; cursor: pointer; box-sizing: border-box; font-family: inherit;
-        }
-
-        /* IA PANEL STYLES */
-        #panelIA { border-left: 5px solid var(--ai-color); display: none; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        #respuesta-ia { 
-            background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; 
-            min-height: 50px; color: #333; line-height: 1.5; white-space: pre-wrap; margin-top: 10px;
-        }
-        .btn-close-ia { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.2em; cursor: pointer; color: #999; }
-        .btn-close-ia:hover { color: #e74c3c; }
-
-        .btn { padding: 10px; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; font-size: 0.85em; display: flex; align-items: center; justify-content: center; gap: 6px; }
-
-        #zonaCarga { text-align: center; padding: 50px; }
-        .spinner { border: 4px solid rgba(0,0,0,0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: var(--primary); animation: spin 1s linear infinite; margin: 0 auto 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .back-btn { background: none; border: none; text-decoration: underline; color: #777; cursor: pointer; margin-bottom: 15px; font-size: 0.9em; }
-        
-        #pantallaInicio { text-align: center; padding: 30px 10px; }
-        .btn-decision { font-size: 1.1em; padding: 14px 30px; margin: 10px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; max-width: 250px; transition: transform 0.2s; }
-        .btn-decision:hover { transform: scale(1.05); }
-        .btn-si { background: var(--primary); color: white; }
-        .btn-no { background: var(--accent); color: white; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; }
+        select, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccc; background: white; font-size: 0.95em; box-sizing: border-box; }
+        #panelIA { border-left: 5px solid var(--ai-color); display: none; }
+        #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 50px; }
+        .btn { padding: 10px; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer; width: 100%; }
+        .btn-decision { font-size: 1.1em; padding: 14px 30px; margin: 10px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%; max-width: 250px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { background: var(--dark); color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
         .score-big { font-size: 1.4em; font-weight: 900; color: var(--secondary); text-align: right; }
-        .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 1px 5px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.85em; margin-right: 6px; }
-        
-        .tag { display: inline-block; background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-top: 4px; margin-right: 4px; color: #666; }
-        .btn-ia-small { margin-top: 8px; background: var(--ai-color); color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8em; font-weight: bold; }
+        .tag { display: inline-block; background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin: 4px 4px 0 0; color: #666; }
+        .btn-ia-small { margin-top: 8px; background: var(--ai-color); color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8em; }
+        .btn-close-ia { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2em; }
     </style>
 </head>
 <body onload="iniciarApp()">
 
 <div class="container">
     <div class="header-area">
-        <img src="logo.png" alt="Batxi2Uni" class="logo-main">
+        <img src="logo.png" alt="Logo" class="logo-main">
         <h1>Calculadora Universitària SJ</h1>
     </div>
 
-    <div id="zonaCarga">
-        <div class="spinner"></div>
-        <h3 id="msgCarga">Carregant dades del servidor...</h3>
+    <div id="zonaCarga" style="text-align:center; padding:50px;">
+        <h3>Carregant dades...</h3>
     </div>
 
-    <div id="pantallaInicio" style="display:none;">
+    <div id="pantallaInicio" style="display:none; text-align:center;">
         <h2>Com vols començar la teva cerca?</h2>
-        <div style="margin-top:25px; display:flex; flex-wrap:wrap; justify-content:center; gap: 10px;">
-            <button class="btn-decision btn-si" onclick="setModo('SI')">SÍ, sé quin grau vull</button>
-            <button class="btn-decision btn-no" onclick="setModo('NO')">NO, vull explorar</button>
-        </div>
+        <button class="btn-decision" style="background:var(--primary); color:white;" onclick="setModo('SI')">SÍ, sé quin grau vull</button>
+        <button class="btn-decision" style="background:var(--accent); color:white;" onclick="setModo('NO')">NO, vull explorar</button>
     </div>
 
     <div id="mainUI" style="display:none;">
-        <button class="back-btn" onclick="volverInicio()">« Tornar a l'inici</button>
+        <button onclick="location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer; margin-bottom:15px;">« Tornar a l'inici</button>
         
         <div id="panelIA" class="panel">
             <button class="btn-close-ia" onclick="cerrarIA()">✕</button>
-            <label><span class="step-number" style="background:var(--ai-color)">✨</span> Pregunta a la nostra IA</label>
-            <div style="margin-top:10px;">
-                <textarea id="input-ia" rows="2" placeholder="Escriu aquí el teu dubte..."></textarea>
-                <button id="btn-preguntar-ia" class="btn" style="background:var(--ai-color); width:100%; margin-top:10px;" onclick="enviarConsultaIA()">Preguntar sobre aquest grau</button>
-                <div id="respuesta-ia">Escriu la teva consulta a dalt...</div>
-            </div>
+            <label>✨ Pregunta a la nostra IA</label>
+            <textarea id="input-ia" rows="2" placeholder="Escriu el teu dubte sobre aquest grau..."></textarea>
+            <button id="btn-preguntar-ia" class="btn" style="background:var(--ai-color); margin-top:10px;" onclick="enviarConsultaIA()">Preguntar</button>
+            <div id="respuesta-ia"></div>
         </div>
 
         <div id="panelGrado" class="panel reverse-filter" style="display:none;">
-            <label><span class="step-number">1</span> Escull el grau</label>
+            <label>1. Escull el grau de referència (per filtrar matèries)</label>
             <select id="selGrado" onchange="cambioGrado()">
                 <option value="">-- Selecciona un Grau --</option>
             </select>
         </div>
 
         <div id="panelMaterias" class="panel">
-            <label id="lblMaterias"><span class="step-number">2</span> Escull matèries (calcula la teva nota)</label>
+            <label>2. Escull les teves matèries de modalitat</label>
             <div class="controls-grid">
                 <select id="m1" class="m-sel" onchange="actualizarTodo()"></select>
                 <select id="m2" class="m-sel" onchange="actualizarTodo()"></select>
@@ -119,37 +75,28 @@
             </div>
         </div>
 
-        <div class="panel" style="background: #fdfdfd;">
-            <label>Filtres i ordenació</label>
+        <div class="panel" style="background:#fff;">
+            <label>Filtres addicionals</label>
             <div class="controls-grid">
-                <div>
-                    <label style="font-size:0.65em">Ordena per</label>
-                    <select id="fOrden" onchange="actualizarTodo()">
-                        <option value="total">Puntuació total</option>
-                        <option value="nota">Nota de tall</option>
-                        <option value="oportunidades">Sortida professional</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size:0.65em">Població</label>
-                    <select id="fPoblacio" onchange="actualizarTodo()">
-                        <option value="">Totes</option>
-                    </select>
-                </div>
+                <select id="fPoblacio" onchange="actualizarTodo()">
+                    <option value="">Totes les poblacions</option>
+                </select>
+                <select id="fOrden" onchange="actualizarTodo()">
+                    <option value="total">Ordena per Puntuació</option>
+                    <option value="nota">Ordena per Nota de Tall</option>
+                </select>
             </div>
         </div>
 
-        <div id="zonaResultados">
-            <table id="tablaRes">
-                <thead>
-                    <tr>
-                        <th>Resultats (<span id="txtContador">0</span>)</th>
-                        <th style="text-align:right;">Total</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+        <table id="tablaRes">
+            <thead>
+                <tr>
+                    <th>Carreres i Universitats (<span id="txtContador">0</span>)</th>
+                    <th style="text-align:right;">Punts PAU</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 </div>
 
@@ -161,29 +108,24 @@ let gradoSeleccionadoIA = null;
 
 async function iniciarApp() {
     try {
-        const response = await fetch('ponderaciones.csv'); 
-        if (response.ok) { parseData(await response.text()); } 
-        else { throw new Error(); }
-    } catch (e) {
-        alert("Error carregant el fitxer ponderaciones.csv");
-    }
+        const response = await fetch('ponderaciones.csv');
+        const text = await response.text();
+        parseData(text);
+    } catch (e) { alert("Error carregant CSV"); }
 }
 
 function parseData(textoRaw) {
     LINEAS = textoRaw.split(/\r?\n/).filter(l => l.trim() !== "").map(l => l.split(';'));
-    document.getElementById('zonaCarga').style.display = 'none';
-    
     const h = LINEAS[0];
     for(let i=7; i<h.length; i++){
         let nom = h[i].replace(/"/g, '').trim();
         if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
     }
-
-    // Omplir select de poblacions
     const poblacions = [...new Set(LINEAS.slice(1).map(r => limpiar(r[4])))].filter(x => x).sort();
     document.getElementById('fPoblacio').innerHTML += poblacions.map(p => `<option value="${p}">${p}</option>`).join('');
-
+    
     llenarGrados();
+    document.getElementById('zonaCarga').style.display = 'none';
     document.getElementById('pantallaInicio').style.display = 'block';
 }
 
@@ -191,35 +133,19 @@ function setModo(modo) {
     MODO_APP = modo;
     document.getElementById('pantallaInicio').style.display = 'none';
     document.getElementById('mainUI').style.display = 'block';
-    
     document.getElementById('panelGrado').style.display = (modo === 'SI') ? 'block' : 'none';
     
+    // Si el usuario no sabe qué elegir, le mostramos todas las materias de entrada
     if(modo === 'NO') {
         renderSelMaterias(Object.keys(ASIG_MAP).sort());
         actualizarTodo();
     }
 }
 
-function volverInicio() { location.reload(); }
-function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
-function aNum(v) { 
-    if(!v) return 0;
-    let n = parseFloat(v.toString().replace(/"/g, '').replace(',', '.').trim()); 
-    return isNaN(n) ? 0 : n; 
-}
-
 function llenarGrados() {
     const grados = [...new Set(LINEAS.slice(1).map(r => limpiar(r[2])))].filter(x => x).sort();
     document.getElementById('selGrado').innerHTML = '<option value="">-- Selecciona un Grau --</option>' + 
         grados.map(g => `<option value="${g}">${g}</option>`).join('');
-}
-
-function renderSelMaterias(lista) {
-    document.querySelectorAll('.m-sel').forEach(s => {
-        const valActual = s.value;
-        s.innerHTML = '<option value="">-- Matèria --</option>' + lista.map(m => `<option value="${m}">${m}</option>`).join('');
-        s.value = valActual;
-    });
 }
 
 function cambioGrado() {
@@ -234,67 +160,35 @@ function cambioGrado() {
         }
     });
     renderSelMaterias(Array.from(ok).sort());
-    actualizarTodo();
+    actualizarTodo(); 
 }
 
-function abrirConsultaIA(grado, univ, poblacio, id) {
-    gradoSeleccionadoIA = { grado, univ, poblacio, id };
-    document.getElementById('panelIA').style.display = 'block';
-    document.getElementById('respuesta-ia').innerText = `Estàs preguntant sobre: ${grado} (${univ})`;
-    document.getElementById('input-ia').value = "";
-    document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
-}
-
-function cerrarIA() {
-    document.getElementById('panelIA').style.display = 'none';
-    gradoSeleccionadoIA = null;
-}
-
-async function enviarConsultaIA() {
-    const inputField = document.getElementById("input-ia");
-    const userQuery = inputField.value;
-    const resultadoDiv = document.getElementById("respuesta-ia");
-    const btn = document.getElementById("btn-preguntar-ia");
-
-    if (!userQuery || !gradoSeleccionadoIA) return;
-
-    const promptConContexto = `Soc un alumne. Informació del grau: ${gradoSeleccionadoIA.grado} a la ${gradoSeleccionadoIA.univ} (${gradoSeleccionadoIA.poblacio}). Pregunta: ${userQuery}`;
-
-    resultadoDiv.innerText = "Pensant...";
-    btn.disabled = true;
-
-    try {
-        const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inputs: promptConContexto })
-        });
-        const data = await response.json();
-        resultadoDiv.innerText = data[0]?.generated_text || "Sense resposta de la IA.";
-        inputField.value = ""; // Netejar el quadre
-    } catch (e) {
-        resultadoDiv.innerText = "Error: No es pot connectar amb la IA.";
-    } finally {
-        btn.disabled = false;
-    }
+function renderSelMaterias(lista) {
+    document.querySelectorAll('.m-sel').forEach(s => {
+        const pre = s.value;
+        s.innerHTML = '<option value="">-- Matèria --</option>' + lista.map(m => `<option value="${m}">${m}</option>`).join('');
+        s.value = pre;
+    });
 }
 
 function actualizarTodo() {
     const elegidas = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v);
-    const gradoFiltro = document.getElementById('selGrado').value;
-    const orden = document.getElementById('fOrden').value;
     const poblacioFiltro = document.getElementById('fPoblacio').value;
+    const orden = document.getElementById('fOrden').value;
+    const gradoReferencia = document.getElementById('selGrado').value;
 
     let filtrados = [];
     LINEAS.forEach((row, idx) => {
         if(idx === 0 || !row[2]) return;
         
-        const gradoActual = limpiar(row[2]);
-        const poblacioActual = limpiar(row[4]);
+        const gNom = limpiar(row[2]);
+        const pNom = limpiar(row[4]);
 
-        // Filtre Mode SI (Grau específic) o Filtre Població
-        if (MODO_APP === 'SI' && gradoActual !== gradoFiltro) return;
-        if (poblacioFiltro && poblacioActual !== poblacioFiltro) return;
+        // FILTRO LÓGICO:
+        // Si no hay materias elegidas y estamos en modo "SI", solo mostramos la carrera elegida.
+        // PERO si ya hay materias elegidas, mostramos TODO lo que sea compatible con esas materias.
+        if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gradoReferencia) return;
+        if (poblacioFiltro && pNom !== poblacioFiltro) return;
 
         let suma = 0;
         elegidas.forEach(m => {
@@ -304,16 +198,13 @@ function actualizarTodo() {
         });
 
         filtrados.push({
-            oportunidades: aNum(row[0]), id: limpiar(row[1]), grado: gradoActual,
-            univ: limpiar(row[3]), poblacio: poblacioActual,
-            nota: aNum(row[6]), total: suma
+            id: limpiar(row[1]), grado: gNom, univ: limpiar(row[3]), 
+            poblacio: pNom, nota: aNum(row[6]), total: suma
         });
     });
 
-    // Ordenació dinàmica
     if(orden === 'total') filtrados.sort((a,b) => b.total - a.total || b.nota - a.nota);
-    else if(orden === 'nota') filtrados.sort((a,b) => b.nota - a.nota);
-    else filtrados.sort((a,b) => b.oportunidades - a.oportunidades);
+    else filtrados.sort((a,b) => b.nota - a.nota);
 
     const tbody = document.querySelector('#tablaRes tbody');
     document.getElementById('txtContador').innerText = filtrados.length;
@@ -321,22 +212,45 @@ function actualizarTodo() {
     tbody.innerHTML = filtrados.map(r => `
         <tr>
             <td>
-                <div>
-                    <div style="font-weight:bold;"><span class="grade-id">${r.id}</span>${r.grado}</div>
-                    <div style="font-size:0.85em; color:#444;">${r.univ}</div>
-                    <div>
-                        <span class="tag">📍 ${r.poblacio}</span>
-                        <span class="tag">📝 Nota: ${r.nota}</span>
-                        <span class="tag">💼 Sortida: ${r.oportunidades}/5</span>
-                    </div>
-                    <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}', '${r.poblacio}', '${r.id}')" class="btn-ia-small">
-                        ✨ Preguntar IA
-                    </button>
-                </div>
+                <div style="font-weight:bold;"><span class="grade-id">${r.id}</span>${r.grado}</div>
+                <div style="font-size:0.85em; color:#666;">${r.univ} | ${r.poblacio}</div>
+                <div class="tag">Nota: ${r.nota}</div>
+                <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}')" class="btn-ia-small">✨ Preguntar IA</button>
             </td>
             <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
         </tr>
     `).join('');
+}
+
+// Funciones Auxiliares
+function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
+function aNum(v) { let n = parseFloat(v.toString().replace(',', '.')); return isNaN(n) ? 0 : n; }
+
+// Lógica IA
+function abrirConsultaIA(grado, univ) {
+    gradoSeleccionadoIA = { grado, univ };
+    document.getElementById('panelIA').style.display = 'block';
+    document.getElementById('respuesta-ia').innerText = `Estàs consultant sobre ${grado} a la ${univ}...`;
+    document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
+}
+function cerrarIA() { document.getElementById('panelIA').style.display = 'none'; }
+
+async function enviarConsultaIA() {
+    const input = document.getElementById("input-ia");
+    const resDiv = document.getElementById("respuesta-ia");
+    if(!input.value || !gradoSeleccionadoIA) return;
+
+    resDiv.innerText = "Pensant...";
+    try {
+        const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ inputs: `Grau: ${gradoSeleccionadoIA.grado}. Univ: ${gradoSeleccionadoIA.univ}. Pregunta: ${input.value}` })
+        });
+        const data = await response.json();
+        resDiv.innerText = data[0]?.generated_text || "Sense resposta.";
+        input.value = ""; 
+    } catch (e) { resDiv.innerText = "Error de connexió."; }
 }
 </script>
 </body>
