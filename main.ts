@@ -1,4 +1,8 @@
+// main.ts
 Deno.serve(async (req) => {
+  const url = new URL(req.url);
+  console.log(`Petición recibida: ${req.method} en ${url.pathname}`);
+
   const headers = new Headers({
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
@@ -8,21 +12,17 @@ Deno.serve(async (req) => {
 
   if (req.method === "OPTIONS") return new Response(null, { headers });
 
+  // Responder OK a cualquier ruta GET (para el navegador y warm-up)
+  if (req.method === "GET") {
+    return new Response(JSON.stringify({ status: "ok", path: url.pathname }), { headers });
+  }
+
   if (req.method === "POST") {
     try {
       const body = await req.json();
-      const text = body.inputs || body.prompt;
-      
-      // 1. Verificación de Seguridad: ¿Está el Token?
+      const text = body.inputs || body.prompt || "Hola";
       const token = Deno.env.get("HF_TOKEN");
-      if (!token || token.trim() === "") {
-        return new Response(JSON.stringify({ 
-          error: "TOKEN_MISSING", 
-          message: "No se ha encontrado la variable HF_TOKEN en la configuración de Deno." 
-        }), { status: 200, headers }); // Enviamos 200 para ver el mensaje de error en la web
-      }
 
-      // 2. Llamada a Hugging Face
       const hfResponse = await fetch(
         "https://router.huggingface.co/hf-inference/models/google/gemma-2-2b-it",
         {
@@ -43,14 +43,9 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify(data), { headers });
 
     } catch (e) {
-      // Si el código explota, capturamos el error aquí
-      return new Response(JSON.stringify({ error: "SERVER_ERROR", message: e.message }), { 
-        status: 200, // Usamos 200 para que el error llegue al navegador y lo puedas leer
-        headers 
-      });
+      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
     }
   }
 
-  // Respuesta por defecto para GET (Warm up)
-  return new Response(JSON.stringify({ status: "ok" }), { headers });
+  return new Response("No trobat", { status: 404, headers });
 });
