@@ -290,49 +290,62 @@ function abrirConsultaIA(grado, univ, nota, prof, total) {
 }
 function cerrarIA() { document.getElementById('panelIA').style.display = 'none'; }
 
+// 1. Variable global para guardar la conversación (Memoria)
+let historialIA = [
+    { 
+        role: "system", 
+        content: "Ets un expert en orientació universitària a Catalunya. Analitza la llista i el context que et passarà l'usuari. Respon sempre en català de forma breu." 
+    }
+];
+
 async function enviarConsultaIA() {
     const input = document.getElementById("input-ia");
     const resDiv = document.getElementById("respuesta-ia");
-    if(!input.value) return;
-
-    resDiv.innerText = "L'IA està analitzant la teva llista...";
-
-    // 1. Recollim matèries i context
-    const elegides = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v).join(", ");
+    const preguntaUser = input.value.trim();
     
-    // 2. Extraiem les 15-20 primeres files de la taula per no saturar la memòria
-    const files = Array.from(document.querySelectorAll('#tablaRes tbody tr')).slice(0, 20);
-    const dadesLlista = files.map(f => {
-        const nom = f.querySelector('strong').innerText;
-        const univ = f.querySelector('div[style*="color:#666"]').innerText;
-        const tags = Array.from(f.querySelectorAll('.tag')).map(t => t.innerText).join(" | ");
-        const punts = f.querySelector('.score-big').innerText;
-        return `- ${nom} (${univ}): ${tags}, Punts Ponderats: ${punts}`;
-    }).join("\n");
+    if(!preguntaUser) return;
 
-    // 3. Construïm el text final que anirà al camp 'inputs' o 'prompt' del JSON
-    const promptPerEnviar = `
-CONTEXT DE L'ALUMNE:
-- Matèries PAU: ${elegides || "Cap seleccionada"}
-- Grau referència: ${document.getElementById('selGrado').value || "Cap"}
+    resDiv.innerText = "L'IA està pensant...";
 
-LLISTAT FILTRAT (TOP 20):
-${dadesLlista || "No hi ha resultats a la taula"}
+    // 2. Limpiar el cuadro de texto inmediatamente
+    input.value = ""; 
 
-PREGUNTA DE L'USUARI:
-${input.value}`;
+    // 3. Preparar contexto (solo lo enviamos en la primera pregunta o si cambia la lista)
+    // Para simplificar, añadimos el contexto de la lista actual a la pregunta del usuario
+    const elegidas = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v).join(", ");
+    const files = Array.from(document.querySelectorAll('#tablaRes tbody tr')).slice(0, 15);
+    const dadesLlista = files.map(f => f.innerText.replace(/\n/g, " ")).join("\n");
+
+    const promptConContexto = `
+[CONTEXT ACTUAL]
+Matèries: ${elegidas}
+Llista: ${dadesLlista}
+
+[PREGUNTA]
+${preguntaUser}`;
+
+    // 4. Guardar la pregunta en el historial
+    historialIA.push({ role: "user", content: promptConContexto });
 
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inputs: promptPerEnviar }) // 'inputs' es converteix en 'text' al teu main.ts
+            body: JSON.stringify({ messages: historialIA }) // Enviamos TODO el historial
         });
         
         const data = await response.json();
-        resDiv.innerText = data[0]?.generated_text || "Ho sento, no he pogut generar una resposta.";
+        const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
+
+        // 5. Guardar la respuesta de la IA en el historial para que tenga memoria
+        historialIA.push({ role: "assistant", content: respuestaTexto });
+
+        // Mostrar la respuesta (podrías ir acumulándolas en el div si quieres ver el chat completo)
+        resDiv.innerHTML = `<strong>IA:</strong> ${respuestaTexto}`;
+        
     } catch (e) {
-        resDiv.innerText = "Error de connexió amb la IA.";
+        resDiv.innerText = "Error de connexió.";
+        console.error(e);
     }
 }
 
