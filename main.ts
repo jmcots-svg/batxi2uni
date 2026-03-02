@@ -42,13 +42,22 @@ Deno.serve(async (req) => {
           },
           body: JSON.stringify({
             model: "Qwen/Qwen2.5-7B-Instruct",  // Modelo que ya probaste y funciona
-			 messages: [
-				{ 
-				  role: "system", 
-				  content: "Ets un expert en universitats catalanes. Respon sempre en català, de forma breu i directa. No parlis de temes que no estiguin relacionats amb bachillerat, assignatures, universitats o estudis unviersitaris. No inventis enllaços, suggereix cercar a Google si no tens la dada exacta." 
-				},
-				{ role: "user", content: text }
-			  ],
+			messages: [
+			  { 
+				role: "system", 
+				content: `Ets un expert en orientació universitària a Catalunya. 
+				L'usuari et passarà dades contextuals (matèries i llistat de graus filtrats).
+				La teva tasca és:
+				1. Analitzar les notes de tall i les ponderacions de la llista per suggerir les millors opcions.
+				2. Si la nota de l'alumne és justa, proposar alternatives amb notes més baixes o millors sortides.
+				3. Respondre sempre en català, de forma directa i basada en les dades facilitades.
+				4. No inventis dades: si una carrera no és a la llista o no tens la info, digues-ho clarament.`
+			  },
+			  { 
+				role: "user", 
+				content: text // Aquí 'text' contindrà el bloc que hem construït al frontend amb matèries + llista + pregunta
+			  }
+			],
             max_tokens: 1024,
             temperature: 0.3,
             top_p: 0.9,          // Opcional, pero ayuda a respuestas más coherentes
