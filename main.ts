@@ -1,4 +1,4 @@
-// main.ts  ← versión corregida
+// main.ts  ← versión corregida y funcional con Qwen/Qwen2.5-7B-Instruct
 
 Deno.serve(async (req) => {
   const url = new URL(req.url);
@@ -32,27 +32,29 @@ Deno.serve(async (req) => {
         });
       }
 
-	const hfResponse = await fetch(
-	  "https://router.huggingface.co/v1/chat/completions",
-	  {
-		method: "POST",
-		headers: {
-		  "Authorization": `Bearer ${token}`,
-		  "Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-		  model: "google/gemma-2-2b-it",  // ← especifica el modelo aquí
-		  messages: [
-			{ role: "user", content: text }
-		  ],
-		  max_tokens: 500,
-		  temperature: 0.7,
-		  // Puedes añadir top_p, etc.
-		}),
-	  }
-	);
+      const hfResponse = await fetch(
+        "https://router.huggingface.co/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "Qwen/Qwen2.5-7B-Instruct",  // Modelo que ya probaste y funciona
+            messages: [
+              { role: "user", content: text }
+            ],
+            max_tokens: 500,
+            temperature: 0.7,
+            top_p: 0.9,          // Opcional, pero ayuda a respuestas más coherentes
+          }),
+        }
+      );
+
       if (!hfResponse.ok) {
         const errorText = await hfResponse.text();
+        console.error(`Error de Hugging Face: ${hfResponse.status} - ${errorText}`);
         return new Response(JSON.stringify({
           error: `Hugging Face error ${hfResponse.status}: ${errorText}`
         }), { status: 502, headers });
@@ -60,10 +62,17 @@ Deno.serve(async (req) => {
 
       const data = await hfResponse.json();
 
-      return new Response(JSON.stringify(data), { headers });
+      // Extraemos el texto generado del formato OpenAI
+      const generatedText = data.choices?.[0]?.message?.content?.trim() 
+        || "No s'ha rebut resposta vàlida del model.";
+
+      // Devolvemos en formato compatible con tu frontend (data[0].generated_text)
+      const compatibleResponse = [{ generated_text: generatedText }];
+
+      return new Response(JSON.stringify(compatibleResponse), { headers });
 
     } catch (e) {
-      console.error(e);
+      console.error("Error en el handler POST:", e);
       return new Response(JSON.stringify({ error: e.message }), {
         status: 500,
         headers,
