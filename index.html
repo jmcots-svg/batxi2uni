@@ -226,8 +226,8 @@ async function enviarConsultaIA() {
 
         try {
             const data = JSON.parse(rawText);
-            if (Array.isArray(data) && data[0].generated_text) {
-                resultadoDiv.innerText = data[0].generated_text.trim();
+            if (Array.isArray(data) && data.choices[0].message.content) {
+                resultadoDiv.innerText = data.choices[0].message.content.trim();
             } else if (data.error) {
                 resultadoDiv.innerText = "Error: " + data.error;
             } else {
