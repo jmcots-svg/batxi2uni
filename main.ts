@@ -89,19 +89,21 @@ Respon sempre en català, de manera clara i breu.`;
             "X-Title": "Batxi2Uni Orientació",
           },
 			body: JSON.stringify({
-			  model: "meta-llama/llama-3.2-3b-instruct:free", // O un modelo que sepas que funciona mejor con tu setup
-			  // Si sigues usando `route: "fallback"`, asegúrate de que los modelos en la lista
-			  // soporten esta forma de "system prompt" o el "system" role explícitamente.
-			  models: [
-				"meta-llama/llama-3.2-3b-instruct:free",
-				// Puedes dejar los Gemma si quieres, pero es probable que sigan fallando
-				// con el "system" role, incluso si lo has fusionado en el user message.
-				// Para asegurarte, mejor quita los que te dan problemas.
-				// "google/gemma-3-4b-it:free",
-				// "google/gemma-3-12b-it:free"
-			  ],
-			  route: "fallback",
-			  messages: messagesToSend, // <--- Usamos los mensajes modificados
+			  // *** CAMBIO AQUÍ ***
+			  // Usa un modelo que no sea "free" y tenga mejores límites de tasa.
+			  // Asegúrate de que este modelo también soporte el formato de mensajes que envías (con system instruction integrada en el user message).
+			  model: "openai/gpt-3.5-turbo", // ¡Ejemplo! Necesitarías OpenRouter para acceder a este o su propia clave.
+			  
+			  // Si quieres seguir usando fallback, asegúrate de que todos los modelos en la lista sean fiables y no "free".
+			  // O simplemente quita la lista 'models' y 'route: "fallback"' para usar solo el 'model' principal.
+			  // models: [
+			  //   "openai/gpt-3.5-turbo",
+			  //   "google/gemini-pro", // Otro ejemplo
+			  //   // ...
+			  // ],
+			  // route: "fallback", // Si usas una lista, mantén esto. Si solo usas "model", quítalo.
+			  
+			  messages: messagesToSend, // Asumiendo que 'messagesToSend' ya contiene el system prompt fusionado
 			  max_tokens: 900,
 			  temperature: 0.3,
 			  top_p: 0.9,
