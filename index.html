@@ -374,26 +374,98 @@ async function enviarConsultaIA() {
     resDiv.innerHTML = "<em>L'IA està pensant...</em>";
     input.value = ""; 
 
-	const elegidas = Array.from(document.querySelectorAll('.m-sel'))
-		.map(s => s.value).filter(v => v).join(", ");
-	const files = Array.from(document.querySelectorAll('#tablaRes tbody tr')).slice(0, 15);
-	const dadesLlista = files.map(f => f.innerText.replace(/\n/g, " ")).join("\n");
+    // 👇 NUEVO: Recopilar toda la información de contexto
+    
+    // 1. Asignaturas seleccionadas
+    const asignaturasSeleccionadas = Array.from(document.querySelectorAll('.m-sel'))
+        .map(s => s.value)
+        .filter(v => v);
+    
+    // 2. Carrera seleccionada (la que el usuario clickeó)
+    const carreraSeleccionada = gradoSeleccionadoIA ? {
+        grado: gradoSeleccionadoIA.grado,
+        universidad: gradoSeleccionadoIA.univ,
+        notaDeCourt: gradoSeleccionadoIA.nota,
+        oportunidadesProfesionales: gradoSeleccionadoIA.prof,
+        ponderacionDelEstudiante: gradoSeleccionadoIA.total
+    } : null;
+    
+    // 3. Todas las carreras del listado actual (visible en tabla)
+    const todasLasCarreras = Array.from(document.querySelectorAll('#tablaRes tbody tr')).map(row => {
+        const celdas = row.querySelectorAll('td');
+        const texto = celdas[1].innerText;
+        const lineas = texto.split('\n');
+        
+        return {
+            oportunidades: celdas[0].innerText.trim(),
+            grado: lineas[0] ? lineas[0].trim() : '',
+            universidad: lineas[1] ? lineas[1].trim() : '',
+            nota: row.querySelector('.tag:nth-child(2)') ? row.querySelector('.tag:nth-child(2)').innerText.replace('📝 Nota: ', '').trim() : '',
+            ponderacion: celdas[2].innerText.trim()
+        };
+    });
+    
+    // 4. Filtros aplicados
+    const filtrosAplicados = {
+        poblacionesSeleccionadas: pobsSel.length > 0 ? pobsSel : "Totes",
+        notaProfesionalMinima: document.getElementById('fMinProf').value,
+        ponderacionMinima: document.getElementById('fMinPond').value,
+        ordenacion: document.getElementById('fOrden').value
+    };
+    
+    // 5. Construir el contexto
+    let contextoFormatado = `
+[📚 DADES DEL STUDENT]
+Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
 
-	let promptFinal;
+[🎓 CARRERA EN CONSULTA]
+`;
+    
+    if (carreraSeleccionada) {
+        contextoFormatado += `
+Grau: ${carreraSeleccionada.grado}
+Universitat: ${carreraSeleccionada.universidad}
+Nota de tall: ${carreraSeleccionada.notaDeCourt}
+Oportunitats professionals: ${carreraSeleccionada.oportunidadesProfesionales}/10
+Puntuació personal: ${carreraSeleccionada.ponderacionDelEstudiante}
+`;
+    }
+    
+    // 6. Listado de carreras (primeras 8)
+    contextoFormatado += `
+[📋 ALTRES CARRERES DISPONIBLES (Top 8)]
+`;
+    todasLasCarreras.slice(0, 8).forEach((carrera, idx) => {
+        contextoFormatado += `${idx + 1}. ${carrera.grado} (${carrera.universidad}) - Nota: ${carrera.nota} - Punts: ${carrera.ponderacion}\n`;
+    });
+    
+    // 7. Filtres aplicados
+    contextoFormatado += `
+[🔧 FILTRES ACTIUS]
+Poblacions: ${Array.isArray(filtrosAplicados.poblacionesSeleccionadas) ? filtrosAplicados.poblacionesSeleccionadas.join(', ') : filtrosAplicados.poblacionesSeleccionadas}
+Nota Prof. mín: ${filtrosAplicados.notaProfesionalMinima}
+Ponderació mín: ${filtrosAplicados.ponderacionMinima}
 
-	if (historialIA.length === 0) {
-		promptFinal = `
-	[CONTEXT ACTUAL]
-	Matèries: ${elegidas}
-	Llista: ${dadesLlista}
+[❓ PREGUNTA DEL STUDENT]
+${preguntaUser}
+`;
 
-	[PREGUNTA]
-	${preguntaUser}`;
-	} else {
-		promptFinal = preguntaUser;
-	}
+    // 8. Construir el mensaje
+    let promptFinal;
+    
+    if (historialIA.length === 0) {
+        // Primera pregunta: enviar contexto completo
+        promptFinal = contextoFormatado;
+    } else {
+        // Siguientes preguntas: solo la pregunta + datos de carrera
+        promptFinal = `
+[CARRERA EN CONSULTA: ${carreraSeleccionada?.grado || 'Cap'}]
 
-	historialIA.push({ role: "user", content: promptFinal });
+${preguntaUser}
+`;
+    }
+
+    historialIA.push({ role: "user", content: promptFinal });
 
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
@@ -404,13 +476,10 @@ async function enviarConsultaIA() {
         
         const data = await response.json();
         const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
-        
-        // 👇 NUEVO: Usar el HTML enriquecido si está disponible
         const respuestaHTML = data[0]?.html || `<div class="ai-response"><p>${respuestaTexto}</p></div>`;
 
         historialIA.push({ role: "assistant", content: respuestaTexto });
 
-        // 👇 MODIFICADO: Mostrar el HTML enriquecido en lugar de texto plano
         resDiv.innerHTML = respuestaHTML;
         
     } catch (e) {
