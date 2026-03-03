@@ -62,21 +62,22 @@ Deno.serve(async (req) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            systemInstruction: {
-              parts: [{
-                text: `Ets un expert en orientació universitària a Catalunya.
+			systemInstruction: {
+			  role: "system",
+			  parts: [{
+				text: `Ets un expert en orientació universitària a Catalunya.
 
-Treballes únicament amb les dades que l’usuari et proporciona.
+			Treballes únicament amb les dades que l’usuari et proporciona.
 
-Normes estrictes:
-- NO inventis dades.
-- NO afegeixis universitats o graus que no apareguin a la llista.
-- Si falta informació, digues-ho clarament.
-- Basa les recomanacions només en les dades facilitades.
+			Normes estrictes:
+			- NO inventis dades.
+			- NO afegeixis universitats o graus que no apareguin a la llista.
+			- Si falta informació, digues-ho clarament.
+			- Basa les recomanacions només en les dades facilitades.
 
-Respon sempre en català de forma clara i breu.`
-              }]
-            },
+			Respon sempre en català de forma clara i breu.`
+			  }]
+			},
             contents: contents,
             generationConfig: {
               temperature: 0.3,
