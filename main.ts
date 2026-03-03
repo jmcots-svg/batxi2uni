@@ -27,48 +27,45 @@ async function callGeminiWithFallback(
     console.log(`[Intento ${i + 1}/${apiKeys.length}] Usando key: ${apiKey.slice(0, 10)}...`);
 
     try {
-      const geminiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+const geminiResponse = await fetch(
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, // Nota: he puesto 2.0 o 1.5, asegúrate de la versión que usas
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      // 1. AQUÍ AÑADIMOS EL SYSTEM PROMPT CORRECTAMENTE
+      systemInstruction: {
+        parts: [
+          {
+            text: systemInstruction
+          }
+        ]
+      },
+      // 2. AQUÍ VAN LOS MENSAJES DEL USUARIO
+      contents: messagesToSend.map((msg) => ({
+        role: msg.role === "user" ? "user" : "model",
+        parts: [
+          {
+            text: msg.content,
           },
-          body: JSON.stringify({
-            contents: messagesToSend.map((msg) => ({
-              role: msg.role === "user" ? "user" : "model",
-              parts: [
-                {
-                  text: msg.content,
-                },
-              ],
-            })),
-            generationConfig: {
-              maxOutputTokens: 3500,
-              temperature: 0.3,
-              topP: 0.95,
-            },
-            safetySettings: [
-              {
-                category: "HARM_CATEGORY_HARASSMENT",
-                threshold: "BLOCK_NONE",
-              },
-              {
-                category: "HARM_CATEGORY_HATE_SPEECH",
-                threshold: "BLOCK_NONE",
-              },
-              {
-                category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                threshold: "BLOCK_NONE",
-              },
-              {
-                category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-                threshold: "BLOCK_NONE",
-              },
-            ],
-          }),
-        },
-      );
+        ],
+      })),
+      generationConfig: {
+        maxOutputTokens: 3500,
+        temperature: 0.3, // Esto está perfecto para respuestas precisas
+        topP: 0.95,
+      },
+      safetySettings: [
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+      ],
+    }),
+  }
+);
 
       // Si es 429 (cuota excedida), continúa con la siguiente key
       if (geminiResponse.status === 429) {
@@ -170,41 +167,29 @@ Deno.serve(async (req) => {
       }
 
       // SYSTEM PROMPT
-	const systemInstruction = `Eres un asesor experto en orientación universitaria a Cataluña. Tu objetivo es ayudar a estudiantes de bachillerato de forma ULTRA RÁPIDA Y CONCISA.
+      const systemInstruction = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ULTRA RÀPIDA, CONCISA i PROFESSIONAL.
 
-	**TU ROL:**
-	1. Responder DIRECTAMENTE a la pregunta
-	2. Usar datos del listado cuando sea posible
-	3. Si preguntan por info EXTERNA (teléfono, web, ubicación, transporte, etc.):
-	   - Intenta proporcionar info general que conozcas
-	   - Si no estás seguro → RECOMIENDA BUSCAR EN GOOGLE
-	   - Mantén el tono: "Millor consultar a Google per XXX"
-	4. SER PROACTIVO pero conciso
+      **EL TEU ROL:**
+      1. Respon DIRECTAMENT a la pregunta de l'usuari.
+      2. Utilitza exclusivament les dades del llistat proporcionat sempre que sigui possible.
+      3. Si pregunten per informació EXTERNA (telèfon, web específica, ubicació exacta) que no apareix a la teva informació:
+        - NO enviïs a l'usuari a buscar a Google.
+        - Recomana amablement consultar la "pàgina web oficial de la universitat o centre" per obtenir les dades actualitzades.
 
-	**RESTRICCIONES OBLIGATORIAS:**
-	- MÁXIMO 2-3 párrafos breves
-	- Sin explicaciones largas ni redundancias
-	- Sin emojis ni formato HTML
-	- Responde en catalán
+      **RESTRICCIONS OBLIGATÒRIES:**
+      - MÀXIM 2-3 paràgrafs breus.
+      - Sense explicacions llargues, teòriques ni redundàncies. Menys és més.
+      - Sense emojis, sense format HTML, sense Markdown ni asteriscos.
+      - Respon SEMPRE i ÚNICAMENT en català.
 
-	**INFORMACIÓN DISPONIBLE:**
-	- Asignaturas del estudiante
-	- Listado de carreras filtradas
-	- Notas de corte, oportunidades profesionales y ponderaciones
+      **INFORMACIÓ DISPONIBLE (Contextual):**
+      *(Nota interna: recorda utilitzar les dades de notes de tall, carreres i ponderacions que s'inclouen en el missatge de l'usuari per respondre).*
 
-	**FORMATO:**
-	Respuesta clara en párrafos normales.
-	Usa saltos de línea para separar ideas.
-	Sin markdown ni asteriscos.
-
-	**REGLES DE ORO:**
-	1. NUNCA explicar conceptos básicos
-	2. NO repetir información que el student ja té
-	3. Responde SEMPRE en catalán
-	4. Si NO ESTÀS SEGUR d'una info externa → "Millor consultar a Google"
-	5. Si és sobre les carreres del listado → SEMPRE RESPÓNE amb dades
-
-	IMPORTANTE: Sé EXTREMADAMENTE breve. Menos es más.`;
+      **REGLES D'OR:**
+      1. MAI expliquis conceptes bàsics (l'estudiant ja sap què és la selectivitat o una carrera).
+      2. NO repeteixis informació que l'estudiant ja t'ha donat.
+      3. Si és sobre les carreres del llistat → SEMPRE RESPÓN amb dades concretes.
+      4. Sigues EXTREMADAMENT breu i directe.`;
 
       // Construimos los mensajes
       let messagesToSend: any[] = [];
