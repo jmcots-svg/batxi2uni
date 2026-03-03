@@ -291,12 +291,8 @@ function abrirConsultaIA(grado, univ, nota, prof, total) {
 function cerrarIA() { document.getElementById('panelIA').style.display = 'none'; }
 
 // 1. Variable global para guardar la conversación (Memoria)
-let historialIA = [
-    { 
-        role: "system", 
-        content: "Ets un expert en orientació universitària a Catalunya. Analitza la llista i el context que et passarà l'usuari. Respon sempre en català de forma breu." 
-    }
-];
+
+let historialIA = [];
 
 async function enviarConsultaIA() {
     const input = document.getElementById("input-ia");
