@@ -386,15 +386,15 @@ async function enviarConsultaIA() {
     // 2. Filtros aplicados
     const filtrosAplicados = {
         poblacionesSeleccionadas: pobsSel.length > 0 ? pobsSel : "Totes",
-        notaProfesionalMinima: document.getElementById('fMinProf').value,
         ponderacionMinima: document.getElementById('fMinPond').value,
         ordenacion: document.getElementById('fOrden').value
     };
     
     // 3. Construir el contexto
+    // 3. Construir el contexto
     let contextoFormatado = `
 [📚 DADES DEL STUDENT]
-Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionades.join(', ') : 'Cap'}
+Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
 
 [📋 LLISTA COMPLETA DE CARRERES DISPONIBLES]
 Total: ${ultimasCarrerasFiltradas.length} carreres
