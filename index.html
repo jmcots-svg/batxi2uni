@@ -29,7 +29,7 @@
 
         /* IA PANEL */
         #panelIA { border-left: 5px solid var(--ai-color); display: none; margin-bottom: 20px; }
-        #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 40px; font-size: 0.95em; line-height: 1.4; }
+        #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 40px; font-size: 0.95em; line-height: 1.4; max-height: 500px; overflow-y: auto; }
         .btn-close-ia { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2em; color: #999; }
 
         /* ACCIONS */
@@ -44,13 +44,10 @@
         .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 2px 6px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.8em; margin-right: 8px; }
         .tag { display: inline-block; background: #f8f9fa; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin: 4px 4px 0 0; color: #444; border: 1px solid #e0e0e0; }
         .score-big { font-size: 1.6em; font-weight: 900; color: var(--secondary); text-align: right; }
-        
-        .btn-ia-small { margin-top: 10px; background: var(--ai-color); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.72em; font-weight: bold; position: relative; }
-        .experimental-tag { font-size: 0.8em; opacity: 0.8; font-weight: normal; margin-left: 4px; font-style: italic; }
 
-        @media print { .btn-actions, .panel, .btn-ia-small, .header-area, .back-btn { display: none !important; } .container { box-shadow: none; border: none; } }
+        @media print { .btn-actions, .panel, .header-area, .back-btn { display: none !important; } .container { box-shadow: none; border: none; } }
     
-	            /* ========== ESTILOS RESPUESTA IA ENRIQUECIDA ========== */
+        /* ========== ESTILOS RESPUESTA IA ENRIQUECIDA ========== */
         .ai-response {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -142,8 +139,8 @@
         
         <div id="panelIA" class="panel">
             <button class="btn-close-ia" onclick="cerrarIA()">✕</button>
-            <label>✨ Pregunta a l'IA <small>(Versió Experimental)</small></label>
-            <textarea id="input-ia" rows="2" placeholder="Ex: Té molta base de matemàtiques aquest grau?"></textarea>
+            <label>✨ Pregunta a l'IA sobre els graus <small>(Versió Experimental)</small></label>
+            <textarea id="input-ia" rows="2" placeholder="Ex: Quina carrera té millor salida professional? O quines universitats estan a Barcelona?"></textarea>
             <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Enviar consulta</button>
             <div id="respuesta-ia"></div>
         </div>
@@ -205,6 +202,7 @@
         </div>
 
         <div class="btn-actions">
+            <button class="btn-tool" style="background:var(--ai-color);" onclick="abrirConsultaIAGeneral()">✨ Preguntar IA</button>
             <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">📄 Exportar PDF</button>
             <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
             <button class="btn-tool" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Netejar Filtres</button>
@@ -227,8 +225,9 @@
 let LINEAS = [];
 let ASIG_MAP = {}; 
 let MODO_APP = "";
-let gradoSeleccionadoIA = null;
 let pobsSel = [];
+let historialIA = [];
+let ultimasCarrerasFiltradas = []; // 👈 NUEVO: Guardar las carreras filtradas
 
 async function iniciarApp() {
     try {
@@ -325,6 +324,9 @@ function actualizarTodo() {
         return 0;
     });
 
+    // 👇 NUEVO: Guardar las carreras filtradas para la IA
+    ultimasCarrerasFiltradas = filtrados;
+
     const tbody = document.querySelector('#tablaRes tbody');
     document.getElementById('txtContador').innerText = filtrados.length;
     tbody.innerHTML = filtrados.map(r => `
@@ -334,9 +336,6 @@ function actualizarTodo() {
                 <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
                 <div style="font-size:0.85em; color:#666;">${r.univ}</div>
                 <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
-                <button onclick="abrirConsultaIA('${r.grado}', '${r.univ}', ${r.nota}, ${r.prof}, ${r.total})" class="btn-ia-small">
-                    ✨ Preguntar IA <span class="experimental-tag">(experimental)</span>
-                </button>
             </td>
             <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
         </tr>
@@ -351,18 +350,23 @@ function getColorProf(n) {
 function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
 function aNum(v) { let n = parseFloat(v.toString().replace(',', '.')); return isNaN(n) ? 0 : n; }
 
-// IA
-function abrirConsultaIA(grado, univ, nota, prof, total) {
-    gradoSeleccionadoIA = { grado, univ, nota, prof, total };
+// 👇 NUEVO: Función para abrir la IA general
+function abrirConsultaIAGeneral() {
+    if (ultimasCarrerasFiltradas.length === 0) {
+        alert("No hi ha carreres per consultar. Aplica els filtres primer.");
+        return;
+    }
+    historialIA = []; // 👈 Limpiar el historial cuando se abre de nuevo
     document.getElementById('panelIA').style.display = 'block';
-    document.getElementById('respuesta-ia').innerText = `Consultant IA sobre ${grado}...`;
+    document.getElementById('respuesta-ia').innerText = '';
+    document.getElementById('input-ia').value = '';
+    document.getElementById('input-ia').focus();
     document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
 }
-function cerrarIA() { document.getElementById('panelIA').style.display = 'none'; }
 
-// 1. Variable global para guardar la conversación (Memoria)
-
-let historialIA = [];
+function cerrarIA() { 
+    document.getElementById('panelIA').style.display = 'none'; 
+}
 
 async function enviarConsultaIA() {
     const input = document.getElementById("input-ia");
@@ -374,38 +378,12 @@ async function enviarConsultaIA() {
     resDiv.innerHTML = "<em>L'IA està pensant...</em>";
     input.value = ""; 
 
-    // 👇 NUEVO: Recopilar toda la información de contexto
-    
     // 1. Asignaturas seleccionadas
     const asignaturasSeleccionadas = Array.from(document.querySelectorAll('.m-sel'))
         .map(s => s.value)
         .filter(v => v);
     
-    // 2. Carrera seleccionada (la que el usuario clickeó)
-    const carreraSeleccionada = gradoSeleccionadoIA ? {
-        grado: gradoSeleccionadoIA.grado,
-        universidad: gradoSeleccionadoIA.univ,
-        notaDeCourt: gradoSeleccionadoIA.nota,
-        oportunidadesProfesionales: gradoSeleccionadoIA.prof,
-        ponderacionDelEstudiante: gradoSeleccionadoIA.total
-    } : null;
-    
-    // 3. Todas las carreras del listado actual (visible en tabla)
-    const todasLasCarreras = Array.from(document.querySelectorAll('#tablaRes tbody tr')).map(row => {
-        const celdas = row.querySelectorAll('td');
-        const texto = celdas[1].innerText;
-        const lineas = texto.split('\n');
-        
-        return {
-            oportunidades: celdas[0].innerText.trim(),
-            grado: lineas[0] ? lineas[0].trim() : '',
-            universidad: lineas[1] ? lineas[1].trim() : '',
-            nota: row.querySelector('.tag:nth-child(2)') ? row.querySelector('.tag:nth-child(2)').innerText.replace('📝 Nota: ', '').trim() : '',
-            ponderacion: celdas[2].innerText.trim()
-        };
-    });
-    
-    // 4. Filtros aplicados
+    // 2. Filtros aplicados
     const filtrosAplicados = {
         poblacionesSeleccionadas: pobsSel.length > 0 ? pobsSel : "Totes",
         notaProfesionalMinima: document.getElementById('fMinProf').value,
@@ -413,56 +391,41 @@ async function enviarConsultaIA() {
         ordenacion: document.getElementById('fOrden').value
     };
     
-    // 5. Construir el contexto
+    // 3. Construir el contexto
     let contextoFormatado = `
 [📚 DADES DEL STUDENT]
-Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
+Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionades.join(', ') : 'Cap'}
 
-[🎓 CARRERA EN CONSULTA]
+[📋 LLISTA COMPLETA DE CARRERES DISPONIBLES]
+Total: ${ultimasCarrerasFiltradas.length} carreres
 `;
     
-    if (carreraSeleccionada) {
-        contextoFormatado += `
-Grau: ${carreraSeleccionada.grado}
-Universitat: ${carreraSeleccionada.universidad}
-Nota de tall: ${carreraSeleccionada.notaDeCourt}
-Oportunitats professionals: ${carreraSeleccionada.oportunidadesProfesionales}/10
-Puntuació personal: ${carreraSeleccionada.ponderacionDelEstudiante}
-`;
-    }
-    
-    // 6. Listado de carreras (primeras 8)
-    contextoFormatado += `
-[📋 ALTRES CARRERES DISPONIBLES (Top 8)]
-`;
-    todasLasCarreras.slice(0, 8).forEach((carrera, idx) => {
-        contextoFormatado += `${idx + 1}. ${carrera.grado} (${carrera.universidad}) - Nota: ${carrera.nota} - Punts: ${carrera.ponderacion}\n`;
+    // 4. Incluir TODAS las carreras del listado
+    ultimasCarrerasFiltradas.forEach((carrera, idx) => {
+        contextoFormatado += `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}\n`;
     });
     
-    // 7. Filtres aplicados
+    // 5. Filtres aplicados
     contextoFormatado += `
 [🔧 FILTRES ACTIUS]
 Poblacions: ${Array.isArray(filtrosAplicados.poblacionesSeleccionadas) ? filtrosAplicados.poblacionesSeleccionadas.join(', ') : filtrosAplicados.poblacionesSeleccionadas}
 Nota Prof. mín: ${filtrosAplicados.notaProfesionalMinima}
 Ponderació mín: ${filtrosAplicados.ponderacionMinima}
+Ordenació: ${filtrosAplicados.ordenacion}
 
 [❓ PREGUNTA DEL STUDENT]
 ${preguntaUser}
 `;
 
-    // 8. Construir el mensaje
+    // 6. Construir el mensaje
     let promptFinal;
     
     if (historialIA.length === 0) {
         // Primera pregunta: enviar contexto completo
         promptFinal = contextoFormatado;
     } else {
-        // Siguientes preguntas: solo la pregunta + datos de carrera
-        promptFinal = `
-[CARRERA EN CONSULTA: ${carreraSeleccionada?.grado || 'Cap'}]
-
-${preguntaUser}
-`;
+        // Siguientes preguntas: solo la pregunta (el contexto ya está en el historial)
+        promptFinal = preguntaUser;
     }
 
     historialIA.push({ role: "user", content: promptFinal });
