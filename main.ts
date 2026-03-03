@@ -1,7 +1,6 @@
-// main.ts - Versió amb memòria i System Prompt expert
-Deno.serve(async (req) => {
-  const url = new URL(req.url);
+// main.ts - Versió amb memòria optimitzada per Gemini
 
+Deno.serve(async (req) => {
   const headers = new Headers({
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
@@ -14,76 +13,116 @@ Deno.serve(async (req) => {
   }
 
   if (req.method === "GET") {
-    return new Response(JSON.stringify({ status: "ok", message: "Servidor IA actiu" }), { headers });
+    return new Response(
+      JSON.stringify({ status: "ok", message: "Servidor IA actiu (Gemini)" }),
+      { headers }
+    );
   }
 
   if (req.method === "POST") {
     try {
       const body = await req.json();
-      
-      // Obtenim el token de les variables d'entorn
-      const token = Deno.env.get("HF_TOKEN");
+
+      // ✅ Token Gemini
+      const token = Deno.env.get("GEMINI_API_KEY");
       if (!token) {
-        return new Response(JSON.stringify({ error: "HF_TOKEN no configurat" }), { status: 500, headers });
+        return new Response(
+          JSON.stringify({ error: "GEMINI_API_KEY no configurat" }),
+          { status: 500, headers }
+        );
       }
 
-      /* LOGICA DE MEMÒRIA:
-         Si el frontend ens envia un array 'messages', l'utilitzem.
-         Si només ens envia 'inputs' (format antic), construïm l'estructura estàndard.
-      */
-      let chatMessages = body.messages;
+      // ✅ Memòria: rebem historial del frontend
+		let chatMessages = body.messages;
 
-      if (!chatMessages) {
-        const text = body.inputs || body.prompt || "";
-        chatMessages = [
-          { 
-            role: "system", 
-            content: `Ets un expert en orientació universitària a Catalunya. 
-            L'usuari et passarà dades contextuals (matèries i llistat de graus filtrats).
-            La teva tasca és:
-            1. Analitzar les notes de tall i les ponderacions de la llista per suggerir les millors opcions.
-            2. Si la nota de l'alumne és justa, proposar alternatives amb notes més baixes o millors sortides.
-            3. Respondre sempre en català, de forma directa i basada en les dades facilitades.
-            4. No inventis dades: si una carrera no és a la llista o no tens la info, digues-ho clarament.`
-          },
-          { role: "user", content: text }
-        ];
-      }
+		if (!chatMessages) {
+		  const text = body.inputs || body.prompt || "";
+		  chatMessages = [{ role: "user", content: text }];
+		}
 
-      const hfResponse = await fetch(
-        "https://router.huggingface.co/v1/chat/completions",
+      // ✅ Eliminem qualsevol "system" enviat pel frontend
+      const filteredMessages = chatMessages.filter(
+        (msg: any) => msg.role !== "system"
+      );
+
+		// ✅ Limitamos historial a últimos 20 mensajes
+		if (chatMessages.length > 40) {
+		  chatMessages = chatMessages.slice(-40);
+		}
+
+
+      // ✅ Convertim format OpenAI → Gemini
+      const contents = filteredMessages.map((msg: any) => ({
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{ text: msg.content }],
+      }));
+
+      // ✅ Crida a Gemini amb systemInstruction professional
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${token}`,
         {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "Qwen/Qwen2.5-7B-Instruct",
-            messages: chatMessages,
-            max_tokens: 1024,
-            temperature: 0.3, // Temperatura baixa per a respostes més precises i basades en dades
-            top_p: 0.9,
+            systemInstruction: {
+              parts: [
+                {
+                  text: `Ets un expert en orientació universitària a Catalunya.
+
+Treballes únicament amb les dades que l’usuari et proporciona (matèries seleccionades, notes i llistat de graus filtrats).
+
+Normes estrictes:
+- NO inventis dades.
+- NO afegeixis universitats o graus que no apareguin a la llista.
+- Si falta informació, digues clarament que no es pot determinar.
+- Basa totes les recomanacions en les notes de tall i les ponderacions facilitades.
+
+Objectiu:
+1. Analitzar les millors opcions segons la nota de l'alumne.
+2. Detectar si la nota és justa, suficient o insuficient.
+3. Proposar alternatives dins la mateixa llista si escau.
+4. Respondre de manera clara, estructurada i breu.
+
+Respon sempre en català.`,
+                },
+              ],
+            },
+            contents: contents,
+            generationConfig: {
+              temperature: 0.3,
+              maxOutputTokens: 900,
+              topP: 0.9,
+            },
           }),
         }
       );
 
-      if (!hfResponse.ok) {
-        const errorDetails = await hfResponse.text();
-        return new Response(JSON.stringify({ error: "Error HF API", details: errorDetails }), { status: 502, headers });
+      if (!geminiResponse.ok) {
+        const errorDetails = await geminiResponse.text();
+        return new Response(
+          JSON.stringify({ error: "Error Gemini API", details: errorDetails }),
+          { status: 502, headers }
+        );
       }
 
-      const data = await hfResponse.json();
+      const data = await geminiResponse.json();
 
-      // Extraiem el text de la resposta d'OpenAI/HuggingFace
-      const generatedText = data.choices?.[0]?.message?.content || "No he pogut generar una resposta.";
+      const generatedText =
+        data.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "No he pogut generar una resposta.";
 
-      // Retornem el format compatible amb el teu frontend (array amb objecte generated_text)
-      return new Response(JSON.stringify([{ generated_text: generatedText.trim() }]), { headers });
-
+      return new Response(
+        JSON.stringify([{ generated_text: generatedText.trim() }]),
+        { headers }
+      );
     } catch (e) {
       console.error("Error al servidor:", e);
-      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
+      return new Response(
+        JSON.stringify({ error: e.message }),
+        { status: 500, headers }
+      );
     }
   }
 
