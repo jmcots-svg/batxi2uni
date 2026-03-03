@@ -284,18 +284,12 @@ Deno.serve(async (req) => {
   return new Response("Not Found", { status: 404, headers });
 });
 
+// 👇 NUEVA FUNCIÓN: Convertir a texto limpio (sin HTML)
 function markdownToHTML(markdown: string): string {
+  // Solo convertir saltos de párrafo a <br>
   let html = markdown
-    .replace(/^### (.*?)$/gm, '<h3 class="ai-h3">\$1</h3>')
-    .replace(/^#### (.*?)$/gm, '<h4 class="ai-h4">\$1</h4>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="ai-highlight">\$1</strong>')
-    .replace(/^> (.*?)$/gm, '<blockquote class="ai-blockquote">\$1</blockquote>')
-    .replace(/^\- (.*?)$/gm, '<li>\$1</li>')
-    .replace(/^\* (.*?)$/gm, '<li>\$1</li>')
-    .replace(/(<li>.*?<\/li>)/s, '<ul class="ai-list">\$1</ul>')
-    .replace(/---/g, '<hr class="ai-divider">')
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>');
-
+  
   return `<div class="ai-response"><p>${html}</p></div>`;
 }
