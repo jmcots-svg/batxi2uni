@@ -44,8 +44,8 @@ async function callGeminiWithFallback(
               ],
             })),
             generationConfig: {
-              maxOutputTokens: 1500,
-              temperature: 0.2,
+              maxOutputTokens: 2500,
+              temperature: 0.3,
               topP: 0.9,
             },
             safetySettings: [
