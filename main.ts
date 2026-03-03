@@ -98,7 +98,6 @@ Respon sempre en català, de manera clara i breu.`;
 				"nvidia/nemotron-3-nano-30b-a3b:free",       // Opción principal
 				"z-ai/glm-4.5-air:free",                     // Excelente alternativa por capacidad
 				"stepfun/step-3.5-flash:free",               // Potencialmente muy potente, pero a confirmar rendimiento/fiabilidad
-				"qwen/qwen3-next-80b-a3b-instruct:free",     // Máximo contexto, pero modelo más pequeño
 				// Puedes añadir más si quieres tener más respaldo, pero ten en cuenta la calidad vs. los costes de prueba.
 			  ],
 			  route: "fallback", // Mantén esto para que OpenRouter pruebe los modelos en la lista
