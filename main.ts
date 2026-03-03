@@ -80,7 +80,7 @@ Respon sempre en català, de manera clara i breu.`,
             "X-Title": "Batxi2Uni Orientació",
           },
           body: JSON.stringify({
-            model: "meta-llama/llama-3.3-70b-instruct:free",
+            model: "google/gemma-3-27b-it:free",
             messages,
             max_tokens: 900,
             temperature: 0.3,
