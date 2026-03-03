@@ -89,21 +89,20 @@ Respon sempre en català, de manera clara i breu.`;
             "X-Title": "Batxi2Uni Orientació",
           },
 			body: JSON.stringify({
-			  // *** CAMBIO AQUÍ ***
-			  // Usa un modelo que no sea "free" y tenga mejores límites de tasa.
-			  // Asegúrate de que este modelo también soporte el formato de mensajes que envías (con system instruction integrada en el user message).
-			  model: "openai/gpt-3.5-turbo", // ¡Ejemplo! Necesitarías OpenRouter para acceder a este o su propia clave.
+			  // Prueba con tu opción principal aquí:
+			  model: "nvidia/nemotron-3-nano-30b-a3b:free", 
 			  
-			  // Si quieres seguir usando fallback, asegúrate de que todos los modelos en la lista sean fiables y no "free".
-			  // O simplemente quita la lista 'models' y 'route: "fallback"' para usar solo el 'model' principal.
-			  // models: [
-			  //   "openai/gpt-3.5-turbo",
-			  //   "google/gemini-pro", // Otro ejemplo
-			  //   // ...
-			  // ],
-			  // route: "fallback", // Si usas una lista, mantén esto. Si solo usas "model", quítalo.
-			  
-			  messages: messagesToSend, // Asumiendo que 'messagesToSend' ya contiene el system prompt fusionado
+			  // Usa la lista de `models` para el "fallback" en orden de preferencia
+			  // para que OpenRouter intente con el siguiente si el anterior falla por rate-limit u otra razón.
+			  models: [
+				"nvidia/nemotron-3-nano-30b-a3b:free",       // Opción principal
+				"z-ai/glm-4.5-air:free",                     // Excelente alternativa por capacidad
+				"stepfun/step-3.5-flash:free",               // Potencialmente muy potente, pero a confirmar rendimiento/fiabilidad
+				"qwen/qwen3-next-80b-a3b-instruct:free",     // Máximo contexto, pero modelo más pequeño
+				// Puedes añadir más si quieres tener más respaldo, pero ten en cuenta la calidad vs. los costes de prueba.
+			  ],
+			  route: "fallback", // Mantén esto para que OpenRouter pruebe los modelos en la lista
+			  messages: messagesToSend, // ¡Asegúrate de usar los mensajes con el system prompt fusionado!
 			  max_tokens: 900,
 			  temperature: 0.3,
 			  top_p: 0.9,
