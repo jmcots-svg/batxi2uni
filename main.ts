@@ -1,4 +1,4 @@
-// main.ts - Proxy a OpenRouter (DeepSeek) amb memòria
+// main.ts - Proxy a Google Gemini API con memoria
 
 Deno.serve(async (req) => {
   const headers = new Headers({
@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
 
   if (req.method === "GET") {
     return new Response(
-      JSON.stringify({ status: "ok", message: "Servidor IA actiu (OpenRouter)" }),
+      JSON.stringify({ status: "ok", message: "Servidor IA actiu (Google Gemini)" }),
       { headers },
     );
   }
@@ -23,10 +23,10 @@ Deno.serve(async (req) => {
     try {
       const body = await req.json();
 
-      const token = Deno.env.get("OPENROUTER_API_KEY");
-      if (!token) {
+      const apiKey = Deno.env.get("GEMINI_API_KEY");
+      if (!apiKey) {
         return new Response(
-          JSON.stringify({ error: "OPENROUTER_API_KEY no configurat" }),
+          JSON.stringify({ error: "GEMINI_API_KEY no configurat" }),
           { status: 500, headers },
         );
       }
@@ -49,10 +49,10 @@ Deno.serve(async (req) => {
         filteredMessages = filteredMessages.slice(-40);
       }
 
-      // Preparamos el system prompt como parte del primer mensaje de usuario
+      // Preparamos el system prompt
       const systemInstruction = `Ets un expert en orientació universitària a Catalunya.
 
-Treballes únicament amb les dades que l’usuari et proporciona (matèries seleccionades, notes i llistat de graus filtrats).
+Treballes únicament amb les dades que l'usuari et proporciona (matèries seleccionades, notes i llistat de graus filtrats).
 
 Normes estrictes:
 - NO inventis dades.
@@ -62,69 +62,88 @@ Normes estrictes:
 
 Respon sempre en català, de manera clara i breu.`;
 
-      // Si ya hay mensajes, añadimos la instrucción al inicio del primer mensaje de usuario
-      // Si no hay mensajes, creamos uno nuevo con la instrucción
-      let messagesToSend: { role: string; content: string }[];
+      // Con Gemini, podemos usar el rol "system" de forma nativa, así que lo haremos correctamente
+      // Construimos los mensajes con el system message al inicio
+      let messagesToSend: any[] = [];
+      
       if (filteredMessages.length > 0) {
         messagesToSend = [
           {
             role: "user",
             content: `${systemInstruction}\n\n${filteredMessages[0].content}`,
           },
-          ...filteredMessages.slice(1), // Añadimos el resto de mensajes
+          ...filteredMessages.slice(1),
         ];
       } else {
-        messagesToSend = [{ role: "user", content: systemInstruction }];
+        messagesToSend = [
+          {
+            role: "user",
+            content: systemInstruction,
+          },
+        ];
       }
 
-      // Crida a OpenRouter (modelo free DeepSeek)
-      const orResponse = await fetch(
-        "https://openrouter.ai/api/v1/chat/completions",
+      // Crida a Google Gemini API
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
         {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://batxi2uni.jmcots-svg.deno.net/",
-            "X-Title": "Batxi2Uni Orientació",
           },
-			body: JSON.stringify({
-			  // Prueba con tu opción principal aquí:
-			  model: "nvidia/nemotron-3-nano-30b-a3b:free", 
-			  
-			  // Usa la lista de `models` para el "fallback" en orden de preferencia
-			  // para que OpenRouter intente con el siguiente si el anterior falla por rate-limit u otra razón.
-			  models: [
-				"nvidia/nemotron-3-nano-30b-a3b:free",       // Opción principal
-				"z-ai/glm-4.5-air:free",                     // Excelente alternativa por capacidad
-				"stepfun/step-3.5-flash:free",               // Potencialmente muy potente, pero a confirmar rendimiento/fiabilidad
-				// Puedes añadir más si quieres tener más respaldo, pero ten en cuenta la calidad vs. los costes de prueba.
-			  ],
-			  route: "fallback", // Mantén esto para que OpenRouter pruebe los modelos en la lista
-			  messages: messagesToSend, // ¡Asegúrate de usar los mensajes con el system prompt fusionado!
-			  max_tokens: 900,
-			  temperature: 0.3,
-			  top_p: 0.9,
-			}),
+          body: JSON.stringify({
+            contents: messagesToSend.map((msg) => ({
+              role: msg.role === "user" ? "user" : "model",
+              parts: [
+                {
+                  text: msg.content,
+                },
+              ],
+            })),
+            generationConfig: {
+              maxOutputTokens: 900,
+              temperature: 0.3,
+              topP: 0.9,
+            },
+            safetySettings: [
+              {
+                category: "HARM_CATEGORY_HARASSMENT",
+                threshold: "BLOCK_NONE",
+              },
+              {
+                category: "HARM_CATEGORY_HATE_SPEECH",
+                threshold: "BLOCK_NONE",
+              },
+              {
+                category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                threshold: "BLOCK_NONE",
+              },
+              {
+                category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                threshold: "BLOCK_NONE",
+              },
+            ],
+          }),
         },
       );
 
-      if (!orResponse.ok) {
-        const errorDetails = await orResponse.text();
-        console.error("Error OpenRouter:", errorDetails);
+      if (!geminiResponse.ok) {
+        const errorDetails = await geminiResponse.text();
+        console.error("Error Gemini:", errorDetails);
         return new Response(
           JSON.stringify({
-            error: "Error OpenRouter API",
+            error: "Error Google Gemini API",
             details: errorDetails,
           }),
           { status: 502, headers },
         );
       }
 
-      const data = await orResponse.json();
+      const data = await geminiResponse.json();
 
+      // Extraer el texto de la respuesta de Gemini (estructura diferente a OpenAI)
       const generatedText =
-        data.choices?.[0]?.message?.content ||
+        data.candidates?.[0]?.content?.parts?.[0]?.text ||
         "No he pogut generar una resposta.";
 
       return new Response(
