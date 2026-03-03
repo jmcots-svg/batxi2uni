@@ -1,4 +1,4 @@
-// main.ts - Versió amb memòria optimitzada per Gemini
+// main.ts - Gemini estable y limpio
 
 Deno.serve(async (req) => {
   const headers = new Headers({
@@ -13,16 +13,16 @@ Deno.serve(async (req) => {
   }
 
   if (req.method === "GET") {
-		return new Response(
-		  JSON.stringify({ status: "ok", message: "VERSIO NOVA GEMINI 12345" }),
-		  { headers }
-		);
+    return new Response(
+      JSON.stringify({ status: "ok", message: "Servidor IA actiu GEMINI OK" }),
+      { headers }
+    );
+  }
 
   if (req.method === "POST") {
     try {
       const body = await req.json();
 
-      // ✅ Token Gemini
       const token = Deno.env.get("GEMINI_API_KEY");
       if (!token) {
         return new Response(
@@ -31,32 +31,29 @@ Deno.serve(async (req) => {
         );
       }
 
-      // ✅ Memòria: rebem historial del frontend
-		let chatMessages = body.messages;
+      let chatMessages = body.messages;
 
-		if (!chatMessages) {
-		  const text = body.inputs || body.prompt || "";
-		  chatMessages = [{ role: "user", content: text }];
-		}
+      if (!chatMessages) {
+        const text = body.inputs || body.prompt || "";
+        chatMessages = [{ role: "user", content: text }];
+      }
 
-      // ✅ Eliminem qualsevol "system" enviat pel frontend
-      const filteredMessages = chatMessages.filter(
+      // Eliminar system si viene del frontend
+      let filteredMessages = chatMessages.filter(
         (msg: any) => msg.role !== "system"
       );
 
-		// ✅ Limitamos historial a últimos 20 mensajes
-		if (chatMessages.length > 40) {
-		  chatMessages = chatMessages.slice(-40);
-		}
+      // Limitar a últimos 40 mensajes
+      if (filteredMessages.length > 40) {
+        filteredMessages = filteredMessages.slice(-40);
+      }
 
-
-      // ✅ Convertim format OpenAI → Gemini
+      // Convertir formato OpenAI → Gemini
       const contents = filteredMessages.map((msg: any) => ({
         role: msg.role === "assistant" ? "model" : "user",
         parts: [{ text: msg.content }],
       }));
 
-      // ✅ Crida a Gemini amb systemInstruction professional
       const geminiResponse = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${token}`,
         {
@@ -66,34 +63,26 @@ Deno.serve(async (req) => {
           },
           body: JSON.stringify({
             systemInstruction: {
-              parts: [
-                {
-                  text: `Ets un expert en orientació universitària a Catalunya.
+              parts: [{
+                text: `Ets un expert en orientació universitària a Catalunya.
 
-Treballes únicament amb les dades que l’usuari et proporciona (matèries seleccionades, notes i llistat de graus filtrats).
+Treballes únicament amb les dades que l’usuari et proporciona.
 
 Normes estrictes:
 - NO inventis dades.
 - NO afegeixis universitats o graus que no apareguin a la llista.
-- Si falta informació, digues clarament que no es pot determinar.
-- Basa totes les recomanacions en les notes de tall i les ponderacions facilitades.
+- Si falta informació, digues-ho clarament.
+- Basa les recomanacions només en les dades facilitades.
 
-Objectiu:
-1. Analitzar les millors opcions segons la nota de l'alumne.
-2. Detectar si la nota és justa, suficient o insuficient.
-3. Proposar alternatives dins la mateixa llista si escau.
-4. Respondre de manera clara, estructurada i breu.
-
-Respon sempre en català.`,
-                },
-              ],
+Respon sempre en català de forma clara i breu.`
+              }]
             },
             contents: contents,
             generationConfig: {
               temperature: 0.3,
               maxOutputTokens: 900,
-              topP: 0.9,
-            },
+              topP: 0.9
+            }
           }),
         }
       );
@@ -107,28 +96,27 @@ Respon sempre en català.`,
       }
 
       const data = await geminiResponse.json();
-	  console.log("Gemini raw response:", JSON.stringify(data, null, 2));
 
-	let generatedText = "No he pogut generar una resposta.";
+      let generatedText = "No he pogut generar una resposta.";
 
-	if (data.candidates && data.candidates.length > 0) {
-	  const parts = data.candidates[0].content?.parts;
-	  if (parts && parts.length > 0 && parts[0].text) {
-		generatedText = parts[0].text;
-	  }
-	}
+      if (data.candidates && data.candidates.length > 0) {
+        const parts = data.candidates[0].content?.parts;
+        if (parts && parts.length > 0 && parts[0].text) {
+          generatedText = parts[0].text;
+        }
+      }
 
-	// Si Gemini bloquea por seguridad
-	if (data.promptFeedback?.blockReason) {
-	  generatedText = "La consulta ha estat bloquejada per polítiques de seguretat.";
-}
+      if (data.promptFeedback?.blockReason) {
+        generatedText = "La consulta ha estat bloquejada per polítiques de seguretat.";
+      }
 
       return new Response(
         JSON.stringify([{ generated_text: generatedText.trim() }]),
         { headers }
       );
+
     } catch (e) {
-      console.error("Error al servidor:", e);
+      console.error("Error servidor:", e);
       return new Response(
         JSON.stringify({ error: e.message }),
         { status: 500, headers }
