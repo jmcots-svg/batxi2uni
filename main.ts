@@ -48,50 +48,52 @@ Deno.serve(async (req) => {
         filteredMessages = filteredMessages.slice(-40);
       }
 
-		// Convertimos formato OpenAI → Gemini
-		let contents = filteredMessages.map((msg: any) => ({
-		  role: msg.role === "assistant" ? "model" : "user",
-		  parts: [{ text: msg.content }],
-		}));
+	// Convertimos formato OpenAI → Gemini
+	let contents = filteredMessages.map((msg: any) => ({
+	  role: msg.role === "assistant" ? "model" : "user",
+	  parts: [{ text: msg.content }],
+	}));
 
-		// ✅ Aseguramos que el primer mensaje sea siempre "user"
-		if (contents.length > 0 && contents[0].role !== "user") {
-		  contents = contents.slice(1);
-		}
+	// Asegurar que empieza por user
+	if (contents.length > 0 && contents[0].role !== "user") {
+	  contents = contents.slice(1);
+	}
 
-      const geminiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-			systemInstruction: {
-			  role: "system",
-			  parts: [{
-				text: `Ets un expert en orientació universitària a Catalunya.
+	// ✅ Inyectamos el system prompt como primer mensaje user
+	const systemPrompt = `Ets un expert en orientació universitària a Catalunya.
 
-			Treballes únicament amb les dades que l’usuari et proporciona.
+	Treballes únicament amb les dades que l’usuari et proporciona.
 
-			Normes estrictes:
-			- NO inventis dades.
-			- NO afegeixis universitats o graus que no apareguin a la llista.
-			- Si falta informació, digues-ho clarament.
-			- Basa les recomanacions només en les dades facilitades.
+	Normes estrictes:
+	- NO inventis dades.
+	- NO afegeixis universitats o graus que no apareguin a la llista.
+	- Si falta informació, digues-ho clarament.
+	- Basa les recomanacions només en les dades facilitades.
 
-			Respon sempre en català de forma clara i breu.`
-			  }]
-			},
-            contents: contents,
-            generationConfig: {
-              temperature: 0.3,
-              maxOutputTokens: 900,
-              topP: 0.9
-            }
-          }),
-        }
-      );
+	Respon sempre en català de forma clara i breu.`;
+
+	contents.unshift({
+	  role: "user",
+	  parts: [{ text: systemPrompt }]
+	});
+
+	const geminiResponse = await fetch(
+	  `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${token}`,
+	  {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+		  contents: contents,
+		  generationConfig: {
+			temperature: 0.3,
+			maxOutputTokens: 900,
+			topP: 0.9,
+		  },
+		}),
+	  }
+	);
 
       if (!geminiResponse.ok) {
         const errorDetails = await geminiResponse.text();
