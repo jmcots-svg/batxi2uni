@@ -461,15 +461,32 @@ async function enviarConsultaIA() {
     resDiv.innerHTML = "<em>L'IA està pensant...</em>";
     input.value = ""; 
 
-    const asignaturasSeleccionadas = Array.from(document.querySelectorAll('.m-sel'))
+    // ✅ VALIDACIÓN: Asegúrate de que existen los elementos antes de acceder
+    const mSelElements = document.querySelectorAll('.m-sel');
+    if (mSelElements.length === 0) {
+        resDiv.innerText = "Error: No hi ha matèries seleccionades.";
+        return;
+    }
+
+    const asignaturasSeleccionadas = Array.from(mSelElements)
         .map(s => s.value)
         .filter(v => v);
     
+    // ✅ VALIDACIÓN: Revisa que los elementos de filtros existan
+    const fMinProf = document.getElementById('fMinProf');
+    const fMinPond = document.getElementById('fMinPond');
+    const fOrden = document.getElementById('fOrden');
+
+    if (!fMinProf || !fMinPond || !fOrden) {
+        resDiv.innerText = "Error: Elements de filtres no trobats.";
+        return;
+    }
+
     const filtrosAplicados = {
         poblacionesSeleccionadas: pobsSel.length > 0 ? pobsSel : "Totes",
-        notaProfesionalMinima: document.getElementById('fMinProf').value,
-        ponderacionMinima: document.getElementById('fMinPond').value,
-        ordenacion: document.getElementById('fOrden').value
+        notaProfesionalMinima: fMinProf.value,
+        ponderacionMinima: fMinPond.value,
+        ordenacion: fOrden.value
     };
     
     const contextoFormatado = `
