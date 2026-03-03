@@ -13,11 +13,10 @@ Deno.serve(async (req) => {
   }
 
   if (req.method === "GET") {
-    return new Response(
-      JSON.stringify({ status: "ok", message: "Servidor IA actiu (Gemini)" }),
-      { headers }
-    );
-  }
+		return new Response(
+		  JSON.stringify({ status: "ok", message: "VERSIO NOVA GEMINI 12345" }),
+		  { headers }
+		);
 
   if (req.method === "POST") {
     try {
