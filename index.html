@@ -472,28 +472,29 @@ async function enviarConsultaIA() {
         ordenacion: document.getElementById('fOrden').value
     };
     
-    let contextoFormatado = `
-[📚 DADES DEL STUDENT]
-Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
+    const contextoFormatado = `
+    [📚 DADES DEL STUDENT]
+    Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
 
-[📋 LLISTA COMPLETA DE CARRERES DISPONIBLES]
-Total: ${ultimasCarrerasFiltradas.length} carreres
-`;
-    
-    ultimasCarrerasFiltradas.forEach((carrera, idx) => {
+    [📋 CARRERES MÉS RELLEVANTS]
+    Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${Math.min(50, ultimasCarrerasFiltradas.length)} millors)
+    `;
+
+    // ⬅️ AQUÍ: Limitar a 50 carreres máximo
+    ultimasCarrerasFiltradas.slice(0, 50).forEach((carrera, idx) => {
         contextoFormatado += `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}\n`;
     });
-    
-    contextoFormatado += `
-[🔧 FILTRES ACTIUS]
-Poblacions: ${Array.isArray(filtrosAplicados.poblacionesSeleccionadas) ? filtrosAplicados.poblacionesSeleccionadas.join(', ') : filtrosAplicados.poblacionesSeleccionadas}
-Nota Prof. mín: ${filtrosAplicados.notaProfesionalMinima}
-Ponderació mín: ${filtrosAplicados.ponderacionMinima}
-Ordenació: ${filtrosAplicados.ordenacion}
 
-[❓ PREGUNTA DEL STUDENT]
-${preguntaUser}
-`;
+    contextoFormatado += `
+    [🔧 FILTRES ACTIUS]
+    Poblacions: ${Array.isArray(filtrosAplicados.poblacionesSeleccionadas) ? filtrosAplicados.poblacionesSeleccionadas.join(', ') : filtrosAplicados.poblacionesSeleccionadas}
+    Nota Prof. mín: ${filtrosAplicados.notaProfesionalMinima}
+    Ponderació mín: ${filtrosAplicados.ponderacionMinima}
+    Ordenació: ${filtrosAplicados.ordenacion}
+
+    [❓ PREGUNTA DEL STUDENT]
+    ${preguntaUser}
+    `;
 
     let promptFinal;
     
