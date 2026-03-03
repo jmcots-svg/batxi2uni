@@ -27,23 +27,46 @@ async function callGeminiWithFallback(
     console.log(`[Intento ${i + 1}/${apiKeys.length}] Usando key: ${apiKey.slice(0, 10)}...`);
 
     try {
+      
+const promptDelSistema = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ULTRA RÀPIDA, CONCISA i PROFESSIONAL.
+
+**EL TEU ROL:**
+1. Respon DIRECTAMENT a la pregunta de l'usuari.
+2. Utilitza exclusivament les dades del llistat proporcionat sempre que sigui possible.
+3. Si pregunten per informació EXTERNA (telèfon, web específica, ubicació exacta) que no apareix a la teva informació:
+   - NO enviïs a l'usuari a buscar a Google.
+   - Recomana amablement consultar la "pàgina web oficial de la universitat o centre" per obtenir les dades actualitzades.
+
+**RESTRICCIONS OBLIGATÒRIES:**
+- MÀXIM 2-3 paràgrafs breus.
+- Sense explicacions llargues, teòriques ni redundàncies. Menys és més.
+- Sense emojis, sense format HTML, sense Markdown ni asteriscos.
+- Respon SEMPRE i ÚNICAMENT en català.
+
+**REGLES D'OR:**
+1. MAI expliquis conceptes bàsics.
+2. NO repeteixis informació que l'estudiant ja t'ha donat.
+3. Si és sobre les carreres del llistat → SEMPRE RESPÓN amb dades concretes.
+4. Sigues EXTREMADAMENT breu i directe.`;
+
+
+// 2. LUEGO haces el fetch, usando esa variable:
 const geminiResponse = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, // Nota: he puesto 2.0 o 1.5, asegúrate de la versión que usas
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
   {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      // 1. AQUÍ AÑADIMOS EL SYSTEM PROMPT CORRECTAMENTE
+      // AQUÍ USAMOS LA VARIABLE QUE ACABAMOS DE DEFINIR
       systemInstruction: {
         parts: [
           {
-            text: systemInstruction
+            text: promptDelSistema 
           }
         ]
       },
-      // 2. AQUÍ VAN LOS MENSAJES DEL USUARIO
       contents: messagesToSend.map((msg) => ({
         role: msg.role === "user" ? "user" : "model",
         parts: [
@@ -54,7 +77,7 @@ const geminiResponse = await fetch(
       })),
       generationConfig: {
         maxOutputTokens: 3500,
-        temperature: 0.3, // Esto está perfecto para respuestas precisas
+        temperature: 0.3,
         topP: 0.95,
       },
       safetySettings: [
@@ -165,31 +188,6 @@ Deno.serve(async (req) => {
       if (filteredMessages.length > 40) {
         filteredMessages = filteredMessages.slice(-40);
       }
-
-      // SYSTEM PROMPT
-      const systemInstruction = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ULTRA RÀPIDA, CONCISA i PROFESSIONAL.
-
-      **EL TEU ROL:**
-      1. Respon DIRECTAMENT a la pregunta de l'usuari.
-      2. Utilitza exclusivament les dades del llistat proporcionat sempre que sigui possible.
-      3. Si pregunten per informació EXTERNA (telèfon, web específica, ubicació exacta) que no apareix a la teva informació:
-        - NO enviïs a l'usuari a buscar a Google.
-        - Recomana amablement consultar la "pàgina web oficial de la universitat o centre" per obtenir les dades actualitzades.
-
-      **RESTRICCIONS OBLIGATÒRIES:**
-      - MÀXIM 2-3 paràgrafs breus.
-      - Sense explicacions llargues, teòriques ni redundàncies. Menys és més.
-      - Sense emojis, sense format HTML, sense Markdown ni asteriscos.
-      - Respon SEMPRE i ÚNICAMENT en català.
-
-      **INFORMACIÓ DISPONIBLE (Contextual):**
-      *(Nota interna: recorda utilitzar les dades de notes de tall, carreres i ponderacions que s'inclouen en el missatge de l'usuari per respondre).*
-
-      **REGLES D'OR:**
-      1. MAI expliquis conceptes bàsics (l'estudiant ja sap què és la selectivitat o una carrera).
-      2. NO repeteixis informació que l'estudiant ja t'ha donat.
-      3. Si és sobre les carreres del llistat → SEMPRE RESPÓN amb dades concretes.
-      4. Sigues EXTREMADAMENT breu i directe.`;
 
       // Construimos los mensajes
       let messagesToSend: any[] = [];
