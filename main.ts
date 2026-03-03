@@ -190,23 +190,14 @@ Deno.serve(async (req) => {
       }
 
       // Construimos los mensajes
-      let messagesToSend: any[] = [];
+      let messagesToSend = filteredMessages;
 
-      if (filteredMessages.length > 0) {
-        messagesToSend = [
-          {
-            role: "user",
-            content: `${systemInstruction}\n\n${filteredMessages[0].content}`,
-          },
-          ...filteredMessages.slice(1),
-        ];
-      } else {
-        messagesToSend = [
-          {
-            role: "user",
-            content: systemInstruction,
-          },
-        ];
+      // Si por algún motivo no hay mensajes, devolvemos error para no gastar cuota
+      if (messagesToSend.length === 0) {
+        return new Response(
+          JSON.stringify({ error: "No hay mensajes para procesar" }),
+          { status: 400, headers },
+        );
       }
 
       // 👇 LLAMADA CON FALLBACK
