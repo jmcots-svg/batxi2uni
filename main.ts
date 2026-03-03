@@ -108,10 +108,21 @@ Respon sempre en català.`,
       }
 
       const data = await geminiResponse.json();
+	  console.log("Gemini raw response:", JSON.stringify(data, null, 2));
 
-      const generatedText =
-        data.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "No he pogut generar una resposta.";
+	let generatedText = "No he pogut generar una resposta.";
+
+	if (data.candidates && data.candidates.length > 0) {
+	  const parts = data.candidates[0].content?.parts;
+	  if (parts && parts.length > 0 && parts[0].text) {
+		generatedText = parts[0].text;
+	  }
+	}
+
+	// Si Gemini bloquea por seguridad
+	if (data.promptFeedback?.blockReason) {
+	  generatedText = "La consulta ha estat bloquejada per polítiques de seguretat.";
+}
 
       return new Response(
         JSON.stringify([{ generated_text: generatedText.trim() }]),
