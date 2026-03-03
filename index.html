@@ -116,6 +116,59 @@
             content: "";
             margin: 2px 0;
         }
+		
+		/* PONDERACIONES DESGLOSE */
+		.ponderaciones-desglose {
+			background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+			padding: 10px;
+			border-radius: 6px;
+			border-left: 4px solid var(--secondary);
+			margin-top: 10px;
+		}
+
+		.ponderaciones-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+		}
+
+		.ponderacion-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			background: white;
+			padding: 6px 10px;
+			border-radius: 5px;
+			border: 1px solid #ddd;
+			font-size: 0.8em;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		}
+
+		.ponderacion-item strong {
+			color: var(--dark);
+			font-weight: 600;
+		}
+
+		.ponderacion-valor {
+			background: linear-gradient(135deg, var(--secondary), var(--primary));
+			color: white;
+			padding: 2px 8px;
+			border-radius: 4px;
+			font-weight: bold;
+			font-size: 0.9em;
+		}
+
+		/* Responsive */
+		@media (max-width: 768px) {
+			.ponderaciones-grid {
+				flex-direction: column;
+				gap: 6px;
+			}
+			
+			.ponderacion-item {
+				justify-content: space-between;
+			}
+		}
 	</style>
 </head>
 <body onload="iniciarApp()">
@@ -305,16 +358,29 @@ function actualizarTodo() {
         if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gRef) return;
         if (pobsSel.length > 0 && !pobsSel.includes(pNom)) return;
         if (prof < minProf) return;
+		
+     
+        let suma = 0;
+        let ponderacionesPorMateria = {}; 	
 
         let suma = 0;
         elegidas.forEach(m => {
             let max = 0; if(ASIG_MAP[m]) ASIG_MAP[m].forEach(c => { let v = aNum(row[c]); if(v > max) max = v; });
             suma += max;
+			ponderacionesPorMateria[m] = max; 
         });
 
         if (suma < minPond) return;
-        filtrados.push({ prof, id: limpiar(row[1]), grado: gNom, univ: limpiar(row[3]), pNom, nota: aNum(row[6]), total: suma });
-    });
+        filtrados.push({ 
+            prof, 
+            id: limpiar(row[1]), 
+            grado: gNom, 
+            univ: limpiar(row[3]), 
+            pNom, 
+            nota: aNum(row[6]), 
+            total: suma,
+            ponderaciones: ponderacionesPorMateria     
+		});
 
     filtrados.sort((a,b) => {
         if(orden === 'total_desc') return b.total - a.total || b.nota - a.nota;
@@ -329,17 +395,40 @@ function actualizarTodo() {
 
     const tbody = document.querySelector('#tablaRes tbody');
     document.getElementById('txtContador').innerText = filtrados.length;
-    tbody.innerHTML = filtrados.map(r => `
-        <tr>
-            <td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
-            <td>
-                <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
-                <div style="font-size:0.85em; color:#666;">${r.univ}</div>
-                <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
-            </td>
-            <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
-        </tr>
-    `).join('');
+	tbody.innerHTML = filtrados.map(r => {
+		// 👇 NUEVO: Crear HTML de ponderaciones
+		const desglosePond = Object.entries(r.ponderaciones)
+			.filter(([_, val]) => val > 0) // Solo mostrar si tienen ponderación > 0
+			.map(([materia, valor]) => `
+				<span class="ponderacion-item">
+					<strong>${materia}</strong>
+					<span class="ponderacion-valor">${valor.toFixed(2)}</span>
+				</span>
+			`)
+			.join('');
+		
+		return `
+			<tr>
+				<td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
+				<td>
+					<div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
+					<div style="font-size:0.85em; color:#666;">${r.univ}</div>
+					<div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
+					
+					<!-- 👇 NUEVO: Desglose de ponderaciones -->
+					${desglosePond ? `
+						<div class="ponderaciones-desglose">
+							<span style="font-size:0.75em; font-weight:bold; color:#666; display:block; margin-top:8px; margin-bottom:6px;">📊 Ponderacions per matèria:</span>
+							<div class="ponderaciones-grid">
+								${desglosePond}
+							</div>
+						</div>
+					` : ''}
+				</td>
+				<td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
+			</tr>
+		`;
+	}).join('');
 }
 
 function getColorProf(n) { 
