@@ -79,19 +79,19 @@ Respon sempre en català, de manera clara i breu.`,
             "HTTP-Referer": "https://batxi2uni.jmcots-svg.deno.net/",
             "X-Title": "Batxi2Uni Orientació",
           },
-		body: JSON.stringify({
-		  model: "meta-llama/llama-3.2-3b-instruct:free",
-		  models: [
-			"meta-llama/llama-3.2-3b-instruct:free",
-			"google/gemma-3-4b-it:free",
-			"nousresearch/hermes-3-405b-instruct:free"
-		  ],
-		  route: "fallback",
-		  messages,
-		  max_tokens: 900,
-		  temperature: 0.3,
-		  top_p: 0.9,
-		}),
+			body: JSON.stringify({
+			  model: "meta-llama/llama-3.2-3b-instruct:free",
+			  models: [
+				"meta-llama/llama-3.2-3b-instruct:free",
+				"google/gemma-3-4b-it:free",
+				"google/gemma-3-12b-it:free"
+			  ],
+			  route: "fallback",
+			  messages,
+			  max_tokens: 900,
+			  temperature: 0.3,
+			  top_p: 0.9,
+			}),
         },
       );
 
