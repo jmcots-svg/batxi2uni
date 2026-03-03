@@ -524,11 +524,45 @@ ${preguntaUser}`;
 }
 
 function exportExcel() {
-    const table = document.getElementById("tablaRes");
-    const wb = XLSX.utils.table_to_book(table, {sheet: "Resultats SJ Pro"});
+    // Crear datos limpios desde ultimasCarrerasFiltradas
+    const datos = ultimasCarrerasFiltradas.map(r => {
+        let fila = {
+            "SORTIDA": r.prof,
+            "CODI": r.id,
+            "GRAU": r.grado,
+            "UNIVERSITAT": r.univ,
+            "POBLACIO": r.pNom,
+            "NOTA TALL": r.nota.toFixed(3),
+            "PUNTS TOTALS": r.total.toFixed(2)
+        };
+        
+        // Añadir cada materia como columna
+        Object.entries(r.ponderaciones).forEach(([materia, valor]) => {
+            fila[`PONDERACIO: ${materia}`] = valor.toFixed(2);
+        });
+        
+        return fila;
+    });
+
+    // Crear workbook
+    const ws = XLSX.utils.json_to_sheet(datos);
+    
+    // Ajustar ancho de columnas
+    const colWidths = [
+        { wch: 8 },   // SORTIDA
+        { wch: 10 },  // CODI
+        { wch: 50 },  // GRAU
+        { wch: 20 },  // UNIVERSITAT
+        { wch: 15 },  // POBLACIO
+        { wch: 12 },  // NOTA TALL
+        { wch: 12 }   // PUNTS TOTALS
+    ];
+    ws['!cols'] = colWidths;
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Resultats SJ Pro");
     XLSX.writeFile(wb, "Simulacio_Graus_2026.xlsx");
 }
-
 function reiniciarFiltros() {
     document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
     pobsSel = [];
