@@ -48,11 +48,16 @@ Deno.serve(async (req) => {
         filteredMessages = filteredMessages.slice(-40);
       }
 
-      // Convertir formato OpenAI → Gemini
-      const contents = filteredMessages.map((msg: any) => ({
-        role: msg.role === "assistant" ? "model" : "user",
-        parts: [{ text: msg.content }],
-      }));
+		// Convertimos formato OpenAI → Gemini
+		let contents = filteredMessages.map((msg: any) => ({
+		  role: msg.role === "assistant" ? "model" : "user",
+		  parts: [{ text: msg.content }],
+		}));
+
+		// ✅ Aseguramos que el primer mensaje sea siempre "user"
+		if (contents.length > 0 && contents[0].role !== "user") {
+		  contents = contents.slice(1);
+		}
 
       const geminiResponse = await fetch(
         `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${token}`,
