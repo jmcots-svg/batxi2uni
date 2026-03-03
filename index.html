@@ -280,28 +280,36 @@ let ASIG_MAP = {};
 let MODO_APP = "";
 let pobsSel = [];
 let historialIA = [];
-let ultimasCarrerasFiltradas = []; // 👈 NUEVO: Guardar las carreras filtradas
+let ultimasCarrerasFiltradas = [];
 
 async function iniciarApp() {
     try {
         const response = await fetch('ponderaciones.csv');
         const text = await response.text();
         parseData(text);
-    } catch (e) { alert("Error al carregar el fitxer de dades."); }
+    } catch (e) { 
+        console.error("Error:", e);
+        alert("Error al carregar el fitxer de dades."); 
+    }
 }
 
 function parseData(textoRaw) {
-    LINEAS = textoRaw.split(/\r?\n/).filter(l => l.trim() !== "").map(l => l.split(';'));
-    const h = LINEAS[0];
-    for(let i=7; i<h.length; i++){
-        let nom = h[i].replace(/"/g, '').trim();
-        if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
+    try {
+        LINEAS = textoRaw.split(/\r?\n/).filter(l => l.trim() !== "").map(l => l.split(';'));
+        const h = LINEAS[0];
+        for(let i=7; i<h.length; i++){
+            let nom = h[i].replace(/"/g, '').trim();
+            if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
+        }
+        const pobs = [...new Set(LINEAS.slice(1).map(r => limpiar(r[4])))].filter(x => x).sort();
+        document.getElementById('poblacionsList').innerHTML = pobs.map(p => `<label><input type="checkbox" value="${p}" onchange="updatePobs(this)"> ${p}</label>`).join('');
+        llenarGrados();
+        document.getElementById('zonaCarga').style.display = 'none';
+        document.getElementById('pantallaInicio').style.display = 'block';
+    } catch(e) {
+        console.error("Error en parseData:", e);
+        alert("Error processant dades: " + e.message);
     }
-    const pobs = [...new Set(LINEAS.slice(1).map(r => limpiar(r[4])))].filter(x => x).sort();
-    document.getElementById('poblacionsList').innerHTML = pobs.map(p => `<label><input type="checkbox" value="${p}" onchange="updatePobs(this)"> ${p}</label>`).join('');
-    llenarGrados();
-    document.getElementById('zonaCarga').style.display = 'none';
-    document.getElementById('pantallaInicio').style.display = 'block';
 }
 
 function setModo(modo) {
@@ -309,16 +317,23 @@ function setModo(modo) {
     document.getElementById('pantallaInicio').style.display = 'none';
     document.getElementById('mainUI').style.display = 'block';
     document.getElementById('panelGrado').style.display = (modo === 'SI') ? 'block' : 'none';
-    if(modo === 'NO') { renderSelMaterias(Object.keys(ASIG_MAP).sort()); actualizarTodo(); }
+    if(modo === 'NO') { 
+        renderSelMaterias(Object.keys(ASIG_MAP).sort()); 
+        actualizarTodo(); 
+    }
 }
 
 function updatePobs(cb) {
-    if(cb.checked) pobsSel.push(cb.value); else pobsSel = pobsSel.filter(p => p !== cb.value);
+    if(cb.checked) pobsSel.push(cb.value); 
+    else pobsSel = pobsSel.filter(p => p !== cb.value);
     document.querySelector('.multiselect-header').innerText = pobsSel.length > 0 ? pobsSel.length + " sel." : "Totes";
     actualizarTodo();
 }
 
-function toggleMultiselect() { const o = document.getElementById('poblacionsList'); o.style.display = o.style.display === 'block' ? 'none' : 'block'; }
+function toggleMultiselect() { 
+    const o = document.getElementById('poblacionsList'); 
+    o.style.display = o.style.display === 'block' ? 'none' : 'block'; 
+}
 
 function llenarGrados() {
     const grados = [...new Set(LINEAS.slice(1).map(r => limpiar(r[2])))].filter(x => x).sort();
@@ -330,7 +345,15 @@ function cambioGrado() {
     const grado = document.getElementById('selGrado').value;
     if(!grado) return;
     const ok = new Set();
-    LINEAS.forEach((r, i) => { if(i>0 && limpiar(r[2]) === grado) { for(let m in ASIG_MAP) ASIG_MAP[m].forEach(idx => { if(aNum(r[idx]) >= 0.2) ok.add(m); }); } });
+    LINEAS.forEach((r, i) => { 
+        if(i>0 && limpiar(r[2]) === grado) { 
+            for(let m in ASIG_MAP) {
+                ASIG_MAP[m].forEach(idx => { 
+                    if(aNum(r[idx]) >= 0.2) ok.add(m); 
+                }); 
+            } 
+        } 
+    });
     renderSelMaterias(Array.from(ok).sort());
     actualizarTodo();
 }
@@ -351,26 +374,35 @@ function actualizarTodo() {
     const gRef = document.getElementById('selGrado').value;
 
     let filtrados = [];
+    
     LINEAS.forEach((row, idx) => {
         if(idx === 0 || !row[2]) return;
-        const gNom = limpiar(row[2]), pNom = limpiar(row[4]), prof = aNum(row[0]);
+        
+        const gNom = limpiar(row[2]);
+        const pNom = limpiar(row[4]);
+        const prof = aNum(row[0]);
         
         if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gRef) return;
         if (pobsSel.length > 0 && !pobsSel.includes(pNom)) return;
         if (prof < minProf) return;
-		
-     
-        let suma = 0;
-        let ponderacionesPorMateria = {}; 	
 
         let suma = 0;
+        let ponderacionesPorMateria = {};
+        
         elegidas.forEach(m => {
-            let max = 0; if(ASIG_MAP[m]) ASIG_MAP[m].forEach(c => { let v = aNum(row[c]); if(v > max) max = v; });
+            let max = 0;
+            if(ASIG_MAP[m]) {
+                ASIG_MAP[m].forEach(c => {
+                    let v = aNum(row[c]);
+                    if(v > max) max = v;
+                });
+            }
             suma += max;
-			ponderacionesPorMateria[m] = max; 
+            ponderacionesPorMateria[m] = max;
         });
 
         if (suma < minPond) return;
+        
         filtrados.push({ 
             prof, 
             id: limpiar(row[1]), 
@@ -379,8 +411,9 @@ function actualizarTodo() {
             pNom, 
             nota: aNum(row[6]), 
             total: suma,
-            ponderaciones: ponderacionesPorMateria     
-		});
+            ponderaciones: ponderacionesPorMateria
+        });
+    });
 
     filtrados.sort((a,b) => {
         if(orden === 'total_desc') return b.total - a.total || b.nota - a.nota;
@@ -390,45 +423,42 @@ function actualizarTodo() {
         return 0;
     });
 
-    // 👇 NUEVO: Guardar las carreras filtradas para la IA
     ultimasCarrerasFiltradas = filtrados;
 
     const tbody = document.querySelector('#tablaRes tbody');
     document.getElementById('txtContador').innerText = filtrados.length;
-	tbody.innerHTML = filtrados.map(r => {
-		// 👇 NUEVO: Crear HTML de ponderaciones
-		const desglosePond = Object.entries(r.ponderaciones)
-			.filter(([_, val]) => val > 0) // Solo mostrar si tienen ponderación > 0
-			.map(([materia, valor]) => `
-				<span class="ponderacion-item">
-					<strong>${materia}</strong>
-					<span class="ponderacion-valor">${valor.toFixed(2)}</span>
-				</span>
-			`)
-			.join('');
-		
-		return `
-			<tr>
-				<td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
-				<td>
-					<div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
-					<div style="font-size:0.85em; color:#666;">${r.univ}</div>
-					<div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
-					
-					<!-- 👇 NUEVO: Desglose de ponderaciones -->
-					${desglosePond ? `
-						<div class="ponderaciones-desglose">
-							<span style="font-size:0.75em; font-weight:bold; color:#666; display:block; margin-top:8px; margin-bottom:6px;">📊 Ponderacions per matèria:</span>
-							<div class="ponderaciones-grid">
-								${desglosePond}
-							</div>
-						</div>
-					` : ''}
-				</td>
-				<td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
-			</tr>
-		`;
-	}).join('');
+    
+    tbody.innerHTML = filtrados.map(r => {
+        const desglosePond = Object.entries(r.ponderaciones)
+            .filter(([_, val]) => val > 0)
+            .map(([materia, valor]) => `
+                <span class="ponderacion-item">
+                    <strong>${materia}</strong>
+                    <span class="ponderacion-valor">${valor.toFixed(2)}</span>
+                </span>
+            `)
+            .join('');
+        
+        return `
+            <tr>
+                <td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
+                <td>
+                    <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
+                    <div style="font-size:0.85em; color:#666;">${r.univ}</div>
+                    <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
+                    ${desglosePond ? `
+                        <div class="ponderaciones-desglose">
+                            <span style="font-size:0.75em; font-weight:bold; color:#666; display:block; margin-top:8px; margin-bottom:6px;">📊 Ponderacions per matèria:</span>
+                            <div class="ponderaciones-grid">
+                                ${desglosePond}
+                            </div>
+                        </div>
+                    ` : ''}
+                </td>
+                <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function getColorProf(n) { 
@@ -436,16 +466,21 @@ function getColorProf(n) {
     return `hsl(${hue}, 70%, 45%)`; 
 }
 
-function limpiar(t) { return t ? t.toString().replace(/"/g, '').trim() : ""; }
-function aNum(v) { let n = parseFloat(v.toString().replace(',', '.')); return isNaN(n) ? 0 : n; }
+function limpiar(t) { 
+    return t ? t.toString().replace(/"/g, '').trim() : ""; 
+}
 
-// 👇 NUEVO: Función para abrir la IA general
+function aNum(v) { 
+    let n = parseFloat(v.toString().replace(',', '.')); 
+    return isNaN(n) ? 0 : n; 
+}
+
 function abrirConsultaIAGeneral() {
     if (ultimasCarrerasFiltradas.length === 0) {
         alert("No hi ha carreres per consultar. Aplica els filtres primer.");
         return;
     }
-    historialIA = []; // 👈 Limpiar el historial cuando se abre de nuevo
+    historialIA = [];
     document.getElementById('panelIA').style.display = 'block';
     document.getElementById('respuesta-ia').innerText = '';
     document.getElementById('input-ia').value = '';
@@ -467,12 +502,10 @@ async function enviarConsultaIA() {
     resDiv.innerHTML = "<em>L'IA està pensant...</em>";
     input.value = ""; 
 
-    // 1. Asignaturas seleccionadas
     const asignaturasSeleccionadas = Array.from(document.querySelectorAll('.m-sel'))
         .map(s => s.value)
         .filter(v => v);
     
-    // 2. Filtros aplicados
     const filtrosAplicados = {
         poblacionesSeleccionadas: pobsSel.length > 0 ? pobsSel : "Totes",
         notaProfesionalMinima: document.getElementById('fMinProf').value,
@@ -480,7 +513,6 @@ async function enviarConsultaIA() {
         ordenacion: document.getElementById('fOrden').value
     };
     
-    // 3. Construir el contexto
     let contextoFormatado = `
 [📚 DADES DEL STUDENT]
 Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
@@ -489,12 +521,10 @@ Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSe
 Total: ${ultimasCarrerasFiltradas.length} carreres
 `;
     
-    // 4. Incluir TODAS las carreras del listado
     ultimasCarrerasFiltradas.forEach((carrera, idx) => {
         contextoFormatado += `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}\n`;
     });
     
-    // 5. Filtres aplicados
     contextoFormatado += `
 [🔧 FILTRES ACTIUS]
 Poblacions: ${Array.isArray(filtrosAplicados.poblacionesSeleccionadas) ? filtrosAplicados.poblacionesSeleccionadas.join(', ') : filtrosAplicados.poblacionesSeleccionadas}
@@ -506,14 +536,11 @@ Ordenació: ${filtrosAplicados.ordenacion}
 ${preguntaUser}
 `;
 
-    // 6. Construir el mensaje
     let promptFinal;
     
     if (historialIA.length === 0) {
-        // Primera pregunta: enviar contexto completo
         promptFinal = contextoFormatado;
     } else {
-        // Siguientes preguntas: solo la pregunta (el contexto ya está en el historial)
         promptFinal = preguntaUser;
     }
 
@@ -541,7 +568,6 @@ ${preguntaUser}
 }
 
 function exportExcel() {
-    // Exportació simplificada de la taula visible
     const table = document.getElementById("tablaRes");
     const wb = XLSX.utils.table_to_book(table, {sheet: "Resultats SJ Pro"});
     XLSX.writeFile(wb, "Simulacio_Graus_2026.xlsx");
