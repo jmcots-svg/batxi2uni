@@ -1,4 +1,4 @@
-// main.ts - Gemini estable y limpio
+// main.ts - Proxy a OpenRouter (DeepSeek) amb memòria
 
 Deno.serve(async (req) => {
   const headers = new Headers({
@@ -14,8 +14,8 @@ Deno.serve(async (req) => {
 
   if (req.method === "GET") {
     return new Response(
-      JSON.stringify({ status: "ok", message: "Servidor IA actiu GEMINI OK" }),
-      { headers }
+      JSON.stringify({ status: "ok", message: "Servidor IA actiu (OpenRouter)" }),
+      { headers },
     );
   }
 
@@ -23,111 +23,99 @@ Deno.serve(async (req) => {
     try {
       const body = await req.json();
 
-      const token = Deno.env.get("GEMINI_API_KEY");
+      const token = Deno.env.get("OPENROUTER_API_KEY");
       if (!token) {
         return new Response(
-          JSON.stringify({ error: "GEMINI_API_KEY no configurat" }),
-          { status: 500, headers }
+          JSON.stringify({ error: "OPENROUTER_API_KEY no configurat" }),
+          { status: 500, headers },
         );
       }
 
       let chatMessages = body.messages;
 
+      // Compatibilitat amb format antic
       if (!chatMessages) {
         const text = body.inputs || body.prompt || "";
         chatMessages = [{ role: "user", content: text }];
       }
 
-      // Eliminar system si viene del frontend
+      // Eliminem qualsevol "system" rebut del frontend
       let filteredMessages = chatMessages.filter(
-        (msg: any) => msg.role !== "system"
+        (msg: any) => msg.role !== "system",
       );
 
-      // Limitar a últimos 40 mensajes
+      // Limitem a últims 40 missatges
       if (filteredMessages.length > 40) {
         filteredMessages = filteredMessages.slice(-40);
       }
 
-	// Convertimos formato OpenAI → Gemini
-	let contents = filteredMessages.map((msg: any) => ({
-	  role: msg.role === "assistant" ? "model" : "user",
-	  parts: [{ text: msg.content }],
-	}));
+      // Afegim system prompt fix (expert orientació universitària)
+      const systemMessage = {
+        role: "system",
+        content: `Ets un expert en orientació universitària a Catalunya.
 
-	// Asegurar que empieza por user
-	if (contents.length > 0 && contents[0].role !== "user") {
-	  contents = contents.slice(1);
-	}
+Treballes únicament amb les dades que l’usuari et proporciona (matèries seleccionades, notes i llistat de graus filtrats).
 
-	// ✅ Inyectamos el system prompt como primer mensaje user
-	const systemPrompt = `Ets un expert en orientació universitària a Catalunya.
+Normes estrictes:
+- NO inventis dades.
+- NO afegeixis universitats o graus que no apareguin a la llista.
+- Si falta informació, digues clarament que no es pot determinar.
+- Basa totes les recomanacions en les notes de tall i les ponderacions facilitades.
 
-	Treballes únicament amb les dades que l’usuari et proporciona.
+Respon sempre en català, de manera clara i breu.`,
+      };
 
-	Normes estrictes:
-	- NO inventis dades.
-	- NO afegeixis universitats o graus que no apareguin a la llista.
-	- Si falta informació, digues-ho clarament.
-	- Basa les recomanacions només en les dades facilitades.
+      const messages = [systemMessage, ...filteredMessages];
 
-	Respon sempre en català de forma clara i breu.`;
+      // Crida a OpenRouter (model free DeepSeek)
+      const orResponse = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+            // opcional pero recomendado por OpenRouter
+            "HTTP-Referer": "https://batxi2uni.jmcots-svg.deno.net/",
+            "X-Title": "Batxi2Uni Orientació",
+          },
+          body: JSON.stringify({
+            model: "deepseek/deepseek-chat:free",
+            messages,
+            max_tokens: 900,
+            temperature: 0.3,
+            top_p: 0.9,
+          }),
+        },
+      );
 
-	contents.unshift({
-	  role: "user",
-	  parts: [{ text: systemPrompt }]
-	});
-
-	const geminiResponse = await fetch(
-	  `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${token}`,
-	  {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-		  contents: contents,
-		  generationConfig: {
-			temperature: 0.3,
-			maxOutputTokens: 900,
-			topP: 0.9,
-		  },
-		}),
-	  }
-	);
-
-      if (!geminiResponse.ok) {
-        const errorDetails = await geminiResponse.text();
+      if (!orResponse.ok) {
+        const errorDetails = await orResponse.text();
+        console.error("Error OpenRouter:", errorDetails);
         return new Response(
-          JSON.stringify({ error: "Error Gemini API", details: errorDetails }),
-          { status: 502, headers }
+          JSON.stringify({
+            error: "Error OpenRouter API",
+            details: errorDetails,
+          }),
+          { status: 502, headers },
         );
       }
 
-      const data = await geminiResponse.json();
+      const data = await orResponse.json();
 
-      let generatedText = "No he pogut generar una resposta.";
-
-      if (data.candidates && data.candidates.length > 0) {
-        const parts = data.candidates[0].content?.parts;
-        if (parts && parts.length > 0 && parts[0].text) {
-          generatedText = parts[0].text;
-        }
-      }
-
-      if (data.promptFeedback?.blockReason) {
-        generatedText = "La consulta ha estat bloquejada per polítiques de seguretat.";
-      }
+      const generatedText =
+        data.choices?.[0]?.message?.content ||
+        "No he pogut generar una resposta.";
 
       return new Response(
         JSON.stringify([{ generated_text: generatedText.trim() }]),
-        { headers }
+        { headers },
       );
-
     } catch (e) {
       console.error("Error servidor:", e);
       return new Response(
         JSON.stringify({ error: e.message }),
-        { status: 500, headers }
+        { status: 500, headers },
       );
     }
   }
