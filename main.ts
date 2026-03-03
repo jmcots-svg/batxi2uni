@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
         filteredMessages = filteredMessages.slice(-40);
       }
 
-      // Preparamos el system prompt
+      // 👇 SYSTEM PROMPT MEJORADO CON MARKDOWN
       const systemInstruction = `Eres un asesor experto en orientación universitaria a Cataluña especializado en ayudar a estudiantes de bachillerato a elegir carrera.
 
 **INFORMACIÓN QUE TIENES DISPONIBLE (DATOS REALES DEL ESTUDIANTE):**
@@ -83,15 +83,35 @@ Deno.serve(async (req) => {
 - Si faltan datos específicos sobre una carrera, indicar cuál es la información disponible y cuál necesitaría más detalle
 - Siempre respetar la nota de corte: si el estudiante pregunta si puede acceder, basarse en los datos reales
 
-**ESTRUCTURA DE RESPUESTAS:**
-1. Responder directamente a la pregunta del estudiante
-2. Si es sobre una carrera específica: dar detalles de esa carrera + cómo encaja con su perfil
-3. Si es una comparación: usar datos reales (notas, oportunidades, ponderaciones) + conocimiento general
-4. Siempre ending con orientación práctica y motivadora
+**FORMATO DE RESPUESTA OBLIGATORIO:**
+Estructura SIEMPRE tus respuestas con Markdown de este modo:
 
-Responde siempre en catalán, de manera clara, estructurada y accesible para estudiantes de bachillerato.`;		
+### 🎓 Título Principal
+Introducción breve
 
-      // Con Gemini, podemos usar el rol "system" de forma nativa, así que lo haremos correctamente
+#### 📋 Sección 1
+- Punto clave 1
+- Punto clave 2
+- Punto clave 3
+
+#### 💼 Sección 2
+Explicación detallada con **términos destacados**
+
+#### ✅ Recomendación Personal
+Tu análisis basado en los datos reales del estudiante
+
+---
+
+Usa estos elementos:
+- ### para títulos principales
+- #### para subtítulos
+- **negrita** para destacar información importante
+- - para listas con viñetas
+- > para información importante en blockquote (ej: > ⚠️ Información crítica)
+- Emojis relevantes: 🎓 📚 💼 👨‍🎓 ✅ ❌ ⭐ 📍 📞 🏫
+
+Responde siempre en catalán, de manera clara, estructurada y accesible para estudiantes de bachillerato.`;
+
       // Construimos los mensajes con el system message al inicio
       let messagesToSend: any[] = [];
       
@@ -113,7 +133,6 @@ Responde siempre en catalán, de manera clara, estructurada y accesible para est
       }
 
       // Crida a Google Gemini API
-      // Crida a Google Gemini API
       const geminiResponse = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
         {
@@ -131,7 +150,7 @@ Responde siempre en catalán, de manera clara, estructurada y accesible para est
               ],
             })),
             generationConfig: {
-              maxOutputTokens: 900,
+              maxOutputTokens: 4000,
               temperature: 0.3,
               topP: 0.9,
             },
@@ -171,13 +190,24 @@ Responde siempre en catalán, de manera clara, estructurada y accesible para est
 
       const data = await geminiResponse.json();
 
-      // Extraer el texto de la respuesta de Gemini (estructura diferente a OpenAI)
+      // Extraer el texto de la respuesta de Gemini
       const generatedText =
         data.candidates?.[0]?.content?.parts?.[0]?.text ||
         "No he pogut generar una resposta.";
 
+      // 👇 NUEVO: Convertir Markdown a HTML enriquecido
+      const htmlResponse = markdownToHTML(generatedText);
+
+      // 👇 NUEVO: Devolver tanto texto como HTML
       return new Response(
-        JSON.stringify([{ generated_text: generatedText.trim() }]),
+        JSON.stringify([{ 
+          generated_text: generatedText.trim(),
+          html: htmlResponse,
+          metadata: {
+            tokens_used: data.usageMetadata?.totalTokenCount,
+            model: data.modelVersion,
+          }
+        }]),
         { headers },
       );
     } catch (e) {
@@ -191,3 +221,31 @@ Responde siempre en catalán, de manera clara, estructurada y accesible para est
 
   return new Response("Not Found", { status: 404, headers });
 });
+
+// 👇 NUEVA FUNCIÓN: Convertir Markdown a HTML
+function markdownToHTML(markdown: string): string {
+  let html = markdown
+    // Títulos h3
+    .replace(/^### (.*?)$/gm, '<h3 class="ai-h3">\$1</h3>')
+    // Títulos h4
+    .replace(/^#### (.*?)$/gm, '<h4 class="ai-h4">\$1</h4>')
+    // Negrita
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="ai-highlight">\$1</strong>')
+    // Blockquotes
+    .replace(/^> (.*?)$/gm, '<blockquote class="ai-blockquote">\$1</blockquote>')
+    // Listas (guiones)
+    .replace(/^\- (.*?)$/gm, '<li>\$1</li>')
+    // Listas (asteriscos)
+    .replace(/^\* (.*?)$/gm, '<li>\$1</li>')
+    // Envolver listas en <ul>
+    .replace(/(<li>.*?<\/li>)/s, '<ul class="ai-list">\$1</ul>')
+    // Divisores (---)
+    .replace(/---/g, '<hr class="ai-divider">')
+    // Párrafos dobles
+    .replace(/\n\n/g, '</p><p>')
+    // Saltos de línea simples
+    .replace(/\n/g, '<br>');
+
+  // Envolver todo en div con párrafo
+  return `<div class="ai-response"><p>${html}</p></div>`;
+}
