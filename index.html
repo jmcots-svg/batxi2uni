@@ -456,71 +456,49 @@ async function enviarConsultaIA() {
     const resDiv = document.getElementById("respuesta-ia");
     const preguntaUser = input.value.trim();
     
-    if(!preguntaUser) return;
+    if(!preguntaUser) {
+        resDiv.innerText = "Por favor, escribe una pregunta.";
+        return;
+    }
 
     resDiv.innerHTML = "<em>L'IA està pensant...</em>";
     input.value = ""; 
 
-    // ✅ VALIDACIÓN: Asegúrate de que existen los elementos antes de acceder
-    const mSelElements = document.querySelectorAll('.m-sel');
-    if (mSelElements.length === 0) {
-        resDiv.innerText = "Error: No hi ha matèries seleccionades.";
-        return;
+    // Asegurar que historialIA existe
+    if (!Array.isArray(historialIA)) {
+        historialIA = [];
     }
 
-    const asignaturasSeleccionadas = Array.from(mSelElements)
+    const asignaturasSeleccionadas = Array.from(document.querySelectorAll('.m-sel'))
         .map(s => s.value)
         .filter(v => v);
     
-    // ✅ VALIDACIÓN: Revisa que los elementos de filtros existan
-    const fMinProf = document.getElementById('fMinProf');
-    const fMinPond = document.getElementById('fMinPond');
-    const fOrden = document.getElementById('fOrden');
+    const fMinProf = document.getElementById('fMinProf')?.value || "0";
+    const fMinPond = document.getElementById('fMinPond')?.value || "0";
+    const fOrden = document.getElementById('fOrden')?.value || "total_desc";
 
-    if (!fMinProf || !fMinPond || !fOrden) {
-        resDiv.innerText = "Error: Elements de filtres no trobats.";
-        return;
-    }
+    const lineasCarreras = ultimasCarrerasFiltradas.slice(0, 50)
+        .map((carrera, idx) => `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}`)
+        .join('\n');
 
-    const filtrosAplicados = {
-        poblacionesSeleccionadas: pobsSel.length > 0 ? pobsSel : "Totes",
-        notaProfesionalMinima: fMinProf.value,
-        ponderacionMinima: fMinPond.value,
-        ordenacion: fOrden.value
-    };
-    
-    let contextoFormatado = `
-    [📚 DADES DEL STUDENT]
-    Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
+    const contextoFormatado = `[📚 DADES DEL STUDENT]
+Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionades.join(', ') : 'Cap'}
 
-    [📋 CARRERES MÉS RELLEVANTS]
-    Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${Math.min(50, ultimasCarrerasFiltradas.length)} millors)
-    `;
+[📋 CARRERES MÉS RELLEVANTS]
+Total disponible: ${ultimasCarrerasFiltrades.length} carreres (mostrant les ${Math.min(50, ultimasCarrerasFiltrades.length)} millors)
 
-    // ⬅️ AQUÍ: Limitar a 50 carreres máximo
-    ultimasCarrerasFiltradas.slice(0, 50).forEach((carrera, idx) => {
-        contextoFormatado += `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}\n`;
-    });
+${lineasCarreras}
 
-    contextoFormatado += `
-    [🔧 FILTRES ACTIUS]
-    Poblacions: ${Array.isArray(filtrosAplicados.poblacionesSeleccionadas) ? filtrosAplicados.poblacionesSeleccionadas.join(', ') : filtrosAplicados.poblacionesSeleccionadas}
-    Nota Prof. mín: ${filtrosAplicados.notaProfesionalMinima}
-    Ponderació mín: ${filtrosAplicados.ponderacionMinima}
-    Ordenació: ${filtrosAplicados.ordenacion}
+[🔧 FILTRES ACTIUS]
+Poblacions: ${pobsSel.length > 0 ? pobsSel.join(', ') : 'Totes'}
+Nota Prof. mín: ${fMinProf}
+Ponderació mín: ${fMinPond}
+Ordenació: ${fOrden}
 
-    [❓ PREGUNTA DEL STUDENT]
-    ${preguntaUser}
-    `;
+[❓ PREGUNTA DEL STUDENT]
+${preguntaUser}`;
 
-    let promptFinal;
-    
-    if (historialIA.length === 0) {
-        promptFinal = contextoFormatado;
-    } else {
-        promptFinal = preguntaUser;
-    }
-
+    const promptFinal = historialIA.length === 0 ? contextoFormatado : preguntaUser;
     historialIA.push({ role: "user", content: promptFinal });
 
     try {
@@ -530,17 +508,18 @@ async function enviarConsultaIA() {
             body: JSON.stringify({ messages: historialIA })
         });
         
+        if (!response.ok) throw new Error(`Error ${response.status}`);
+
         const data = await response.json();
         const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
         const respuestaHTML = data[0]?.html || `<div class="ai-response"><p>${respuestaTexto}</p></div>`;
 
         historialIA.push({ role: "assistant", content: respuestaTexto });
-
         resDiv.innerHTML = respuestaHTML;
         
     } catch (e) {
-        resDiv.innerText = "Error de connexió.";
-        console.error(e);
+        resDiv.innerHTML = `<p style="color:red;">❌ Error: ${e.message}</p>`;
+        console.error("Error completo:", e);
     }
 }
 
