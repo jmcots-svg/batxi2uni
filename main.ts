@@ -3,7 +3,7 @@
 // 👇 NUEVA FUNCIÓN: Obtener todas las keys
 function getApiKeys(): string[] {
   const keys: string[] = [];
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 10; i++) {
     const key = Deno.env.get(`GEMINI_API_KEY_${i}`);
     if (key) keys.push(key);
   }
