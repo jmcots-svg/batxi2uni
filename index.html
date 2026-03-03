@@ -306,22 +306,29 @@ async function enviarConsultaIA() {
     // 2. Limpiar el cuadro de texto inmediatamente
     input.value = ""; 
 
-    // 3. Preparar contexto (solo lo enviamos en la primera pregunta o si cambia la lista)
-    // Para simplificar, añadimos el contexto de la lista actual a la pregunta del usuario
-    const elegidas = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v).join(", ");
-    const files = Array.from(document.querySelectorAll('#tablaRes tbody tr')).slice(0, 15);
-    const dadesLlista = files.map(f => f.innerText.replace(/\n/g, " ")).join("\n");
+	// Solo enviamos contexto en el primer mensaje
+	const elegidas = Array.from(document.querySelectorAll('.m-sel'))
+		.map(s => s.value).filter(v => v).join(", ");
+	const files = Array.from(document.querySelectorAll('#tablaRes tbody tr')).slice(0, 15);
+	const dadesLlista = files.map(f => f.innerText.replace(/\n/g, " ")).join("\n");
 
-    const promptConContexto = `
-[CONTEXT ACTUAL]
-Matèries: ${elegidas}
-Llista: ${dadesLlista}
+	let promptFinal;
 
-[PREGUNTA]
-${preguntaUser}`;
+	if (historialIA.length === 0) {
+		// Primera pregunta: enviamos contexto completo
+		promptFinal = `
+	[CONTEXT ACTUAL]
+	Matèries: ${elegidas}
+	Llista: ${dadesLlista}
 
-    // 4. Guardar la pregunta en el historial
-    historialIA.push({ role: "user", content: promptConContexto });
+	[PREGUNTA]
+	${preguntaUser}`;
+	} else {
+		// Siguientes preguntas: solo la pregunta
+		promptFinal = preguntaUser;
+	}
+
+	historialIA.push({ role: "user", content: promptFinal });
 
     try {
         const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
