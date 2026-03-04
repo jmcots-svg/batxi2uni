@@ -148,7 +148,36 @@
         <h2 style="margin-bottom:30px;">Com vols començar la teva cerca?</h2>
         <button class="btn-decision" style="background:var(--primary); font-size:1.1em; padding:15px 30px; border-radius:50px; border:none; color:white; font-weight:bold; cursor:pointer; margin:10px;" onclick="setModo('SI')">SÍ, sé quin grau vull</button>
         <button class="btn-decision" style="background:var(--accent); font-size:1.1em; padding:15px 30px; border-radius:50px; border:none; color:white; font-weight:bold; cursor:pointer; margin:10px;" onclick="setModo('NO')">NO, vull explorar</button>
-    </div>
+		
+		 <!-- ✅ OPCIONES SECUNDARIAS (aquí sí es correcto) -->
+		<div style="margin-top: 50px; padding: 25px 20px;">
+			<hr style="border: none; border-top: 1px solid #e0e0e0; margin-bottom: 25px;">
+			<p style="font-size: 13px; color: #aaa; margin-bottom: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
+				Altres eines que et poden interessar
+			</p>
+			<p style="font-size: 14px; color: #666; margin-bottom: 12px; line-height: 1.7;">
+				🧭 Si vols fer un <strong>test d'orientació</strong> complert, pots anar a:<br>
+				<a href="https://preparats.cat/graus/test-dorientacio" 
+				   target="_blank" 
+				   rel="noopener noreferrer"
+				   style="color: #2196F3; text-decoration: none; border-bottom: 1px dashed #2196F3;">
+				   preparats.cat – Test d'Orientació
+				</a>
+			</p>
+			<p style="font-size: 14px; color: #666; margin-bottom: 0; line-height: 1.7;">
+				🎯 Si vols fer una <strong>simulació de notes de tall</strong>, pots utilitzar:<br>
+				<a href="https://preparats.cat/selectivitat/calculadora-nota-de-tall" 
+				   target="_blank" 
+				   rel="noopener noreferrer"
+				   style="color: #9C27B0; text-decoration: none; border-bottom: 1px dashed #9C27B0;">
+				   preparats.cat – Calculadora de Nota de Tall
+				</a>
+			</p>
+		</div>
+
+</div>
+	
+	</div>
 
     <div id="mainUI" style="display:none;">
         <button onclick="location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer; margin-bottom:15px;">« Tornar a l'inici</button>
@@ -159,33 +188,6 @@
             <textarea id="input-ia" rows="2" placeholder="Ex: Quina carrera té millor salida professional? O quines universitats estan a Barcelona?"></textarea>
             <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Enviar consulta</button>
             <div id="respuesta-ia"></div>
-			
-			 <!-- Opciones secundarias -->
-			<div style="margin-top: 50px; padding: 25px 20px;">
-				<hr style="border: none; border-top: 1px solid #e0e0e0; margin-bottom: 25px;">
-				<p style="font-size: 13px; color: #aaa; margin-bottom: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
-					Altres eines que et poden interessar
-				</p>
-				<p style="font-size: 14px; color: #666; margin-bottom: 12px; line-height: 1.7;">
-					🧭 Si vols fer un <strong>test d'orientació</strong> complert, pots anar a:<br>
-					<a href="https://preparats.cat/graus/test-dorientacio" 
-					   target="_blank" 
-					   rel="noopener noreferrer"
-					   style="color: #2196F3; text-decoration: none; border-bottom: 1px dashed #2196F3;">
-					   preparats.cat – Test d'Orientació
-					</a>
-				</p>
-				<p style="font-size: 14px; color: #666; margin-bottom: 0; line-height: 1.7;">
-					🎯 Si vols fer una <strong>simulació de notes de tall</strong>, pots utilitzar:<br>
-					<a href="https://preparats.cat/selectivitat/calculadora-nota-de-tall" 
-					   target="_blank" 
-					   rel="noopener noreferrer"
-					   style="color: #9C27B0; text-decoration: none; border-bottom: 1px dashed #9C27B0;">
-					   preparats.cat – Calculadora de Nota de Tall
-					</a>
-				</p>
-			</div>
-			
         </div>
 
         <div id="panelGrado" class="panel reverse-filter" style="display:none;">
