@@ -532,7 +532,8 @@ ${preguntaUser}`;
     historialIA.push({ role: "user", content: promptFinal });
 
     try {
-        const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
+        // const response = await fetch("https://batxi2uni.jmcots-svg.deno.net/", {
+		const response = await fetch("https://api.batxi2uni.run.place/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ messages: historialIA })
