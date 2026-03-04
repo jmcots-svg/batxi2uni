@@ -171,10 +171,10 @@
         <div id="panelMaterias" class="panel">
             <label><span class="step-number">2</span> Tria les teves matèries de modalitat</label>
             <div class="controls-grid">
-                <select id="m1" class="m-sel" onchange="actualizarTodo()"></select>
-                <select id="m2" class="m-sel" onchange="actualizarTodo()"></select>
-                <select id="m3" class="m-sel" onchange="actualizarTodo()"></select>
-                <select id="m4" class="m-sel" onchange="actualizarTodo()"></select>
+				<select id="m1" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
+				<select id="m2" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
+				<select id="m3" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
+				<select id="m4" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
             </div>
         </div>
 
@@ -328,8 +328,26 @@ function cambioGrado() {
 function renderSelMaterias(lista) {
     document.querySelectorAll('.m-sel').forEach(s => {
         const pre = s.value;
-        s.innerHTML = '<option value="">-- Matèria --</option>' + lista.map(m => `<option value="${m}">${m}</option>`).join('');
+        s.innerHTML = '<option value="">-- Matèria --</option>' + 
+            lista.map(m => `<option value="${m}">${m}</option>`).join('');
         s.value = pre;
+    });
+    actualizarOpcionesDisponibles();
+}
+
+function actualizarOpcionesDisponibles() {
+    // Recoge los valores actualmente seleccionados
+    const selects = Array.from(document.querySelectorAll('.m-sel'));
+    const elegidas = selects.map(s => s.value).filter(v => v);
+
+    selects.forEach(sel => {
+        Array.from(sel.options).forEach(opt => {
+            if (opt.value === "") return; // Ignora la opción vacía
+            // Deshabilita si está elegida en OTRO selector
+            opt.disabled = elegidas.includes(opt.value) && opt.value !== sel.value;
+            // Estilo visual para opciones deshabilitadas
+            opt.style.color = opt.disabled ? '#ccc' : '';
+        });
     });
 }
 
