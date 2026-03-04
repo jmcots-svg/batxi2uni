@@ -260,7 +260,11 @@ function parseData(textoRaw) {
             let nom = h[i].replace(/"/g, '').trim();
             if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
         }
-        const pobs = [...new Set(LINEAS.slice(1).map(r => limpiar(r[4])))].filter(x => x).sort();
+        const pobs = [...new Set(
+			LINEAS.slice(1)
+				.flatMap(r => limpiar(r[4]).split(',').map(p => p.trim()))
+				.filter(x => x)
+		)].sort();
         document.getElementById('poblacionsList').innerHTML = pobs.map(p => `<label><input type="checkbox" value="${p}" onchange="updatePobs(this)"> ${p}</label>`).join('');
         llenarGrados();
         document.getElementById('zonaCarga').style.display = 'none';
@@ -342,7 +346,11 @@ function actualizarTodo() {
         const prof = aNum(row[0]);
         
         if (elegidas.length === 0 && MODO_APP === 'SI' && gNom !== gRef) return;
-        if (pobsSel.length > 0 && !pobsSel.includes(pNom)) return;
+        if (pobsSel.length > 0) {
+			const pobsDeEstaFila = pNom.split(',').map(p => p.trim());
+			const coincide = pobsSel.some(sel => pobsDeEstaFila.includes(sel));
+			if (!coincide) return;
+		}
         if (prof < minProf) return;
 
         let suma = 0;
