@@ -184,9 +184,11 @@ Deno.serve(async (req) => {
     "Content-Type": "application/json",
   });
 
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers });
-  }
+	if (req.method === "OPTIONS") {
+		headers.set("Access-Control-Max-Age", "86400");
+		headers.set("Vary", "Origin");
+		return new Response(null, { status: 204, headers });
+	}
 
   // Obtenemos la IP del usuario
   const clientIp = req.headers.get("x-forwarded-for") || "IP_DESCONOCIDA";
@@ -216,8 +218,10 @@ Deno.serve(async (req) => {
 
   if (req.method === "POST") {
 	 
-		const secret = req.headers.get("x-app-secret");
+		const secret = req.headers.get("x-app-secret") || 
+               req.headers.get("X-App-Secret");
 		if (secret !== "sj-pro-secreto-2026") {
+		  console.warn("Secret recibido:", secret);
 		  console.warn("Intento de acceso denegado (Secreto incorrecto)");
 		  return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401, headers });
     }
