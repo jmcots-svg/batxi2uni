@@ -166,8 +166,6 @@ const ALLOWED_ORIGINS = [
   "https://www.batxi2uni.run.place",
   "https://batxi2uni.run.place",
   "https://api.run.place","
-  "http://localhost",
-  "http://127.0.0.1"
 ];
 
 Deno.serve(async (req) => {
