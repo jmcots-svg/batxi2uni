@@ -162,10 +162,25 @@ function isRateLimited(ip: string): boolean {
   return data.count > maxRequests;
 }
 
-const ALLOWED_ORIGIN = "https://www.batxi2uni.run.place";
+const ALLOWED_ORIGINS = [
+  "https://www.batxi2uni.run.place",
+  "https://batxi2uni.run.place",
+  "https://api.run.place","
+  "http://localhost",
+  "http://127.0.0.1"
+];
+
 Deno.serve(async (req) => {
+	
+// Detectar el origen de la petición
+  const requestOrigin = req.headers.get("origin") || "";
+  const allowedOrigin = ALLOWED_ORIGINS.includes(requestOrigin) 
+    ? requestOrigin 
+    : ALLOWED_ORIGINS[0]; // fallback al principal
+	
+	
   const headers = new Headers({
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
+    "Access-Control-Allow-Origin": allowedOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
     "Access-Control-Allow-Headers": "Content-Type, X-App-Secret, x-app-secret", 
     "Content-Type": "application/json",
