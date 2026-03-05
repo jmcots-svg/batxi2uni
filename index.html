@@ -514,6 +514,21 @@ function cerrarIA() {
 }
 
 async function enviarConsultaIA() {
+
+	// 1. Pide un token temporal (no hay secret en el código!)
+    const tokenRes = await fetch("https://api.batxi2uni.run.place/token");
+    const { token } = await tokenRes.json();
+    
+    // 2. Usa el token temporal
+    const response = await fetch("https://api.batxi2uni.run.place/", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "x-app-secret": token  // Token temporal, expira en 5 min
+        },
+        body: JSON.stringify({ messages: historialIA })
+    });
+
     const input = document.getElementById("input-ia");
     const resDiv = document.getElementById("respuesta-ia");
     const preguntaUser = input.value.trim();

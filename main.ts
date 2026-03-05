@@ -1,5 +1,23 @@
 // main.ts - Proxy a Google Gemini API con memoria + FALLBACK múltiples keys
 
+const APP_SECRET = Deno.env.get("APP_SECRET") || "";
+const TOKEN_SECRET = Deno.env.get("TOKEN_SECRET") || ""; 
+
+if (req.method === "GET" && url.pathname === "/token") {
+    const token = crypto.randomUUID(); // Token único
+    const expira = Date.now() + 300000; // Expira en 5 minutos
+    
+    // Guardas el token temporalmente en memoria
+    tokenValidos.set(token, expira);
+    
+    return new Response(
+        JSON.stringify({ token }), 
+        { headers }
+    );
+}
+
+
+
 // 👇 NUEVA FUNCIÓN: Obtener todas las keys
 function getApiKeys(): string[] {
   const keys: string[] = [];
@@ -218,8 +236,19 @@ Deno.serve(async (req) => {
 
   if (req.method === "POST") {
 	 
-		const secret = req.headers.get("x-app-secret") || 
-               req.headers.get("X-App-Secret");
+		const secret = req.headers.get("x-app-secret");
+		const expira = tokenValidos.get(token || "");
+		if (!expira || Date.now() > expira) {
+			return new Response(
+				JSON.stringify({ error: "No autorizado" }), 
+				{ status: 401, headers }
+			);
+		}
+    
+    // Token usado, lo eliminamos (single use)
+    tokenValidos.delete(token || "");
+		
+		
 		if (secret !== "sj-pro-secreto-2026") {
 		  console.warn("Secret recibido:", secret);
 		  console.warn("Intento de acceso denegado (Secreto incorrecto)");
