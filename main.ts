@@ -139,9 +139,33 @@ const geminiResponse = await fetch(
   };
 }
 
+const rateLimitMap = new Map<string, { count: number; startTime: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const windowMs = 60000; // 1 minuto (60.000 milisegundos)
+  const maxRequests = 20; // Límite: 20 preguntas por minuto
+
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, { count: 1, startTime: now });
+    return false;
+  }
+
+  const data = rateLimitMap.get(ip)!;
+  if (now - data.startTime > windowMs) {
+    // Ya pasó el minuto, reiniciamos el contador
+    rateLimitMap.set(ip, { count: 1, startTime: now });
+    return false;
+  }
+
+  data.count++;
+  return data.count > maxRequests;
+}
+
+const ALLOWED_ORIGIN = "https://jmcots-svg.github.io";
 Deno.serve(async (req) => {
   const headers = new Headers({
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
     "Access-Control-Allow-Headers": "Content-Type",
     "Content-Type": "application/json",
@@ -149,6 +173,20 @@ Deno.serve(async (req) => {
 
   if (req.method === "OPTIONS") {
     return new Response(null, { headers });
+  }
+
+  // Obtenemos la IP del usuario
+  const clientIp = req.headers.get("x-forwarded-for") || "IP_DESCONOCIDA";
+
+  // Comprobamos si la IP está haciendo spam (excepto si es GET u OPTIONS)
+  if (req.method === "POST" && isRateLimited(clientIp)) {
+    console.warn(`[RATE LIMIT] IP bloqueada temporalmente: ${clientIp}`);
+    return new Response(
+      JSON.stringify({ 
+        error: "Has fet massa preguntes seguides. Si us plau, espera un minut abans de tornar a preguntar." 
+      }),
+      { status: 429, headers }
+    );
   }
 
   if (req.method === "GET") {
@@ -164,6 +202,13 @@ Deno.serve(async (req) => {
   }
 
   if (req.method === "POST") {
+	 
+		const secret = req.headers.get("x-app-secret");
+		if (secret !== "sj-pro-secreto-2026") {
+		  console.warn("Intento de acceso denegado (Secreto incorrecto)");
+		  return new Response(JSON.stringify({ error: "No autorizado" }), { status: 401, headers });
+    }
+	
     try {
       const body = await req.json();
       const apiKeys = getApiKeys();
