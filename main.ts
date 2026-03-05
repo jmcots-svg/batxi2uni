@@ -165,7 +165,7 @@ function isRateLimited(ip: string): boolean {
 const ALLOWED_ORIGINS = [
   "https://www.batxi2uni.run.place",
   "https://batxi2uni.run.place",
-  "https://api.batxi2uni.run.place","
+  "https://api.batxi2uni.run.place",
 ];
 
 Deno.serve(async (req) => {
