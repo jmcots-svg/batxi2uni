@@ -167,7 +167,7 @@ Deno.serve(async (req) => {
   const headers = new Headers({
     "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, X-App-Secret, x-app-secret", 
     "Content-Type": "application/json",
   });
 
