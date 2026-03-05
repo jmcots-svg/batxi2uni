@@ -1,21 +1,8 @@
 // main.ts - Proxy a Google Gemini API con memoria + FALLBACK múltiples keys
 
 const APP_SECRET = Deno.env.get("APP_SECRET") || "";
-const TOKEN_SECRET = Deno.env.get("TOKEN_SECRET") || ""; 
-
-if (req.method === "GET" && url.pathname === "/token") {
-    const token = crypto.randomUUID(); // Token único
-    const expira = Date.now() + 300000; // Expira en 5 minutos
-    
-    // Guardas el token temporalmente en memoria
-    tokenValidos.set(token, expira);
-    
-    return new Response(
-        JSON.stringify({ token }), 
-        { headers }
-    );
-}
-
+const rateLimitMap = new Map<string, { count: number; startTime: number }>();
+const tokenValidos = new Map<string, number>(); // 👈 AQUÍ, fuera del serve
 
 
 // 👇 NUEVA FUNCIÓN: Obtener todas las keys
@@ -188,6 +175,8 @@ const ALLOWED_ORIGINS = [
 
 Deno.serve(async (req) => {
 	
+	  const url = new URL(req.url);
+	
 // Detectar el origen de la petición
   const requestOrigin = req.headers.get("origin") || "";
   const allowedOrigin = ALLOWED_ORIGINS.includes(requestOrigin) 
@@ -207,6 +196,15 @@ Deno.serve(async (req) => {
 		headers.set("Vary", "Origin");
 		return new Response(null, { status: 204, headers });
 	}
+	
+	if (req.method === "GET" && url.pathname === "/token") {
+    for (const [t, exp] of tokenValidos.entries()) {
+        if (Date.now() > exp) tokenValidos.delete(t);
+    }
+    const token = crypto.randomUUID();
+    tokenValidos.set(token, Date.now() + 30000);
+    return new Response(JSON.stringify({ token }), { headers });
+  }
 
   // Obtenemos la IP del usuario
   const clientIp = req.headers.get("x-forwarded-for") || "IP_DESCONOCIDA";
