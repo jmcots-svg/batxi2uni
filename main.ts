@@ -162,7 +162,7 @@ function isRateLimited(ip: string): boolean {
   return data.count > maxRequests;
 }
 
-const ALLOWED_ORIGIN = "https://jmcots-svg.github.io";
+const ALLOWED_ORIGIN = "https://www.batxi2uni.run.place";
 Deno.serve(async (req) => {
   const headers = new Headers({
     "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
