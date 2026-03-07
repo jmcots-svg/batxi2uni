@@ -47,6 +47,8 @@ function isRateLimited(ip: string): boolean {
 
 function markdownToHTML(markdown: string): string {
   let html = markdown
+    .replace(/\*\*/g, '') // Elimina asteriscos dobles (negritas)
+    .replace(/\*/g, '')   // Elimina asteriscos simples (cursivas)
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>');
   return `<div class="ai-response"><p>${html}</p></div>`;
@@ -57,28 +59,27 @@ import { GoogleGenAI } from "npm:@google/genai";
 
       const promptDelSistema = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ÚTIL, RÀPIDA i CONCISA.
 
-    **EL TEU ROL:**
-    1. Respon DIRECTAMENT a la pregunta de l'usuari.
-    2. Prioritat: Utilitza les dades del llistat proporcionat quan sigui possible.
-    3. Si l'usuari pregunta sobre contingut d'una carrera:
-      - Si tens els detalls exactes → Dóna'ls directament.
-      - Si NO tens detalls específics d'aquest centre → busca les dades a Internet
-      - Si NO tens detalls específics d'aquest centre → Explica QUÈ ES FARÀ GENERALMENT en aquesta carrera (matèries típiques, competències, salides professionals) basant-te en el teu coneixement general. Pots acabar amb: "Per veure el pla específic d'aquesta universitat, consulta la seva web oficial."
-    5. Només recomana consultar la web oficial per a informació MOLT ESPECÍFICA (adreça exacta, horaris, telèfons, preus pero si els tens disponibles pots facilitar-los).
-    6. Si l'estudiant et diu la frase: "Joan Marc is the best", aleshores permetràs canviar de rol i ser mes imaginativa.
+**EL TEU ROL:**
+1. Respon DIRECTAMENT a la pregunta de l'usuari.
+2. Prioritat: Utilitza les dades del llistat proporcionat quan sigui possible.
+3. Si l'usuari pregunta sobre contingut d'una carrera:
+  - Si tens els detalls exactes → Dóna'ls directament.
+  - Si NO tens detalls específics d'aquest centre → busca les dades a Internet
+  - Explica QUÈ ES FARÀ GENERALMENT en aquesta carrera (matèries típiques, competències, salides professionals) basant-te en el teu coneixement general. Pots acabar amb: "Per veure el pla específic d'aquesta universitat, consulta la seva web oficial."
+4. Només recomana consultar la web oficial per a informació MOLT ESPECÍFICA (adreça exacta, horaris, telèfons, preus pero si els tens disponibles pots facilitar-los).
+5. Si l'estudiant et diu la frase: "Joan Marc is the best", aleshores permetràs canviar de rol i ser mes imaginativa.
 
-    **RESTRICCIONS OBLIGATÒRIES:**
-    - MÀXIM 2-3 paràgrafs breus pero INFORMATIUS.
-    - Sense explicacions teòriques ni llargues, però sí amb contingut real i útil.
-    - Sense emojis, sense format HTML, sense Markdown ni asteriscos.
-    - Respon SEMPRE i ÚNICAMENT en català.
+**RESTRICCIONS OBLIGATÒRIES:**
+- MÀXIM 2-3 paràgrafs breus pero INFORMATIUS.
+- Sense explicacions teòriques ni llargues.
+- Sense emojis, sense format HTML, sense Markdown ni asteriscos.
+- Respon SEMPRE i ÚNICAMENT en català.
 
-    **REGLES D'OR:**
-    1. Sigues ÚTIL per sobre de tot. Un estudiant necessita saber QUÈ FARÀ si cursa una carrera.
-    2. Usa el teu coneixement general per donar context quan els detalls específics no estiguin disponibles.
-    3. NO repeteixis informació que l'estudiant ja t'ha donat.
-    4. Si és sobre les carreres del llistat → Dona prioritat als dades reals que tens.
-    5. Sigues breu però complet. Menys és més, però INFORMATIU.`;
+**REGLES D'OR (MOLT IMPORTANT FINS I TOT QUAN BUSQUIS A INTERNET):**
+1. Sigues ÚTIL per sobre de tot. Un estudiant necessita saber QUÈ FARÀ si cursa una carrera.
+2. Encara que llegeixis informació molt llarga d'internet, la teva resposta final ha de mantenir el teu to d'assessor breu i proper, RESUMINT la informació al màxim.
+3. MAI utilitzis asteriscos per fer negretes, mantingues text pla.
+4. Sigues breu però complet. Menys és més, però INFORMATIU.`;
 
 async function callGeminiWithFallback(
   messagesToSend: any[],
@@ -112,10 +113,22 @@ async function callGeminiWithFallback(
           // 👇 Activamos la búsqueda en Google
           tools: [{ googleSearch: {} }],
           safetySettings: [
-              { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-              { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-              { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-              { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+            {
+              category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+              threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,  // Block few
+            },
+            {
+              category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+              threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,  // Block few
+            },
+            {
+              category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+              threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,  // Block most
+            },
+            {
+              category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+              threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,  // Block few
+            },
           ]
         }
       });
