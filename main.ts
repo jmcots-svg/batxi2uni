@@ -52,17 +52,9 @@ function markdownToHTML(markdown: string): string {
   return `<div class="ai-response"><p>${html}</p></div>`;
 }
 
-async function callGeminiWithFallback(
-  messagesToSend: any[],
-  apiKeys: string[],
-): Promise<any> {
-  let lastError: any = null;
+// Importamos el SDK oficial desde npm
+import { GoogleGenAI } from "npm:@google/genai";
 
-  for (let i = 0; i < apiKeys.length; i++) {
-    const apiKey = apiKeys[i];
-    console.log(`[Intento ${i + 1}/${apiKeys.length}] Usando key: ${apiKey.slice(0, 10)}...`);
-
-    try {
       const promptDelSistema = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ÚTIL, RÀPIDA i CONCISA.
 
     **EL TEU ROL:**
@@ -88,53 +80,66 @@ async function callGeminiWithFallback(
     4. Si és sobre les carreres del llistat → Dona prioritat als dades reals que tens.
     5. Sigues breu però complet. Menys és més, però INFORMATIU.`;
 
-      const geminiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            systemInstruction: {
-              parts: [{ text: promptDelSistema }]
-            },
-            contents: messagesToSend.map((msg) => ({
-              role: msg.role === "user" ? "user" : "model",
-              parts: [{ text: msg.content }],
-            })),
-            generationConfig: {
-              maxOutputTokens: 3500,
-              temperature: 0.7,
-              topP: 0.9,
-            },
-            safetySettings: [
+async function callGeminiWithFallback(
+  messagesToSend: any[],
+  apiKeys: string[],
+): Promise<any> {
+  let lastError: any = null;
+
+  for (let i = 0; i < apiKeys.length; i++) {
+    const apiKey = apiKeys[i];
+    console.log(`[Intento ${i + 1}/${apiKeys.length}] Usando key: ${apiKey.slice(0, 10)}...`);
+
+    try {
+
+      // Inicializamos el SDK con la Key actual del bucle
+      const ai = new GoogleGenAI({ apiKey: apiKey });
+
+      const formattedContents = messagesToSend.map((msg) => ({
+        role: msg.role === "user" ? "user" : "model",
+        parts: [{ text: msg.content }],
+      }));
+
+      // Llamada usando el SDK oficial
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: formattedContents,
+        config: {
+          systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
+          temperature: 0.7,
+          topP: 0.9,
+          maxOutputTokens: 3500,
+          // 👇 Activamos la búsqueda en Google
+          tools: [{ googleSearch: {} }],
+          safetySettings: [
               { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
               { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
               { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
               { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-            ],
-          }),
+          ]
         }
-      );
-
-      if (geminiResponse.status === 429) {
-        const errorData = await geminiResponse.json();
-        console.warn(`[Key ${i + 1}] Cuota excedida. Intentando siguiente...`);
-        lastError = errorData;
-        continue;
-      }
-
-      if (!geminiResponse.ok) {
-        const errorDetails = await geminiResponse.text();
-        console.error(`[Key ${i + 1}] Error ${geminiResponse.status}:`, errorDetails);
-        lastError = { status: geminiResponse.status, message: errorDetails };
-        continue;
-      }
+      });
 
       console.log(`[Key ${i + 1}] ✅ Respuesta exitosa`);
-      const data = await geminiResponse.json();
-      return { success: true, data: data, keyUsed: i + 1 };
+      
+      // Adaptamos la respuesta para que tu código actual no se rompa
+      return { 
+        success: true, 
+        data: {
+          candidates: [{ content: { parts: [{ text: response.text }] } }],
+          usageMetadata: { totalTokenCount: response.usageMetadata?.totalTokenCount }
+        }, 
+        keyUsed: i + 1 
+      };
 
-    } catch (e) {
+    } catch (e: any) {
+      // Si el error incluye "429" o "Quota Exceeded", saltamos a la siguiente key
+      if (e.message?.includes("429") || e.status === 429) {
+        console.warn(`[Key ${i + 1}] Cuota excedida. Intentando siguiente...`);
+        lastError = e;
+        continue;
+      }
+      // Para otros errores (400, etc), también probamos con la siguiente o paramos según prefieras
       console.error(`[Key ${i + 1}] Excepción:`, e.message);
       lastError = e;
       continue;
