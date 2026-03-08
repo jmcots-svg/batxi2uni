@@ -143,11 +143,11 @@ async function callGeminiWithFallback(
               category: "HARM_CATEGORY_DANGEROUS_CONTENT",
               threshold: "BLOCK_ONLY_HIGH",  // Block few
             },
-          ],
-          tools: [
-            { googleSearch: {} },
-            { urlContext: {} }
           ]
+          //tools: [
+          //  { googleSearch: {} },
+          //  { urlContext: {} }
+          //]
         }
       });
 
