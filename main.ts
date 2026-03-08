@@ -123,7 +123,7 @@ async function callGeminiWithFallback(
           topP: 0.9,
           maxOutputTokens: 3500,
           // 👇 Activamos la búsqueda en Google
-          tools: [{ googleSearch: {} }],
+          //tools: [{ googleSearch: {} }],
           safetySettings: [
             {
               category: "HARM_CATEGORY_HARASSMENT",
