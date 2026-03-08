@@ -121,7 +121,7 @@ async function callGeminiWithFallback(
         config: {
 
           thinkingConfig: {
-            thinkingBudget: 0,
+            thinkingBudget: -1,
           },
           systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
           temperature: 0.7,
