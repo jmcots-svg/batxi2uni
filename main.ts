@@ -97,7 +97,7 @@ async function callGeminiWithFallback(
   //  const apiKey = apiKeys[i];
 
   for (let i = 0; i < 1; i++) {
-    const apiKey = "AIzaSyCpCSR5eQGtWzimq6Nx7G0ZnB3cyx8gfg"; // 👈 LA QUE FUNCIONÓ EN CURL
+    const apiKey = "AIzaSyCipCSR5eQGtWZimq6Nx7G0ZnB3cyx8gfg"; // 👈 LA QUE FUNCIONÓ EN CURL
     console.log("USANDO KEY HARDCODEADA:", apiKey.slice(-6));
 
 
@@ -123,7 +123,7 @@ async function callGeminiWithFallback(
           topP: 0.9,
           maxOutputTokens: 3500,
           // 👇 Activamos la búsqueda en Google
-          //tools: [{ googleSearch: {} }],
+          tools: [{ googleSearch: {} }],
           safetySettings: [
             {
               category: "HARM_CATEGORY_HARASSMENT",
