@@ -125,7 +125,7 @@ async function callGeminiWithFallback(
       // Llamada usando el SDK oficial
       const response = await ai.models.generateContent({
       
-        model1,
+        model = model1,
         contents: formattedContents,
         config: {
           systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
@@ -151,7 +151,7 @@ async function callGeminiWithFallback(
               threshold: "BLOCK_ONLY_HIGH",  // Block few
             },
           ],
-         tools1,
+         tools = tools1,
         }
       });
 
