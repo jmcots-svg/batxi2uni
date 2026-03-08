@@ -115,13 +115,16 @@ async function callGeminiWithFallback(
 
       // Llamada usando el SDK oficial
       const response = await ai.models.generateContent({
-
-        model: 'gemini-2.5-flash-lite',
+        tools: [
+          { googleSearch: {} },
+          { urlContext: {} }
+        ]
+        model: 'gemini-3.1-flash-lite-preview',
         contents: formattedContents,
         config: {
         thinkingConfig: {
-              thinkingBudget: 0,
-            },
+      thinkingLevel: ThinkingLevel.MEDIUM,
+    },
           systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
           temperature: 0.7,
           topP: 0.9,
@@ -144,10 +147,6 @@ async function callGeminiWithFallback(
               category: "HARM_CATEGORY_DANGEROUS_CONTENT",
               threshold: "BLOCK_ONLY_HIGH",  // Block few
             },
-          ],
-          tools: [
-            { googleSearch: {} },
-            { urlContext: {} }
           ]
         }
       });
