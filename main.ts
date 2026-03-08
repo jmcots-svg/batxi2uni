@@ -120,7 +120,7 @@ async function callGeminiWithFallback(
         contents: formattedContents,
         config: {
         thinkingConfig: {
-      thinkingLevel: ThinkingLevel.MEDIUM,
+      thinkingLevel: ThinkingLevel.LOW,
     },
           systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
           temperature: 0.7,

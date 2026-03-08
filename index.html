@@ -551,7 +551,7 @@ async function enviarConsultaIA() {
     const fMinPond = document.getElementById('fMinPond')?.value || "0";
     const fOrden = document.getElementById('fOrden')?.value || "total_desc";
 
-    const lineasCarreras = ultimasCarrerasFiltradas.slice(0, 1)
+    const lineasCarreras = ultimasCarrerasFiltradas.slice(0, 700)
         .map((carrera, idx) => `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}`)
         .join('\n');
 
@@ -559,7 +559,7 @@ async function enviarConsultaIA() {
 Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
 
 [📋 CARRERES MÉS RELLEVANTS]
-Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${Math.min(1, ultimasCarrerasFiltradas.length)} millors)
+Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${Math.min(700, ultimasCarrerasFiltradas.length)} millors)
 
 ${lineasCarreras}
 
