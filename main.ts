@@ -115,10 +115,7 @@ async function callGeminiWithFallback(
 
       // Llamada usando el SDK oficial
       const response = await ai.models.generateContent({
-        tools: [
-          { googleSearch: {} },
-          { urlContext: {} }
-        ]
+        tools: [{ googleSearch: {} }],
         model: 'gemini-3.1-flash-lite-preview',
         contents: formattedContents,
         config: {
@@ -147,7 +144,10 @@ async function callGeminiWithFallback(
               category: "HARM_CATEGORY_DANGEROUS_CONTENT",
               threshold: "BLOCK_ONLY_HIGH",  // Block few
             },
-          ]
+          ],
+         tools: [
+          { urlContext: {} }
+        ]
         }
       });
 
