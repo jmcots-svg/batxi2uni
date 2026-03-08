@@ -118,10 +118,6 @@ async function callGeminiWithFallback(
         model: 'gemini-3.1-flash-lite-preview',
         contents: formattedContents,
         config: {
-          tools: [
-            { googleSearch: {} },
-            { urlContext: {} }
-          ],
           thinkingConfig: {
             thinkingLevel: ThinkingLevel.LOW,
           },
@@ -148,6 +144,10 @@ async function callGeminiWithFallback(
               threshold: "BLOCK_ONLY_HIGH",  // Block few
             },
           ]
+          tools: [
+            { googleSearch: {} },
+            { urlContext: {} }
+          ],
         }
       });
 
