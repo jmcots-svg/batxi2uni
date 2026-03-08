@@ -59,6 +59,7 @@ import {
   GoogleGenAI,
   HarmBlockThreshold,
   HarmCategory,
+  ThinkingLevel,
 } from "npm:@google/genai";
 
 
