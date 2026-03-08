@@ -55,7 +55,12 @@ function markdownToHTML(markdown: string): string {
 }
 
 // Importamos el SDK oficial desde npm
-import { GoogleGenAI } from "npm:@google/genai";
+import {
+  GoogleGenAI,
+  HarmBlockThreshold,
+  HarmCategory,
+} from '@google/genai';
+
 
       const promptDelSistema = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ÚTIL, RÀPIDA i CONCISA.
 
