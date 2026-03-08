@@ -59,7 +59,7 @@ import {
   GoogleGenAI,
   HarmBlockThreshold,
   HarmCategory,
-} from jsr:'@google/genai';
+} from "jsr:@google/genai";
 
 
       const promptDelSistema = `Ets un assessor expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants de batxillerat de forma ÚTIL, RÀPIDA i CONCISA.
