@@ -93,11 +93,8 @@ async function callGeminiWithFallback(
 ): Promise<any> {
   let lastError: any = null;
 
-  //for (let i = 0; i < apiKeys.length; i++) {
-  //  const apiKey = apiKeys[i];
-
-  for (let i = 0; i < 1; i++) {
-    const apiKey = "AIzaSyCipCSR5eQGtWZimq6Nx7G0ZnB3cyx8gfg"; // 👈 LA QUE FUNCIONÓ EN CURL
+  for (let i = 0; i < apiKeys.length; i++) {
+    const apiKey = apiKeys[i];
     console.log("USANDO KEY HARDCODEADA:", apiKey.slice(-6));
 
 
