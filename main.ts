@@ -104,7 +104,7 @@ async function callGeminiWithFallback(
 
       // Llamada usando el SDK oficial
       const response = await ai.models.generateContent({
-        model: 'gemini-3.1-flash-lite-preview',
+        model: 'gemini-3-flash-preview',
         contents: formattedContents,
         config: {
           systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
