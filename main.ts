@@ -116,12 +116,13 @@ async function callGeminiWithFallback(
       // Llamada usando el SDK oficial
       const response = await ai.models.generateContent({
         tools: [{ googleSearch: {} }],
-        model: 'gemini-3.1-flash-lite-preview',
+        model: 'gemini-2.5-flash',
         contents: formattedContents,
         config: {
-        thinkingConfig: {
-      thinkingLevel: ThinkingLevel.LOW,
-    },
+
+          thinkingConfig: {
+            thinkingBudget: 0,
+          },
           systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
           temperature: 0.7,
           topP: 0.9,
@@ -146,7 +147,8 @@ async function callGeminiWithFallback(
             },
           ],
          tools: [
-          { urlContext: {} }
+          { urlContext: {} },
+          { googleSearch: {}},
         ]
         }
       });
