@@ -114,14 +114,14 @@ async function callGeminiWithFallback(
 
       // Llamada usando el SDK oficial
       const response = await ai.models.generateContent({
-        tools: [
-          { googleSearch: {} },
-          { urlContext {} },
-        ];
+
         model: 'gemini-3.1-flash-lite-preview',
         contents: formattedContents,
         config: {
-
+          tools: [
+            { googleSearch: {} },
+            { urlContext: {} }
+          ],
           thinkingConfig: {
             thinkingLevel: ThinkingLevel.LOW,
           },
