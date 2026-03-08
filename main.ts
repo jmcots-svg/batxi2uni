@@ -145,7 +145,7 @@ async function callGeminiWithFallback(
             },
           ],
           tools: [
-            { googleSearch: {} },
+            //{ googleSearch: {} },
             { urlContext: {} }
           ],
         }
