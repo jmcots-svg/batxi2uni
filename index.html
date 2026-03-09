@@ -40,6 +40,8 @@
 	</script>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
     <style>
         :root { --primary: #3498db; --secondary: #27ae60; --dark: #2c3e50; --light: #f1f2f6; --accent: #8e44ad; --ai-color: #f39c12; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f4f7f6; padding: 20px; color: #333; margin: 0; }
@@ -132,6 +134,10 @@
 			font-weight: 600;
 		}
 
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 0.75em;
+        }
 
 		/* Responsive */
 		@media (max-width: 768px) {
@@ -270,9 +276,10 @@
 
         <div class="btn-actions">
             <button class="btn-tool" style="background:var(--ai-color);" onclick="abrirConsultaIAGeneral()">✨ Preguntar IA</button>
-            <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">📄 Exportar PDF</button>
+            <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">🖨️ Imprimir</button>
             <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
-            <button class="btn-tool" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Netejar Filtres</button>
+            <button class="btn-tool" style="background:#34495e;" onclick="descargarPDFsGeneralitat()">📚 PDFs Generalitat</button>
+            <button class="btn-tool btn-small" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Netejar</button>
         </div>
 		
 		<h2>Filtra graus per ponderacions i nota de tall</h2>
@@ -297,6 +304,8 @@ let MODO_APP = "";
 let pobsSel = [];
 let historialIA = [];
 let ultimasCarrerasFiltradas = [];
+const PDF_NOTES_TALL = "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/notes-de-tall/quadre_comparatiu_nota_tall_juny_2025.pdf";
+const PDF_PONDERACIONS = "https://universitats.gencat.cat/web/.content/01_acces_i_admissio/preinscripcions/documentacio/Ponderacions-2026_v4.pdf";
 
 async function iniciarApp() {
     try {
@@ -655,6 +664,60 @@ function exportExcel() {
     XLSX.utils.book_append_sheet(wb, ws, "Resultats SJ Pro");
     XLSX.writeFile(wb, "Simulacio_Graus_2026.xlsx");
 }
+
+async function descargarPDFsGeneralitat() {
+
+    if (!PDF_NOTES_TALL || !PDF_PONDERACIONS) {
+        alert("No hi ha PDFs configurats.");
+        return;
+    }
+
+    try {
+        const btn = event.target;
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = "⏳ Preparant ZIP...";
+        btn.disabled = true;
+
+        const zip = new JSZip();
+
+        // Descargar ambos PDFs como blobs
+        const [res1, res2] = await Promise.all([
+            fetch(PDF_NOTES_TALL),
+            fetch(PDF_PONDERACIONS)
+        ]);
+
+        if (!res1.ok || !res2.ok) {
+            throw new Error("Error descarregant els PDFs.");
+        }
+
+        const blob1 = await res1.blob();
+        const blob2 = await res2.blob();
+
+        // Añadir al ZIP
+        zip.file("Notes_de_Tall_Generalitat.pdf", blob1);
+        zip.file("Ponderacions_Generalitat.pdf", blob2);
+
+        // Generar ZIP
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+
+        // Forzar descarga
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(zipBlob);
+        link.download = "PDFs_Generalitat_2026.zip";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Restaurar botón
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+
+    } catch (error) {
+        alert("❌ Error descarregant els PDFs.");
+        console.error(error);
+    }
+}
+
 function reiniciarFiltros() {
     document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
     pobsSel = [];
