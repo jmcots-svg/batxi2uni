@@ -94,94 +94,92 @@ async function callGeminiWithFallback(
 ): Promise<any> {
   let lastError: any = null;
 
-  for (let i = 0; i < apiKeys.length; i++) {
-    const apiKey = apiKeys[i];
-    console.log("USANDO KEY HARDCODEADA:", apiKey.slice(-6));
+  // Definimos las dos configuraciones
+  const config1 = {
+    model: 'gemini-1.5-flash', // 'gemini-2.5' no existe, usamos 1.5 o 2.0
+    tools: [{ googleSearch: {} }]
+  };
+  
+  const config2 = {
+    model: 'gemini-1.5-flash-8b', // Modelo más ligero y económico como fallback
+    tools: [] // Sin herramientas para asegurar que responda si lo anterior falla
+  };
 
+  // Intentamos dos rondas: una con la config 1 y otra con la config 2
+  const rondas = [config1, config2];
 
-    console.log(`[Intento ${i + 1}/${apiKeys.length}] Usando key: ${apiKey.slice(0, 10)}...`);
+  for (let roundIdx = 0; roundIdx < rondas.length; roundIdx++) {
+    const currentConfig = rondas[roundIdx];
+    console.log(`--- INICIANDO RONDA ${roundIdx + 1} con modelo ${currentConfig.model} ---`);
 
-    try {
-
-      // Inicializamos el SDK con la Key actual del bucle
-      const ai = new GoogleGenAI({ apiKey: apiKey });
-
-      const formattedContents = messagesToSend.map((msg) => ({
-        role: msg.role === "user" ? "user" : "model",
-        parts: [{ text: msg.content }],
-      }));
+    for (let i = 0; i < apiKeys.length; i++) {
+      const apiKey = apiKeys[i];
       
-      const model2 = 'gemini-3.1-flash-lite-preview';
-      const model1 = 'gemini-2.5-flash';
-      const tools1 = [
-        {googleSearch: {}},
-        { urlContext: {} },
-      ];
-      const tools2 = [
-        { urlContext: {} },
-      ];
+      try {
+        // 1. Inicializar cliente
+        const genAI = new GoogleGenAI(apiKey);
+        
+        // 2. Configurar el modelo (System Instruction y Tools van AQUÍ)
+        const model = genAI.getGenerativeModel({ 
+          model: currentConfig.model,
+          systemInstruction: promptDelSistema,
+          tools: currentConfig.tools,
+        });
 
+        // 3. Formatear historial
+        const formattedContents = messagesToSend.map((msg) => ({
+          role: msg.role === "user" ? "user" : "model",
+          parts: [{ text: msg.content }],
+        }));
 
-      // Llamada usando el SDK oficial
-      const response = await ai.models.generateContent({
-      
-        model: model1,
-        contents: formattedContents,
-        config: {
-          systemInstruction: promptDelSistema, // El SDK maneja la estructura por ti
-          temperature: 0.7,
-          topP: 0.9,
-          maxOutputTokens: 3500,
- 
+        // 4. Llamada efectiva
+        const result = await model.generateContent({
+          contents: formattedContents,
+          generationConfig: {
+            temperature: 0.7,
+            topP: 0.9,
+            maxOutputTokens: 3500,
+          },
           safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_ONLY_HIGH",  // Block few
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_ONLY_HIGH",  // Block few
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_LOW_AND_ABOVE",  // Block most
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_ONLY_HIGH",  // Block few
-            },
+            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_LOW_AND_ABOVE" },
+            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" },
           ],
-         tools: tools1,
-        }
-      });
+        });
 
-      console.log(`[Key ${i + 1}] ✅ Respuesta exitosa`);
-      
-      // Adaptamos la respuesta para que tu código actual no se rompa
-      return { 
-        success: true, 
-        data: {
-          candidates: [{ content: { parts: [{ text: response.text }] } }],
-          usageMetadata: { totalTokenCount: response.usageMetadata?.totalTokenCount }
-        }, 
-        keyUsed: i + 1 
-      };
+        const response = result.response;
+        console.log(`[Ronda ${roundIdx + 1}][Key ${i + 1}] ✅ Éxito`);
 
-    } catch (e: any) {
-      // Si el error incluye "429" o "Quota Exceeded", saltamos a la siguiente key
-      if (e.message?.includes("429") || e.status === 429) {
-        console.warn(`[Key ${i + 1}] Cuota excedida. Intentando siguiente...`);
+        return { 
+          success: true, 
+          data: {
+            candidates: [{ content: { parts: [{ text: response.text() }] } }],
+            usageMetadata: { totalTokenCount: response.usageMetadata?.totalTokenCount },
+            modelVersion: currentConfig.model // Para saber qué modelo respondió
+          }, 
+          keyUsed: i + 1 
+        };
+
+      } catch (e: any) {
         lastError = e;
-        continue;
+        const status = e.status || 0;
+        const isQuotaError = e.message?.includes("429") || status === 429;
+
+        if (isQuotaError) {
+          console.warn(`[Ronda ${roundIdx + 1}][Key ${i + 1}] Cuota agotada.`);
+          continue; // Prueba la siguiente key
+        } else {
+          console.error(`[Ronda ${roundIdx + 1}][Key ${i + 1}] Error crítico:`, e.message);
+          continue; // En un proxy, mejor seguir probando keys que rendirse
+        }
       }
-      // Para otros errores (400, etc), también probamos con la siguiente o paramos según prefieras
-      console.error(`[Key ${i + 1}] Excepción:`, e.message);
-      lastError = e;
-      continue;
     }
+    // Si terminamos el bucle de keys y no ha funcionado, pasamos automáticamente 
+    // a la siguiente iteración del bucle 'rondas' (Cambio de modelo/tools)
   }
 
-  throw { allKeysFailed: true, lastError: lastError, keysAttempted: apiKeys.length };
+  throw { allKeysFailed: true, lastError: lastError, keysAttempted: apiKeys.length * 2 };
 }
 
 // ========== SERVIDOR ==========
