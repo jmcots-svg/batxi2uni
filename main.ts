@@ -105,13 +105,13 @@ async function callGeminiWithFallback(
     { urlContext: {} },                      // ← tu tools2 (sin googleSearch)
   ];
 
+for (let vuelta = 0; vuelta < 2; vuelta++) {
   for (let i = 0; i < apiKeys.length; i++) {
     const apiKey = apiKeys[i];
 
-    // ✅ Si es el último key (índice = length - 1), cambia modelo y tools
-    const isLastKey = i === apiKeys.length - 1;
-    const modelToUse = isLastKey ? model2 : model1;
-    const toolsToUse = isLastKey ? tools2 : tools1;
+    // ✅ Si es el la vuelta 1 usa model 1
+const modelToUse = vuelta === 0 ? model1 : model2;
+const toolsToUse = vuelta === 0 ? tools1 : tools2;
 
     console.log(`[Intento ${i + 1}/${apiKeys.length}] Key: ${apiKey.slice(0, 10)}... | Modelo: ${modelToUse}`);
 
@@ -159,7 +159,7 @@ async function callGeminiWithFallback(
       continue;
     }
   }
-
+}
   throw { allKeysFailed: true, lastError: lastError, keysAttempted: apiKeys.length };
 }
 
