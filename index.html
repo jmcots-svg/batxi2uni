@@ -198,7 +198,18 @@
 	</div>
 
     <div id="mainUI" style="display:none;">
-        <button onclick="location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer; margin-bottom:15px;">« Tornar a l'inici</button>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <button onclick="location.reload()" 
+                    style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer;">
+                    « Tornar a l'inici
+                </button>
+
+                <button onclick="reiniciarFiltros()" 
+                    style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer;">
+                    Netejar filtres
+                </button>
+        </div>
         
 		<h2>Consulta informació sobre carreres amb IA</h2>
 		
@@ -279,7 +290,6 @@
             <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">🖨️ Imprimir</button>
             <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
             <button class="btn-tool" style="background:#34495e;" onclick="descargarPDFsGeneralitat()">📚 PDFs Generalitat</button>
-            <button class="btn-tool btn-small" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Netejar</button>
         </div>
 		
 		<h2>Filtra graus per ponderacions i nota de tall</h2>
