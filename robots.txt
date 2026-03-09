@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Sitemap: https://batxi2uni.run.place/sitemap.xml
 
-# Calculadora educativa - Orientació universitària
+# Calculadora educativa - Orientació universitària IA

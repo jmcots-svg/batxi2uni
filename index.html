@@ -6,11 +6,39 @@
 	<link rel="icon" type="image/png" href="logo.png">
     <link rel="shortcut icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
-	<meta name="description" content="Calculadora universitària per a estudiants de batxillerat. Orientació acadèmica i professional.">
+
+	<meta name="description" content="Calculadora de notes de tall i ponderacions 2026. Compara graus universitaris a Catalunya, simula les teves notes i descobreix les millors carreres per a tu.">
+	<meta name="keywords" content="notes de tall, ponderacions, graus universitaris, calculadora universidad, selectivitat 2026, orientació académica">
+	<meta property="og:title" content="Calculadora Universitària SJ - Ponderacions i Notes de Tall 2026">
+	<meta property="og:description" content="Simula les teves notes, calcula ponderacions i compara graus universitaris a Catalunya">
+	<meta property="og:image" content="https://batxi2uni.run.place/logo.png">
+
 	<meta name="category" content="education">
 	<meta name="classification" content="Educational">
 	<meta name="robots" content="index, follow">
-    <title>Calculadora de Ponderacions i Notes de Tall 2026 | SJ Pro</title>
+
+	<title>Calculadora de Ponderacions i Notes de Tall 2026 | SJ Pro</title>
+
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "WebApplication",
+	  "name": "Calculadora Universitària SJ",
+	  "description": "Calculadora de notes de tall i ponderacions per a graus universitaris a Catalunya",
+	  "url": "https://batxi2uni.run.place",
+	  "applicationCategory": "EducationalApplication",
+	  "offers": {
+		"@type": "Offer",
+		"price": "0",
+		"priceCurrency": "EUR"
+	  },
+	  "creator": {
+		"@type": "Organization",
+		"name": "SJ Pro"
+	  }
+	}
+	</script>
+
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
     <style>
         :root { --primary: #3498db; --secondary: #27ae60; --dark: #2c3e50; --light: #f1f2f6; --accent: #8e44ad; --ai-color: #f39c12; }
@@ -83,46 +111,19 @@
             margin: 8px 0;
         }
 				
-		/* PONDERACIONES DESGLOSE */
-		.ponderaciones-desglose {
-			background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
-			padding: 10px;
-			border-radius: 6px;
-			border-left: 4px solid var(--secondary);
-			margin-top: 10px;
+		/* PONDERACIONES MINIMALISTA */
+		
+		.pond-line {
+			font-size: 0.75em;
+			color: #888;
+			margin-top: 6px;
+			line-height: 1.4;
 		}
-
-		.ponderaciones-grid {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 8px;
-		}
-
-		.ponderacion-item {
-			display: inline-flex;
-			align-items: center;
-			gap: 6px;
-			background: white;
-			padding: 6px 10px;
-			border-radius: 5px;
-			border: 1px solid #ddd;
-			font-size: 0.8em;
-			box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-		}
-
-		.ponderacion-item strong {
-			color: var(--dark);
+		.pond-line span {
+			color: var(--secondary);
 			font-weight: 600;
 		}
 
-		.ponderacion-valor {
-			background: linear-gradient(135deg, var(--secondary), var(--primary));
-			color: white;
-			padding: 2px 8px;
-			border-radius: 4px;
-			font-weight: bold;
-			font-size: 0.9em;
-		}
 
 		/* Responsive */
 		@media (max-width: 768px) {
@@ -140,10 +141,10 @@
 <body onload="iniciarApp()">
 
 <div class="container">
-    <div class="header-area">
-        <img src="logo.png" alt="SJ Pro" class="logo-main">
-        <h1>Calculadora Universitària SJ</h1>
-    </div>
+	<div class="header-area">
+		<img src="logo.png" alt="SJ Pro" class="logo-main">
+		<h1>Calculadora de Notes de Tall i Ponderacions per a Graus Universitaris 2026</h1>
+	</div>
 
     <div id="zonaCarga" style="text-align:center; padding:50px;"><h3>Carregant dades...</h3></div>
 
@@ -185,9 +186,11 @@
     <div id="mainUI" style="display:none;">
         <button onclick="location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer; margin-bottom:15px;">« Tornar a l'inici</button>
         
+		<h2>Consulta informació sobre carreres amb IA</h2>
+		
         <div id="panelIA" class="panel">
             <button class="btn-close-ia" onclick="cerrarIA()">✕</button>
-            <label>✨ Pregunta a l'IA sobre els graus <small>(Versió Experimental)</small></label>
+            <label>✨ Pregunta a l'IA sobre els graus <small>(Per consultar els PDFs oficials inclou la paraula "PDF" en la teva consulta)</small></label>
             <textarea id="input-ia" rows="2" placeholder="Ex: Quina carrera té millor salida professional? O quines universitats estan a Barcelona?"></textarea>
             <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Enviar consulta</button>
             <div id="respuesta-ia"></div>
@@ -255,7 +258,9 @@
             <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
             <button class="btn-tool" style="background:#7f8c8d;" onclick="reiniciarFiltros()">🔄 Netejar Filtres</button>
         </div>
-
+		
+		<h2>Filtra graus per ponderacions i nota de tall</h2>
+		
         <table id="tablaRes">
             <thead>
                 <tr>
@@ -450,15 +455,10 @@ function actualizarTodo() {
     document.getElementById('txtContador').innerText = filtrados.length;
     
     tbody.innerHTML = filtrados.map(r => {
-        const desglosePond = Object.entries(r.ponderaciones)
-            .filter(([_, val]) => val > 0)
-            .map(([materia, valor]) => `
-                <span class="ponderacion-item">
-                    <strong>${materia}</strong>
-                    <span class="ponderacion-valor">${valor.toFixed(2)}</span>
-                </span>
-            `)
-            .join('');
+		const desglosePond = Object.entries(r.ponderaciones)
+			.filter(([_, val]) => val > 0)
+			.map(([materia, valor]) => `${materia} <span>${valor.toFixed(2)}</span>`)
+			.join(' · ');
         
         return `
             <tr>
@@ -468,12 +468,7 @@ function actualizarTodo() {
                     <div style="font-size:0.85em; color:#666;">${r.univ}</div>
                     <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
                     ${desglosePond ? `
-                        <div class="ponderaciones-desglose">
-                            <span style="font-size:0.75em; font-weight:bold; color:#666; display:block; margin-top:8px; margin-bottom:6px;">📊 Ponderacions per matèria:</span>
-                            <div class="ponderaciones-grid">
-                                ${desglosePond}
-                            </div>
-                        </div>
+						${desglosePond ? `<div class="pond-line">Pond: ${desglosePond}</div>` : ''}
                     ` : ''}
                 </td>
                 <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
@@ -656,6 +651,13 @@ window.onclick = function(e) {
         document.getElementById('poblacionsList').style.display = 'none';
     } 
 }
+// Enviar consulta IA con Enter (Shift+Enter para salto de línea)
+document.getElementById('input-ia').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        enviarConsultaIA();
+    }
+});
 </script>
 </body>
 </html>
