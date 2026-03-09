@@ -433,7 +433,8 @@ function actualizarTodo() {
             prof, 
             id: limpiar(row[1]), 
             grado: gNom, 
-            univ: limpiar(row[3]), 
+            univ: limpiar(row[3]),
+            places: limpiar(row[5]),
             pNom, 
             nota: aNum(row[6]), 
             total: suma,
@@ -465,7 +466,10 @@ function actualizarTodo() {
                 <td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
                 <td>
                     <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
-                    <div style="font-size:0.85em; color:#666;">${r.univ}</div>
+                    <div style="font-size:0.85em; color:#666;">
+                        ${r.univ}
+                        ${r.places ? ` · <span style="color:#2980b9; font-weight:600;">${r.places} places</span>` : ''}
+                    </div>
                     <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
                     ${desglosePond ? `
 						${desglosePond ? `<div class="pond-line">Pond: ${desglosePond}</div>` : ''}
