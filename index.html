@@ -595,7 +595,8 @@ async function enviarConsultaIA() {
     const fMinPond = document.getElementById('fMinPond')?.value || "0";
     const fOrden = document.getElementById('fOrden')?.value || "total_desc";
 
-    const lineasCarreras = ultimasCarrerasFiltradas.slice(0, 700)
+    const topCarreras = ultimasCarrerasFiltradas.slice(0, 30);
+    const lineasCarreras = topCarreras
         .map((carrera, idx) => `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}`)
         .join('\n');
 
@@ -603,7 +604,7 @@ async function enviarConsultaIA() {
 Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
 
 [📋 CARRERES MÉS RELLEVANTS]
-Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${Math.min(700, ultimasCarrerasFiltradas.length)} millors)
+Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${topCarreras.length} millors segons els filtres)
 
 ${lineasCarreras}
 
@@ -630,43 +631,83 @@ ${preguntaUser}`;
             body: JSON.stringify({ messages: historialIA, stream: true })
         });
         
-        if (!response.ok) throw new Error(`Error ${response.status}`);
+        if (!response.ok) {
+            let errorMsg = `Error ${response.status}`;
+            try {
+                const errData = await response.json();
+                if (errData.error) errorMsg = errData.error;
+            } catch (_) {}
+            throw new Error(errorMsg);
+        }
 
         const contentType = response.headers.get("content-type") || "";
 
         // Si el backend respon amb Server-Sent Events (streaming en temps real)
         if (contentType.includes("text/event-stream") && response.body) {
             const reader = response.body.getReader();
-            const decoder = new TextDecoder();
+            const decoder = new TextDecoder("utf-8");
             let accumulated = "";
-            resDiv.innerHTML = `<div class="ai-response"><p class="ai-stream-content"></p></div>`;
+            resDiv.innerHTML = `<div class="ai-response"><div class="ai-stream-content" style="white-space: pre-wrap; line-height: 1.5;"></div></div>`;
             const contentEl = resDiv.querySelector(".ai-stream-content");
 
             let buffer = "";
+            let streamError = null;
+
             while (true) {
                 const { done, value } = await reader.read();
                 if (done) break;
                 buffer += decoder.decode(value, { stream: true });
-                const lines = buffer.split("\n\n");
-                buffer = lines.pop() || "";
-                for (const line of lines) {
-                    if (line.startsWith("data: ")) {
-                        try {
-                            const data = JSON.parse(line.slice(6));
-                            if (data.chunk) {
-                                accumulated += data.chunk;
-                                if (contentEl) contentEl.innerText = accumulated;
-                            } else if (data.done) {
-                                accumulated = data.fullText || accumulated;
-                            } else if (data.error) {
-                                throw new Error(data.error);
-                            }
-                        } catch (err) {
-                            // Ignorar trossos no JSON
+                
+                // Dividir per salts de línia robustament (admet CRLF i LF)
+                const lines = buffer.split(/\r?\n/);
+                buffer = lines.pop() ?? "";
+
+                for (let line of lines) {
+                    line = line.trim();
+                    if (!line || !line.startsWith("data:")) continue;
+                    const jsonStr = line.replace(/^data:\s*/, "");
+                    try {
+                        const data = JSON.parse(jsonStr);
+                        if (data.error) {
+                            streamError = data.error;
+                            break;
                         }
+                        if (data.chunk) {
+                            accumulated += data.chunk;
+                            if (contentEl) contentEl.innerText = accumulated;
+                        } else if (data.done) {
+                            if (data.fullText && !accumulated) {
+                                accumulated = data.fullText;
+                            }
+                        }
+                    } catch (err) {
+                        // Ignorar trossos no JSON
                     }
                 }
+                if (streamError) break;
             }
+
+            // Processar qualsevol línia restant al buffer
+            if (!streamError && buffer.trim()) {
+                const line = buffer.trim();
+                if (line.startsWith("data:")) {
+                    try {
+                        const data = JSON.parse(line.replace(/^data:\s*/, ""));
+                        if (data.error) streamError = data.error;
+                        else if (data.chunk) accumulated += data.chunk;
+                        else if (data.done && data.fullText && !accumulated) accumulated = data.fullText;
+                    } catch (_) {}
+                }
+            }
+
+            if (streamError) {
+                throw new Error(streamError);
+            }
+
+            if (!accumulated) {
+                throw new Error("No s'ha rebut cap resposta de l'assistent d'IA.");
+            }
+
             historialIA.push({ role: "assistant", content: accumulated });
             resDiv.innerHTML = formatAiResponse(accumulated);
             return;
@@ -683,16 +724,46 @@ ${preguntaUser}`;
     } catch (e) {
         resDiv.innerHTML = `<p style="color:red;">❌ Error: ${e.message}</p>`;
         console.error("Error complet:", e);
+        if (historialIA.length > 0) historialIA.pop();
     }
 }
 
 function formatAiResponse(markdown) {
-    let html = markdown
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '$1')
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br>');
-    return `<div class="ai-response"><p>${html}</p></div>`;
+    if (!markdown) return "";
+    const lines = markdown.split("\n");
+    let html = "";
+    let inUl = false;
+    let inOl = false;
+
+    for (let line of lines) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+            if (inOl) { html += "</ol>"; inOl = false; }
+            if (!inUl) { html += "<ul>"; inUl = true; }
+            html += "<li>" + formatInline(trimmed.slice(2)) + "</li>";
+        } else if (/^\d+\.\s/.test(trimmed)) {
+            if (inUl) { html += "</ul>"; inUl = false; }
+            if (!inOl) { html += "<ol>"; inOl = true; }
+            html += "<li>" + formatInline(trimmed.replace(/^\d+\.\s*/, "")) + "</li>";
+        } else {
+            if (inUl) { html += "</ul>"; inUl = false; }
+            if (inOl) { html += "</ol>"; inOl = false; }
+            if (trimmed === "") {
+                html += "<br>";
+            } else {
+                html += "<p>" + formatInline(trimmed) + "</p>";
+            }
+        }
+    }
+    if (inUl) html += "</ul>";
+    if (inOl) html += "</ol>";
+    return `<div class="ai-response">${html}</div>`;
+}
+
+function formatInline(str) {
+    return str
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>");
 }
 
 function exportExcel() {

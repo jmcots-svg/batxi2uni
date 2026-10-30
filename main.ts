@@ -664,10 +664,12 @@ Deno.serve(async (req) => {
       // ============================================================
       // 3. DETECCIONS PROACTIVES (PDFs o CERCA WEB)
       // ============================================================
-      const esPrimerMensaje = filteredMessages.length === 1;
+      const userTextToCheck = lastUserMessageText.includes("[❓ PREGUNTA DEL STUDENT]")
+        ? (lastUserMessageText.split("[❓ PREGUNTA DEL STUDENT]")[1] || "").toLowerCase()
+        : lastUserMessageText.toLowerCase();
 
       // A. Detecció de paraules clau de PDFs
-      const isPdfRelated = !esPrimerMensaje && !awaitingPdf && lastUserMessageText.toLowerCase().includes("pdf");
+      const isPdfRelated = !awaitingPdf && userTextToCheck.includes("pdf");
       if (isPdfRelated) {
         console.log("🔔 Pregunta sobre PDFs detectada. Preguntant a l'usuari...");
         headers.set("Content-Type", "application/json");
@@ -682,13 +684,12 @@ Deno.serve(async (req) => {
       }
 
       // B. Detecció bilingüe de necessitat de Cerca Web (portes obertes, telèfons, preus...)
-      const lowerText = lastUserMessageText.toLowerCase();
-      const isWebRelated = !esPrimerMensaje && !awaitingWeb && webSearchKeywords.some((kw) => lowerText.includes(kw));
+      const isWebRelated = !awaitingWeb && webSearchKeywords.some((kw) => userTextToCheck.includes(kw));
 
       if (isWebRelated) {
         console.log("🔔 Pregunta sobre dades web externes detectada. Preguntant a l'usuari...");
         // Detectar si l'usuari escriu en castellà per respondre en castellà
-        const isSpanish = /¿|\b(puertas|abiertas|informacion|carrera|gracias|horario|telefono|precio)\b/i.test(lowerText);
+        const isSpanish = /¿|\b(puertas|abiertas|informacion|carrera|gracias|horario|telefono|precio)\b/i.test(userTextToCheck);
         const confirmText = isSpanish ? WEB_CONFIRMATION_QUESTION_ES : WEB_CONFIRMATION_QUESTION_CA;
 
         headers.set("Content-Type", "application/json");
