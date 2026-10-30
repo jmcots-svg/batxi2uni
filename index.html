@@ -2,320 +2,1094 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" href="logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="shortcut icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
 
-	<meta name="description" content="Calculadora de notes de tall i ponderacions 2026. Compara graus universitaris a Catalunya, simula les teves notes i descobreix les millors carreres per a tu.">
-	<meta name="keywords" content="notes de tall, ponderacions, graus universitaris, calculadora universidad, selectivitat 2026, orientació académica">
-	<meta property="og:title" content="Calculadora Universitària SJ - Ponderacions i Notes de Tall 2026">
-	<meta property="og:description" content="Simula les teves notes, calcula ponderacions i compara graus universitaris a Catalunya">
-	<meta property="og:image" content="https://batxi2uni.run.place/logo.png">
+    <meta name="description" content="Calculadora de notes d'accés, ponderacions i notes de tall 2026. Simula la teva nota sobre 14 amb semàfor de viabilitat i orientació per IA.">
+    <meta name="keywords" content="notes de tall 2026, ponderacions selectivitat catalunya, calculadora nota acces 14 punts, graus universitaris catalunya, pau 2026">
+    <meta property="og:title" content="Batxi2Uni · Calculadora d'Accés i Ponderacions 2026">
+    <meta property="og:description" content="Simula la teva nota sobre 14 punts, compara graus a Catalunya i descobreix les teves opcions segures i al límit.">
+    <meta property="og:image" content="https://batxi2uni.run.place/logo.png">
 
-	<meta name="category" content="education">
-	<meta name="classification" content="Educational">
-	<meta name="robots" content="index, follow">
+    <title>Batxi2Uni · Calculadora d'Accés i Ponderacions PAU 2026</title>
 
-	<title>Calculadora de Ponderacions i Notes de Tall 2026 | SJ Pro</title>
-
-	<script type="application/ld+json">
-	{
-	  "@context": "https://schema.org",
-	  "@type": "WebApplication",
-	  "name": "Calculadora Universitària SJ",
-	  "description": "Calculadora de notes de tall i ponderacions per a graus universitaris a Catalunya",
-	  "url": "https://batxi2uni.run.place",
-	  "applicationCategory": "EducationalApplication",
-	  "offers": {
-		"@type": "Offer",
-		"price": "0",
-		"priceCurrency": "EUR"
-	  },
-	  "creator": {
-		"@type": "Organization",
-		"name": "SJ Pro"
-	  }
-	}
-	</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    
+
     <style>
-        :root { --primary: #3498db; --secondary: #27ae60; --dark: #2c3e50; --light: #f1f2f6; --accent: #8e44ad; --ai-color: #f39c12; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: #f4f7f6; padding: 20px; color: #333; margin: 0; }
-        .container { max-width: 1050px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .header-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
-        .logo-main { height: 70px; margin-bottom: 10px; }
-        h1 { text-align: center; color: var(--dark); margin: 0; font-size: 1.6em; }
-        
-        .panel { background: var(--light); padding: 18px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #ddd; position: relative; }
-        .reverse-filter { border-left: 5px solid var(--accent); background: #fdfaff; }
-        .step-number { background: var(--dark); color: white; padding: 2px 7px; border-radius: 4px; margin-right: 6px; font-size: 0.85em; display: inline-block; }
-        
-        .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-        label { font-weight: bold; font-size: 0.75em; text-transform: uppercase; color: #555; display: block; margin-bottom: 6px; }
-        select, textarea { 
-            width: 100%; 
-            padding: 10px; 
-            border-radius: 6px; 
-            border: 1px solid #ccc; 
-            background: white; 
-            font-family: inherit; 
-            box-sizing: border-box;
-            font-size: 14px; 
+        :root {
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            --border-card: #e2e8f0;
+            --border-light: #f1f5f9;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --ai-accent: #8b5cf6;
+            --ai-light: #f5f3ff;
+            --radius-card: 16px;
+            --radius-btn: 10px;
+            --radius-chip: 9999px;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08);
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* MULTISELECT */
-        .multiselect-container { position: relative; width: 100%; }
-        .multiselect-header { background: white; border: 1px solid #ccc; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.9em; display: flex; justify-content: space-between; height: 40px; align-items: center; }
-        .multiselect-options { position: absolute; top: 100%; left: 0; width: 100%; background: white; border: 1px solid #ccc; display: none; z-index: 100; max-height: 200px; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .multiselect-options label { display: flex; align-items: center; padding: 8px; margin: 0; text-transform: none; font-weight: normal; cursor: pointer; border-bottom: 1px solid #eee; }
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            padding: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        /* IA PANEL */
-        #panelIA { border-left: 5px solid var(--ai-color); display: none; margin-bottom: 20px; }
-        #respuesta-ia { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; min-height: 40px; font-size: 0.95em; line-height: 1.4; max-height: 500px; overflow-y: auto; }
-        .btn-close-ia { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; font-size: 1.2em; color: #999; }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-        .ia-help {
+        /* ========== TOP NAVBAR ========== */
+        .top-navbar {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-card);
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            height: 42px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        .brand-title {
+            font-size: 1.25em;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .brand-badge {
             font-size: 0.75em;
-            color: #9aa3ad;   /* gris más claro */
-            margin-top: 6px;
-            line-height: 1.4;
-            text-transform: lowercase;
-}
-
-        /* ACCIONS */
-        .btn-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        .btn-tool { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85em; display: flex; align-items: center; gap: 6px; color: white; }
-
-        /* TAULA */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { background: var(--dark); color: white; padding: 12px; text-align: left; font-size: 0.85em; text-transform: uppercase; }
-        td { padding: 15px 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .prof-badge { width: 35px; height: 35px; border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .grade-id { font-family: monospace; font-weight: bold; color: #d35400; background: #fff5e6; padding: 2px 6px; border-radius: 4px; border: 1px solid #f5c6cb; font-size: 0.8em; margin-right: 8px; }
-        .tag { display: inline-block; background: #f8f9fa; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; margin: 4px 4px 0 0; color: #444; border: 1px solid #e0e0e0; }
-        .score-big { font-size: 1.6em; font-weight: 900; color: var(--secondary); text-align: right; }
-
-        @media print { .btn-actions, .panel, .header-area, .back-btn { display: none !important; } .container { box-shadow: none; border: none; } }
-    
-	
-        /* ========== RESPUESTA IA SIMPLIFICADA ========== */
-        .ai-response {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #2c3e50;
-            font-size: 14px;  
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: var(--radius-chip);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .ai-response p {
-            margin: 10px 0;
-            font-size: 14px; 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
-        .ai-response br {
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 0.82em;
+            font-weight: 600;
+            border-radius: var(--radius-btn);
+            border: 1px solid var(--border-card);
+            background: var(--bg-card);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            background: var(--bg-page);
+            border-color: var(--text-subtle);
+        }
+
+        .btn-action.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn-action.primary:hover {
+            background: var(--primary-hover);
+        }
+
+        /* ========== PANTALLA INICIAL (ONBOARDING) ========== */
+        #pantallaInicio {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-card);
+            padding: 48px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            margin: 20px auto;
+            max-width: 850px;
+        }
+
+        .hero-title {
+            font-size: 2em;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .hero-desc {
+            font-size: 1.05em;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 32px auto;
+        }
+
+        .decision-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .decision-card {
+            background: var(--bg-page);
+            border: 2px solid var(--border-card);
+            border-radius: var(--radius-card);
+            padding: 28px 20px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .decision-card:hover {
+            border-color: var(--primary);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .decision-card-icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+        }
+
+        .decision-card-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .decision-card-desc {
+            font-size: 0.88em;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ========== COCKPIT LAYOUT (SPLIT SCREEN) ========== */
+        #mainUI {
+            display: none;
+        }
+
+        .cockpit-layout {
+            display: grid;
+            grid-template-columns: 390px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1060px) {
+            .cockpit-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========== COLUMNA ESQUERRA: CONTROLS OPERATIUS ========== */
+        .cockpit-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-card);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .panel-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .panel-title {
+            font-size: 0.9em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* CALCULADORA DE NOTA SOBRE 14 */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .calc-field label {
             display: block;
-            margin: 8px 0;
-        }
-				
-		/* PONDERACIONES MINIMALISTA */
-		
-		.pond-line {
-			font-size: 0.75em;
-			color: #888;
-			margin-top: 6px;
-			line-height: 1.4;
-		}
-		.pond-line span {
-			color: var(--secondary);
-			font-weight: 600;
-		}
-
-        .btn-small {
-            padding: 6px 10px;
             font-size: 0.75em;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
         }
 
-		/* Responsive */
-		@media (max-width: 768px) {
-			.ponderaciones-grid {
-				flex-direction: column;
-				gap: 6px;
-			}
-			
-			.ponderacion-item {
-				justify-content: space-between;
-			}
-		}
-	</style>
+        .calc-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            font-weight: 700;
+            font-family: inherit;
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-btn);
+            background: var(--bg-page);
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .calc-input:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .calc-summary-pill {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            border-radius: var(--radius-btn);
+            padding: 14px 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        .calc-summary-label {
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .calc-summary-score {
+            font-size: 1.8em;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 2px;
+        }
+
+        .calc-breakdown {
+            font-size: 0.75em;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        /* SELECTOR DE GRAU DE REFERENCIA */
+        #panelGrado {
+            display: none;
+            background: #faf5ff;
+            border-color: #d8b4fe;
+        }
+
+        /* XIPS DE MATÈRIES */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 4px;
+            margin-top: 8px;
+        }
+
+        .chip-subject {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+            border-radius: var(--radius-chip);
+            border: 1px solid var(--border-card);
+            background: var(--bg-page);
+            color: var(--text-main);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .chip-subject:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .chip-subject.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+        }
+
+        .chip-subject.not-offered {
+            opacity: 0.65;
+            font-style: italic;
+        }
+
+        .selected-counter {
+            font-size: 0.78em;
+            color: var(--text-muted);
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-toggle-container {
+            margin-top: 8px;
+            font-size: 0.78em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* FILTRES I ORDENACIÓ */
+        .filters-form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-row label {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        select.custom-select {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.88em;
+            font-weight: 600;
+            font-family: inherit;
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-btn);
+            background: var(--bg-page);
+            color: var(--text-main);
+            outline: none;
+        }
+
+        /* MULTISELECT CIUTATS */
+        .multiselect-container { position: relative; width: 100%; }
+        .multiselect-header {
+            background: var(--bg-page);
+            border: 1px solid var(--border-card);
+            padding: 10px 12px;
+            border-radius: var(--radius-btn);
+            cursor: pointer;
+            font-size: 0.88em;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .multiselect-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-btn);
+            display: none;
+            z-index: 100;
+            max-height: 220px;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            margin-top: 4px;
+        }
+        .multiselect-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+            text-transform: none;
+        }
+        .multiselect-options label:hover {
+            background: var(--bg-page);
+        }
+
+        /* COPILOT IA WIDGET */
+        .ai-widget {
+            border-color: #c4b5fd;
+            background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);
+        }
+
+        .ai-widget-title {
+            color: var(--ai-accent);
+        }
+
+        .ai-quick-prompts {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .ai-prompt-chip {
+            text-align: left;
+            background: white;
+            border: 1px solid #ddd6fe;
+            color: #6b21a8;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.78em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .ai-prompt-chip:hover {
+            background: #f3e8ff;
+            border-color: var(--ai-accent);
+        }
+
+        .ai-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ai-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 0.88em;
+            font-family: inherit;
+            border: 1px solid #ddd6fe;
+            border-radius: var(--radius-btn);
+            background: white;
+            resize: none;
+            outline: none;
+        }
+
+        .ai-textarea:focus {
+            border-color: var(--ai-accent);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .btn-ai-submit {
+            background: var(--ai-accent);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: var(--radius-btn);
+            font-size: 0.85em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-ai-submit:hover {
+            background: #7c3aed;
+        }
+
+        #respuesta-ia {
+            margin-top: 12px;
+            font-size: 0.88em;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .ai-response {
+            background: white;
+            border: 1px solid #ddd6fe;
+            border-radius: var(--radius-btn);
+            padding: 14px;
+            color: #1e1b4b;
+        }
+
+        .ai-response p { margin-bottom: 8px; }
+        .ai-response p:last-child { margin-bottom: 0; }
+        .ai-response ul, .ai-response ol { padding-left: 18px; margin-bottom: 8px; }
+        .ai-response li { margin-bottom: 4px; }
+
+        /* ========== COLUMNA DRETA: FEED DE GRAUS (DECK) ========== */
+        .cockpit-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .deck-header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-card);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .deck-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .count-badge {
+            font-size: 1.1em;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .traffic-summary {
+            display: flex;
+            gap: 6px;
+            font-size: 0.78em;
+            font-weight: 700;
+        }
+
+        .traffic-pill {
+            padding: 3px 8px;
+            border-radius: var(--radius-chip);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .traffic-pill.green { background: var(--success-light); color: #065f46; }
+        .traffic-pill.amber { background: var(--warning-light); color: #92400e; }
+        .traffic-pill.red { background: var(--danger-light); color: #991b1b; }
+
+        /* CARDS DE GRAU */
+        .degree-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .degree-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-card);
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .degree-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .card-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .degree-main-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .degree-univ-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75em;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            color: white;
+            letter-spacing: 0.04em;
+        }
+
+        .degree-title {
+            font-size: 1.15em;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        .degree-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.82em;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* VIABILITAT I SEMAFOR */
+        .card-viability-badge {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+            min-width: 130px;
+        }
+
+        .semafor-pill {
+            font-size: 0.85em;
+            font-weight: 800;
+            padding: 6px 12px;
+            border-radius: var(--radius-chip);
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .semafor-pill.segura {
+            background: var(--success-light);
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        .semafor-pill.limit {
+            background: var(--warning-light);
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .semafor-pill.aspiracional {
+            background: var(--danger-light);
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .semafor-pill.ponderacio {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid #c7d2fe;
+        }
+
+        .card-middle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--bg-page);
+            border-radius: var(--radius-btn);
+            margin-bottom: 12px;
+        }
+
+        .info-cell {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-cell-label {
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-subtle);
+        }
+
+        .info-cell-val {
+            font-size: 1.05em;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .info-cell-val.highlight {
+            color: var(--primary);
+        }
+
+        .card-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.82em;
+        }
+
+        .aqu-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            background: #fffbeb;
+            color: #92400e;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #fde68a;
+        }
+
+        .btn-ask-degree {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: white;
+            color: var(--ai-accent);
+            border: 1px solid #ddd6fe;
+            padding: 6px 12px;
+            border-radius: var(--radius-btn);
+            font-weight: 700;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-ask-degree:hover {
+            background: #f5f3ff;
+            border-color: var(--ai-accent);
+        }
+
+        /* PONDERACIO DESGLOSSAMENT */
+        .pond-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .pond-tag {
+            background: white;
+            border: 1px solid var(--border-card);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.72em;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .pond-tag span {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        @media print {
+            .top-navbar, .cockpit-controls, .btn-ask-degree, #pantallaInicio, #zonaCarga { display: none !important; }
+            .cockpit-layout { display: block; }
+            body { padding: 0; background: white; }
+            .degree-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; margin-bottom: 12px; }
+        }
+    </style>
 </head>
 <body onload="iniciarApp()">
 
 <div class="container">
-	<div class="header-area">
-		<img src="logo.png" alt="SJ Pro" class="logo-main">
-		<h1>Calculadora de Notes de Tall i Ponderacions per a Graus Universitaris 2026</h1>
-	</div>
 
-    <div id="zonaCarga" style="text-align:center; padding:50px;"><h3>Carregant dades...</h3></div>
-
-    <div id="pantallaInicio" style="display:none; text-align:center; padding:40px 10px;">
-        <h2 style="margin-bottom:30px;">Com vols començar la teva cerca?</h2>
-        <button class="btn-decision" style="background:var(--primary); font-size:1.1em; padding:15px 30px; border-radius:50px; border:none; color:white; font-weight:bold; cursor:pointer; margin:10px;" onclick="setModo('SI')">SÍ, sé quin grau vull</button>
-        <button class="btn-decision" style="background:var(--accent); font-size:1.1em; padding:15px 30px; border-radius:50px; border:none; color:white; font-weight:bold; cursor:pointer; margin:10px;" onclick="setModo('NO')">NO, vull explorar</button>
-		
-		 <!-- ✅ OPCIONES SECUNDARIAS (aquí sí es correcto) -->
-		<div style="margin-top: 50px; padding: 25px 20px;">
-			<hr style="border: none; border-top: 1px solid #e0e0e0; margin-bottom: 25px;">
-			<p style="font-size: 13px; color: #aaa; margin-bottom: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">
-				Altres eines que et poden interessar
-			</p>
-			<p style="font-size: 14px; color: #666; margin-bottom: 12px; line-height: 1.7;">
-				🧭 Si vols fer un <strong>test d'orientació</strong> complert, pots anar a:<br>
-				<a href="https://preparats.cat/graus/test-dorientacio" 
-				   target="_blank" 
-				   rel="noopener noreferrer"
-				   style="color: #2196F3; text-decoration: none; border-bottom: 1px dashed #2196F3;">
-				   preparats.cat – Test d'Orientació
-				</a>
-			</p>
-			<p style="font-size: 14px; color: #666; margin-bottom: 0; line-height: 1.7;">
-				🎯 Si vols fer una <strong>simulació de notes de tall</strong>, pots utilitzar:<br>
-				<a href="https://preparats.cat/selectivitat/calculadora-nota-de-tall" 
-				   target="_blank" 
-				   rel="noopener noreferrer"
-				   style="color: #9C27B0; text-decoration: none; border-bottom: 1px dashed #9C27B0;">
-				   preparats.cat – Calculadora de Nota de Tall
-				</a>
-			</p>
-		</div>
-
-</div>
-	
-	</div>
-
-    <div id="mainUI" style="display:none;">
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <button onclick="location.reload()" 
-                    style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer;">
-                    « Tornar a l'inici
-                </button>
-
-                <button onclick="reiniciarFiltros()" 
-                    style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer;">
-                    Netejar filtres
-                </button>
-        </div>
-        
-		<h2>Consulta informació sobre carreres amb IA</h2>
-		
-        <div id="panelIA" class="panel">
-            <button class="btn-close-ia" onclick="cerrarIA()">✕</button>
-            
-        <label>✨ Pregunta a l'IA sobre els graus</label>
-
-        <div class="ia-help">
-            consell1: pots consultar sobre les dades del teu llistat filtrat.<br>
-            consell2: si vols buscar en els pdfs officials de notes i ponderació de la Generalitat escriu la paraula clau "PDF" seguida de la consulta.<br>
-            consell3: pots copiar la URL d'una universitat perquè et faciliti una cerca de contingut, un resum o una explicació.<br>
-        </div>
-
-            <textarea id="input-ia" rows="2" placeholder="Ex: Quina carrera té millor salida professional? O quines universitats estan a Barcelona?"></textarea>
-            <button id="btn-preguntar-ia" onclick="enviarConsultaIA()" style="background:var(--ai-color); color:white; border:none; padding:10px; border-radius:6px; width:100%; margin-top:8px; cursor:pointer; font-weight:bold;">Enviar consulta</button>
-            <div id="respuesta-ia"></div>
-        </div>
-
-        <div id="panelGrado" class="panel reverse-filter" style="display:none;">
-            <label><span class="step-number">1</span> Escull el grau de referència</label>
-            <select id="selGrado" onchange="cambioGrado()">
-                <option value="">-- Selecciona un Grau --</option>
-            </select>
-        </div>
-
-        <div id="panelMaterias" class="panel">
-            <label><span class="step-number">2</span> Tria les teves matèries de modalitat</label>
-            <div class="controls-grid">
-				<select id="m1" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
-				<select id="m2" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
-				<select id="m3" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
-				<select id="m4" class="m-sel" onchange="actualizarOpcionesDisponibles(); actualizarTodo()"></select>
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="brand-area">
+            <img src="logo.png" alt="SJ Pro" class="brand-logo" onerror="this.style.display='none'">
+            <div>
+                <span class="brand-title">Batxi2Uni</span>
+                <span class="brand-badge">PAU 2026</span>
             </div>
         </div>
 
-        <div class="panel" style="background:#fff;">
-            <label>Filtres i Ordenació Avançada</label>
-            <div class="controls-grid">
-                <div class="multiselect-container">
-                    <label style="font-size:0.65em">Poblacions</label>
-                    <div class="multiselect-header" onclick="toggleMultiselect()">Totes</div>
-                    <div id="poblacionsList" class="multiselect-options"></div>
-                </div>
-                <div>
-                    <label style="font-size:0.65em">Min. Sortida Prof.</label>
-                    <select id="fMinProf" onchange="actualizarTodo()">
-                        <option value="0">Totes</option>
-                        <option value="3">> 3</option>
-                        <option value="6">> 6</option>
-                        <option value="8">> 8</option>
-                        <option value="10">= 10</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size:0.65em">Mín. Ponderació</label>
-                    <select id="fMinPond" onchange="actualizarTodo()">
-                        <option value="0">Totes</option>
-                        <option value="0.2">≥ 0,2</option>
-                        <option value="0.3">≥ 0,3</option>
-                        <option value="0.4">= 0,4 (Màx.)</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-size:0.65em">Ordenar per</label>
-                    <select id="fOrden" onchange="actualizarTodo()">
-                        <option value="total_desc">Punts (Màx-Mín)</option>
-                        <option value="nota_desc">Nota Tall (Màx-Mín)</option>
-                        <option value="nota_asc">Nota Tall (Mín-Màx)</option>
-                        <option value="prof_desc">Sortida Prof.</option>
-                    </select>
-                </div>
-            </div>
+        <div class="nav-actions">
+            <button class="btn-action" onclick="canviarMode()">🔄 Canviar mode</button>
+            <button class="btn-action" onclick="reiniciarFiltros()">Netejar</button>
+            <button class="btn-action" onclick="exportExcel()">📊 Excel</button>
+            <button class="btn-action" onclick="descargarPDFsGeneralitat()">📚 PDFs Oficials</button>
+            <button class="btn-action" onclick="window.print()">🖨️ Imprimir</button>
         </div>
+    </header>
 
-        <div class="btn-actions">
-            <button class="btn-tool" style="background:var(--ai-color);" onclick="abrirConsultaIAGeneral()">✨ Preguntar IA</button>
-            <button class="btn-tool" style="background:#e74c3c;" onclick="window.print()">🖨️ Imprimir</button>
-            <button class="btn-tool" style="background:#27ae60;" onclick="exportExcel()">📊 Excel</button>
-            <button class="btn-tool" style="background:#34495e;" onclick="descargarPDFsGeneralitat()">📚 PDFs Generalitat</button>
-        </div>
-		
-		<h2>Filtra graus per ponderacions i nota de tall</h2>
-		
-        <table id="tablaRes">
-            <thead>
-                <tr>
-                    <th style="width:50px; text-align:center;">Sortida</th>
-                    <th>Detall del Grau (<span id="txtContador">0</span>)</th>
-                    <th style="width:100px; text-align:right;">Punts</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <!-- PANTALLA INICIAL D'ELECCIÓ (ONBOARDING) -->
+    <div id="zonaCarga" style="text-align:center; padding:60px 20px;">
+        <h3 style="color:var(--text-muted);">Carregant ponderacions i notes de tall 2026...</h3>
     </div>
+
+    <div id="pantallaInicio" style="display:none;">
+        <h1 class="hero-title">Troba el teu camí universitari</h1>
+        <p class="hero-desc">Simula la teva nota d'admissió sobre 14 punts, avalua el marge de seguretat respecte a les notes de tall i descobreix les carreres amb millor sortida professional.</p>
+
+        <div class="decision-cards">
+            <div class="decision-card" onclick="setModo('NO')">
+                <div class="decision-card-icon">🧭</div>
+                <div class="decision-card-title">Vull explorar per matèries</div>
+                <div class="decision-card-desc">Tria les matèries que fas a Batxillerat i descobreix a quins graus aconsegueixes la màxima ponderació (+0.4) i quins estan al teu abast.</div>
+            </div>
+
+            <div class="decision-card" onclick="setModo('SI')">
+                <div class="decision-card-icon">🎯</div>
+                <div class="decision-card-title">Tinc clar quin grau vull</div>
+                <div class="decision-card-desc">Escull una carrera universitària concreta i mira quines matèries de modalitat has de cursar per obtenir els 4 punts a la selectivitat.</div>
+            </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border-card); padding-top:20px; font-size:0.85em; color:var(--text-muted);">
+            Dades oficials de la Generalitat de Catalunya i estudis d'inserció laboral d'AQU Catalunya.
+        </div>
+    </div>
+
+    <!-- MAIN UI: COCKPIT SPLIT SCREEN -->
+    <div id="mainUI">
+        <div class="cockpit-layout">
+
+            <!-- COLUMNA ESQUERRA: CONTROLS DE PRODUCTIVITAT -->
+            <aside class="cockpit-controls">
+
+                <!-- 1. CALCULADORA DE NOTA SOBRE 14 -->
+                <div class="card-panel">
+                    <div class="panel-heading">
+                        <span class="panel-title">📊 1. Nota d'Accés sobre 14</span>
+                    </div>
+
+                    <div class="calculator-grid">
+                        <div class="calc-field">
+                            <label for="inputNMB">Batxillerat (60%)</label>
+                            <input type="number" id="inputNMB" class="calc-input" placeholder="8.20" step="0.05" min="0" max="10" oninput="actualizarTodo()">
+                        </div>
+                        <div class="calc-field">
+                            <label for="inputQFG">PAU General (40%)</label>
+                            <input type="number" id="inputQFG" class="calc-input" placeholder="7.50" step="0.05" min="0" max="10" oninput="actualizarTodo()">
+                        </div>
+                    </div>
+
+                    <div class="calc-summary-pill">
+                        <div class="calc-summary-label">La teva Nota d'Accés Simulada</div>
+                        <div class="calc-summary-score" id="txtNotaAccesGlobal">-- / 14</div>
+                        <div class="calc-breakdown" id="txtDesglossamentAcces">Introdueix notes per activar el semàfor</div>
+                    </div>
+                </div>
+
+                <!-- 2. SELECTOR DE GRAU (SI S'HA TRIAT EL MODE 'SI') -->
+                <div id="panelGrado" class="card-panel">
+                    <div class="panel-heading">
+                        <span class="panel-title">🎯 Grau de Referència</span>
+                    </div>
+                    <select id="selGrado" class="custom-select" onchange="cambioGrado()">
+                        <option value="">-- Selecciona un Grau --</option>
+                    </select>
+                </div>
+
+                <!-- 3. TRIA DE MATÈRIES DE MODALITAT (XIPS INTERACTIUS) -->
+                <div class="card-panel">
+                    <div class="panel-heading">
+                        <span class="panel-title">📚 2. Matèries de Modalitat</span>
+                        <span id="txtComptadorMateries" style="font-size:0.75em; font-weight:700; color:var(--primary);">0/4</span>
+                    </div>
+
+                    <div class="filter-toggle-container">
+                        <input type="checkbox" id="chkAmagarNoImpartides" onchange="toggleAmagarNoImpartides()">
+                        <label for="chkAmagarNoImpartides">Ocultar matèries no impartides al meu centre (*)</label>
+                    </div>
+
+                    <div class="chips-container" id="chipsMateriesContainer">
+                        <!-- Generat dinàmicament en JS -->
+                    </div>
+
+                    <!-- Selectors clàssics ocults per mantenir compatibilitat i estructura -->
+                    <div style="display:none;">
+                        <select id="m1" class="m-sel"></select>
+                        <select id="m2" class="m-sel"></select>
+                        <select id="m3" class="m-sel"></select>
+                        <select id="m4" class="m-sel"></select>
+                    </div>
+                </div>
+
+                <!-- 4. FILTRES AVANÇATS I ORDENACIÓ -->
+                <div class="card-panel">
+                    <div class="panel-heading">
+                        <span class="panel-title">🔧 3. Filtres i Ordenació</span>
+                    </div>
+
+                    <div class="filters-form-grid">
+                        <div class="form-row">
+                            <label>Població / Campus</label>
+                            <div class="multiselect-container">
+                                <div class="multiselect-header" onclick="toggleMultiselect()">
+                                    <span id="txtPobsHeader">Totes</span>
+                                    <span>▾</span>
+                                </div>
+                                <div class="multiselect-options" id="poblacionsList"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Ponderació mínima</label>
+                            <select id="fMinPond" class="custom-select" onchange="actualizarTodo()">
+                                <option value="0">Totes les ponderacions</option>
+                                <option value="0.2">Com a mínim 0.20 (+2 punts)</option>
+                                <option value="0.4" selected>Màxima ponderació 0.40 (+4 punts)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Sortida professional AQU</label>
+                            <select id="fMinProf" class="custom-select" onchange="actualizarTodo()">
+                                <option value="0">Totes les valoracions</option>
+                                <option value="7">Bona inserció (7+ / 10)</option>
+                                <option value="8">Molt alta inserció (8+ / 10)</option>
+                                <option value="9">Excel·lent inserció (9+ / 10)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Ordenar per</label>
+                            <select id="fOrden" class="custom-select" onchange="actualizarTodo()">
+                                <option value="total_desc">Punts de ponderació (més alt primer)</option>
+                                <option value="semafor_desc" selected>Marge de seguretat (més segura primer)</option>
+                                <option value="nota_desc">Nota de tall (més alta primer)</option>
+                                <option value="nota_asc">Nota de tall (més assequible primer)</option>
+                                <option value="prof_desc">Sortida professional AQU (més alta)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. COPILOT D'ORIENTACIÓ IA (GEMMA 4) -->
+                <div class="card-panel ai-widget">
+                    <div class="panel-heading">
+                        <span class="panel-title ai-widget-title">✨ Copilot d'IA Batxi2Uni</span>
+                        <span style="font-size:0.7em; background:#ede9fe; color:#6d28d9; padding:2px 6px; border-radius:4px; font-weight:700;">Gemma 4</span>
+                    </div>
+
+                    <div class="ai-quick-prompts">
+                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Quines carreres del meu llistat tenen millor inserció laboral segons AQU?')">🎓 Carreres amb més sortida professional</button>
+                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Segons la meva nota i matèries, quines 3 opcions em recomanes?')">🎯 Quines 3 opcions em recomanes?</button>
+                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Compara les diferències entre estudiar a la UPC, UB i UAB.')">⚖️ Compara UPC vs UB vs UAB</button>
+                    </div>
+
+                    <div class="ai-input-container">
+                        <textarea id="input-ia" class="ai-textarea" rows="2" placeholder="Fes una pregunta sobre notes, graus, universitats o sortides..."></textarea>
+                        <button id="btn-preguntar-ia" class="btn-ai-submit" onclick="enviarConsultaIA()">Enviar consulta ➤</button>
+                    </div>
+
+                    <div id="respuesta-ia"></div>
+                </div>
+
+            </aside>
+
+            <!-- COLUMNA DRETA: FEED DE GRAUS (DECISIONS) -->
+            <main class="cockpit-deck">
+
+                <div class="deck-header">
+                    <div class="deck-stats">
+                        <span class="count-badge"><span id="txtContador">0</span> graus trobats</span>
+                        <div class="traffic-summary" id="trafficSummary">
+                            <!-- Omplert dinàmicament quan hi ha nota de 14 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="degree-cards-list" id="degreeCardsList">
+                    <!-- Targetes de graus generades per JS -->
+                </div>
+
+            </main>
+
+        </div>
+    </div>
+
 </div>
 
 <script>
 let LINEAS = [];
 let ASIG_MAP = {}; 
-let MODO_APP = "";
+let MODO_APP = "NO";
 let pobsSel = [];
 let historialIA = [];
 let ultimasCarrerasFiltradas = [];
+let materiesSeleccionades = [];
+
 const PDF_NOTES_TALL = "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/notes-de-tall/quadre_comparatiu_nota_tall_juny_2025.pdf";
 const PDF_PONDERACIONS = "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/Ponderacions-2026_v7.pdf";
+
+// Paleta d'universitats oficials de Catalunya
+const UNIV_COLORS = {
+    'UPC': { bg: '#007BC0', text: '#fff' },
+    'UB': { bg: '#0F4C81', text: '#fff' },
+    'UAB': { bg: '#00835B', text: '#fff' },
+    'UPF': { bg: '#BA0020', text: '#fff' },
+    'URV': { bg: '#B5121B', text: '#fff' },
+    'UdG': { bg: '#005A70', text: '#fff' },
+    'UdL': { bg: '#D97706', text: '#fff' },
+    'UVic-UCC': { bg: '#5B21B6', text: '#fff' },
+    'DEFAULT': { bg: '#334155', text: '#fff' }
+};
 
 async function iniciarApp() {
     try {
@@ -324,7 +1098,7 @@ async function iniciarApp() {
         parseData(text);
     } catch (e) { 
         console.error("Error:", e);
-        alert("Error al carregar el fitxer de dades."); 
+        alert("Error al carregar el fitxer de dades de ponderacions."); 
     }
 }
 
@@ -334,15 +1108,26 @@ function parseData(textoRaw) {
         const h = LINEAS[0];
         for(let i=7; i<h.length; i++){
             let nom = h[i].replace(/"/g, '').trim();
-            if(nom){ if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; ASIG_MAP[nom].push(i); }
+            if(nom){ 
+                if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; 
+                ASIG_MAP[nom].push(i); 
+            }
         }
+        
+        // Poblacions
         const pobs = [...new Set(
-			LINEAS.slice(1)
-				.flatMap(r => limpiar(r[4]).split(',').map(p => p.trim()))
-				.filter(x => x)
-		)].sort();
-        document.getElementById('poblacionsList').innerHTML = pobs.map(p => `<label><input type="checkbox" value="${p}" onchange="updatePobs(this)"> ${p}</label>`).join('');
+            LINEAS.slice(1)
+                .flatMap(r => limpiar(r[4]).split(',').map(p => p.trim()))
+                .filter(x => x)
+        )].sort();
+        
+        document.getElementById('poblacionsList').innerHTML = pobs.map(p => 
+            `<label><input type="checkbox" value="${p}" onchange="updatePobs(this)"> ${p}</label>`
+        ).join('');
+
         llenarGrados();
+        renderChipsMateries();
+
         document.getElementById('zonaCarga').style.display = 'none';
         document.getElementById('pantallaInicio').style.display = 'block';
     } catch(e) {
@@ -356,16 +1141,25 @@ function setModo(modo) {
     document.getElementById('pantallaInicio').style.display = 'none';
     document.getElementById('mainUI').style.display = 'block';
     document.getElementById('panelGrado').style.display = (modo === 'SI') ? 'block' : 'none';
-    if(modo === 'NO') { 
-        renderSelMaterias(Object.keys(ASIG_MAP).sort()); 
-        actualizarTodo(); 
+    
+    if(modo === 'NO') {
+        renderChipsMateries();
+        actualizarTodo();
+    } else {
+        actualizarTodo();
     }
+}
+
+function canviarMode() {
+    document.getElementById('mainUI').style.display = 'none';
+    document.getElementById('pantallaInicio').style.display = 'block';
 }
 
 function updatePobs(cb) {
     if(cb.checked) pobsSel.push(cb.value); 
     else pobsSel = pobsSel.filter(p => p !== cb.value);
-    document.querySelector('.multiselect-header').innerText = pobsSel.length > 0 ? pobsSel.length + " sel." : "Totes";
+    
+    document.getElementById('txtPobsHeader').innerText = pobsSel.length > 0 ? `${pobsSel.length} seleccionades` : "Totes";
     actualizarTodo();
 }
 
@@ -382,10 +1176,13 @@ function llenarGrados() {
 
 function cambioGrado() {
     const grado = document.getElementById('selGrado').value;
-    if(!grado) return;
+    if(!grado) {
+        actualizarTodo();
+        return;
+    }
     const ok = new Set();
     LINEAS.forEach((r, i) => { 
-        if(i>0 && limpiar(r[2]) === grado) { 
+        if(i > 0 && limpiar(r[2]) === grado) { 
             for(let m in ASIG_MAP) {
                 ASIG_MAP[m].forEach(idx => { 
                     if(aNum(r[idx]) >= 0.2) ok.add(m); 
@@ -393,42 +1190,80 @@ function cambioGrado() {
             } 
         } 
     });
-    renderSelMaterias(Array.from(ok).sort());
+    
+    // Auto-seleccionar fins a 4 matèries que ponderin 0.2
+    materiesSeleccionades = Array.from(ok).slice(0, 4);
+    renderChipsMateries();
     actualizarTodo();
 }
 
-function renderSelMaterias(lista) {
-    document.querySelectorAll('.m-sel').forEach(s => {
-        const pre = s.value;
-        s.innerHTML = '<option value="">-- Matèria --</option>' + 
-            lista.map(m => `<option value="${m}">${m}</option>`).join('');
-        s.value = pre;
-    });
-    actualizarOpcionesDisponibles();
+/* GESTIÓ DELS XIPS DE MATÈRIES */
+function renderChipsMateries() {
+    const container = document.getElementById('chipsMateriesContainer');
+    const amagarNoImpartides = document.getElementById('chkAmagarNoImpartides')?.checked || false;
+    
+    let llista = Object.keys(ASIG_MAP).sort((a,b) => a.localeCompare(b, 'ca'));
+
+    if (amagarNoImpartides) {
+        llista = llista.filter(m => !m.includes('(*)'));
+    }
+
+    container.innerHTML = llista.map(materia => {
+        const isSelected = materiesSeleccionades.includes(materia);
+        const isNotOffered = materia.includes('(*)');
+        const cleanName = materia.replace('(*)', '').trim();
+        
+        return `
+            <div class="chip-subject ${isSelected ? 'selected' : ''} ${isNotOffered ? 'not-offered' : ''}" 
+                 onclick="toggleMateria('${materia.replace(/'/g, "\\'")}')">
+                ${isSelected ? '✓' : '+'} ${cleanName} ${isNotOffered ? '<span style="font-size:0.8em; opacity:0.7;">(*)</span>' : ''}
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('txtComptadorMateries').innerText = `${materiesSeleccionades.length}/4`;
 }
 
-function actualizarOpcionesDisponibles() {
-    // Recoge los valores actualmente seleccionados
-    const selects = Array.from(document.querySelectorAll('.m-sel'));
-    const elegidas = selects.map(s => s.value).filter(v => v);
-
-    selects.forEach(sel => {
-        Array.from(sel.options).forEach(opt => {
-            if (opt.value === "") return; // Ignora la opción vacía
-            // Deshabilita si está elegida en OTRO selector
-            opt.disabled = elegidas.includes(opt.value) && opt.value !== sel.value;
-            // Estilo visual para opciones deshabilitadas
-            opt.style.color = opt.disabled ? '#ccc' : '';
-        });
-    });
+function toggleMateria(materia) {
+    if (materiesSeleccionades.includes(materia)) {
+        materiesSeleccionades = materiesSeleccionades.filter(m => m !== materia);
+    } else {
+        if (materiesSeleccionades.length >= 4) {
+            alert("Ja has seleccionat el màxim de 4 matèries de modalitat.");
+            return;
+        }
+        materiesSeleccionades.push(materia);
+    }
+    renderChipsMateries();
+    actualizarTodo();
 }
 
+function toggleAmagarNoImpartides() {
+    renderChipsMateries();
+}
+
+/* CÀLCUL I ACTUALITZACIÓ DEL COCKPIT */
 function actualizarTodo() {
-    const elegidas = Array.from(document.querySelectorAll('.m-sel')).map(s => s.value).filter(v => v);
-    const minPond = parseFloat(document.getElementById('fMinPond').value);
-    const minProf = parseFloat(document.getElementById('fMinProf').value);
+    const elegidas = materiesSeleccionades;
+    const minPond = parseFloat(document.getElementById('fMinPond').value) || 0;
+    const minProf = parseFloat(document.getElementById('fMinProf').value) || 0;
     const orden = document.getElementById('fOrden').value;
-    const gRef = document.getElementById('selGrado').value;
+    const gRef = document.getElementById('selGrado')?.value || "";
+
+    // Càlcul de la nota d'accés sobre 14
+    const nmb = parseFloat(document.getElementById('inputNMB')?.value) || 0;
+    const qfg = parseFloat(document.getElementById('inputQFG')?.value) || 0;
+    
+    let notaBaseSobre10 = 0;
+    let teNotaSimulada = false;
+
+    if (nmb > 0 && qfg > 0) {
+        notaBaseSobre10 = (0.6 * nmb) + (0.4 * qfg);
+        teNotaSimulada = true;
+    } else if (nmb > 0) {
+        notaBaseSobre10 = nmb; // estimació preliminar només amb batxi
+        teNotaSimulada = true;
+    }
 
     let filtrados = [];
     
@@ -438,13 +1273,14 @@ function actualizarTodo() {
         const gNom = limpiar(row[2]);
         const pNom = limpiar(row[4]);
         const prof = aNum(row[0]);
+        const notaTall = aNum(row[6]);
         
         if (MODO_APP === 'SI' && gRef && gNom !== gRef) return;
         if (pobsSel.length > 0) {
-			const pobsDeEstaFila = pNom.split(',').map(p => p.trim());
-			const coincide = pobsSel.some(sel => pobsDeEstaFila.includes(sel));
-			if (!coincide) return;
-		}
+            const pobsDeEstaFila = pNom.split(',').map(p => p.trim());
+            const coincide = pobsSel.some(sel => pobsDeEstaFila.includes(sel));
+            if (!coincide) return;
+        }
         if (prof < minProf) return;
 
         let ponderacionesPorMateria = {};
@@ -462,14 +1298,20 @@ function actualizarTodo() {
             vals.push(max);
         });
 
-        // Segons normativa oficial PAU de Catalunya: s'agafen NOMÉS les 2 millors notes ponderades (màxim 0,4)
+        // Sumar NOMÉS les 2 millors matèries (màxim 0,4)
         vals.sort((a, b) => b - a);
         const top1 = vals[0] || 0;
         const top2 = vals[1] || 0;
-        const suma = elegidas.length > 0 ? (top1 + top2) : 0;
+        const sumaPonderacions = elegidas.length > 0 ? (top1 + top2) : 0;
 
-        if (elegidas.length > 0 && suma < minPond) return;
-        
+        if (elegidas.length > 0 && sumaPonderacions < minPond) return;
+
+        // Càlcul sobre 14 punts: Ponderació màxima és (sumaPonderacions * 10)
+        // ex: 0.2 + 0.2 = 0.40 -> suma fins a +4.000 punts
+        const puntsPonderacioFaseEspecifica = sumaPonderacions * 10;
+        const notaAccesTotal = teNotaSimulada ? (notaBaseSobre10 + puntsPonderacioFaseEspecifica) : null;
+        const margeSeguretat = (notaAccesTotal !== null && notaTall > 0) ? (notaAccesTotal - notaTall) : null;
+
         filtrados.push({ 
             prof, 
             id: limpiar(row[1]), 
@@ -477,54 +1319,177 @@ function actualizarTodo() {
             univ: limpiar(row[3]),
             places: limpiar(row[5]),
             pNom, 
-            nota: aNum(row[6]), 
-            total: suma,
+            nota: notaTall, 
+            total: sumaPonderacions,
+            notaAccesTotal,
+            margeSeguretat,
             ponderaciones: ponderacionesPorMateria
         });
     });
 
-    filtrados.sort((a,b) => {
-        if(orden === 'total_desc') return b.total - a.total || b.nota - a.nota;
-        if(orden === 'nota_desc') return b.nota - a.nota;
-        if(orden === 'nota_asc') return a.nota - b.nota;
-        if(orden === 'prof_desc') return b.prof - a.prof;
+    // Ordenació
+    filtrados.sort((a, b) => {
+        if (orden === 'semafor_desc') {
+            if (a.margeSeguretat !== null && b.margeSeguretat !== null) {
+                return b.margeSeguretat - a.margeSeguretat;
+            }
+            return b.total - a.total;
+        }
+        if (orden === 'total_desc') return b.total - a.total || b.nota - a.nota;
+        if (orden === 'nota_desc') return b.nota - a.nota;
+        if (orden === 'nota_asc') return a.nota - b.nota;
+        if (orden === 'prof_desc') return b.prof - a.prof;
         return 0;
     });
 
     ultimasCarrerasFiltradas = filtrados;
 
-    const tbody = document.querySelector('#tablaRes tbody');
+    // Actualitzar comptadors
     document.getElementById('txtContador').innerText = filtrados.length;
-    
-    tbody.innerHTML = filtrados.map(r => {
-		const desglosePond = Object.entries(r.ponderaciones)
-			.filter(([_, val]) => val > 0)
-			.map(([materia, valor]) => `${materia} <span>${valor.toFixed(2)}</span>`)
-			.join(' · ');
-        
-        return `
-            <tr>
-                <td><div class="prof-badge" style="background:${getColorProf(r.prof)}">${r.prof}</div></td>
-                <td>
-                    <div><span class="grade-id">${r.id}</span><strong>${r.grado}</strong></div>
-                    <div style="font-size:0.85em; color:#666;">
-                        ${r.univ}
-                        ${r.places ? ` · <span style="color:#2980b9; font-weight:600;">${r.places} places</span>` : ''}
-                    </div>
-                    <div><span class="tag">📍 ${r.pNom}</span><span class="tag">📝 Nota: ${r.nota.toFixed(3)}</span></div>
-                    ${desglosePond ? `
-						${desglosePond ? `<div class="pond-line">Pond: ${desglosePond}</div>` : ''}
-                    ` : ''}
-                </td>
-                <td class="score-big">${r.total.toFixed(1).replace('.', ',')}</td>
-            </tr>
+
+    // Actualitzar píndola resum de nota
+    if (teNotaSimulada && elegidas.length > 0) {
+        const millorPondPunts = Math.max(...filtrados.map(f => f.total), 0) * 10;
+        const notaMaxCalculada = (notaBaseSobre10 + millorPondPunts).toFixed(3);
+        document.getElementById('txtNotaAccesGlobal').innerText = `${notaMaxCalculada} / 14`;
+        document.getElementById('txtDesglossamentAcces').innerText = `Base: ${notaBaseSobre10.toFixed(2)} + Ponderació: +${millorPondPunts.toFixed(2)}`;
+    } else if (teNotaSimulada) {
+        document.getElementById('txtNotaAccesGlobal').innerText = `${notaBaseSobre10.toFixed(2)} / 10`;
+        document.getElementById('txtDesglossamentAcces').innerText = `Tria matèries per sumar fins a +4 punts`;
+    } else {
+        document.getElementById('txtNotaAccesGlobal').innerText = `-- / 14`;
+        document.getElementById('txtDesglossamentAcces').innerText = `Introdueix notes per activar el semàfor`;
+    }
+
+    // Actualitzar comptador de semàfor
+    let segures = 0, limits = 0, aspiracionals = 0;
+    if (teNotaSimulada) {
+        filtrados.forEach(f => {
+            if (f.margeSeguretat !== null) {
+                if (f.margeSeguretat >= 0.5) segures++;
+                else if (f.margeSeguretat >= -0.5) limits++;
+                else aspiracionals++;
+            }
+        });
+        document.getElementById('trafficSummary').innerHTML = `
+            <span class="traffic-pill green">🟢 ${segures} Segures</span>
+            <span class="traffic-pill amber">🟡 ${limits} Al límit</span>
+            <span class="traffic-pill red">🔴 ${aspiracionals} Aspiracionals</span>
         `;
-    }).join('');
+    } else {
+        document.getElementById('trafficSummary').innerHTML = '';
+    }
+
+    renderDeckGraus(filtrados, teNotaSimulada);
 }
 
-function getColorProf(n) { 
-    const hue = (n - 1) * 25; 
-    return `hsl(${hue}, 70%, 45%)`; 
+function renderDeckGraus(graus, teNotaSimulada) {
+    const listContainer = document.getElementById('degreeCardsList');
+
+    if (graus.length === 0) {
+        listContainer.innerHTML = `
+            <div class="card-panel" style="text-align:center; padding:40px 20px;">
+                <p style="color:var(--text-muted); font-size:1.1em;">No s'ha trobat cap grau amb els filtres actius.</p>
+                <button class="btn-action primary" onclick="reiniciarFiltros()" style="margin-top:12px;">Reiniciar filtres</button>
+            </div>
+        `;
+        return;
+    }
+
+    listContainer.innerHTML = graus.map(r => {
+        // Universitat color badge
+        const uColor = UNIV_COLORS[r.univ] || UNIV_COLORS['DEFAULT'];
+
+        // Semàfor d'admissió
+        let semaforHTML = '';
+        if (teNotaSimulada && r.margeSeguretat !== null) {
+            const diff = r.margeSeguretat;
+            if (diff >= 0.5) {
+                semaforHTML = `<span class="semafor-pill segura">🟢 SEGURA (+${diff.toFixed(2)})</span>`;
+            } else if (diff >= -0.5) {
+                semaforHTML = `<span class="semafor-pill limit">🟡 AL LÍMIT (${diff >= 0 ? '+' : ''}${diff.toFixed(2)})</span>`;
+            } else {
+                semaforHTML = `<span class="semafor-pill aspiracional">🔴 ASPIRACIONAL (${diff.toFixed(2)})</span>`;
+            }
+        } else {
+            semaforHTML = `<span class="semafor-pill ponderacio">POND: +${(r.total * 10).toFixed(1)} / 4</span>`;
+        }
+
+        // Ponderacions que sumen
+        const ponderacionsActives = Object.entries(r.ponderaciones)
+            .filter(([_, val]) => val > 0)
+            .sort((a,b) => b[1] - a[1])
+            .map(([materia, valor]) => {
+                const clean = materia.replace('(*)', '').trim();
+                return `<span class="pond-tag">${clean} <span>+${valor.toFixed(2)}</span></span>`;
+            })
+            .join('');
+
+        // AQU sortida label
+        let aquLabel = "Mitjana";
+        if (r.prof >= 9) aquLabel = "Excel·lent";
+        else if (r.prof >= 8) aquLabel = "Molt Alta";
+        else if (r.prof >= 7) aquLabel = "Bona";
+
+        return `
+            <article class="degree-card">
+                <div class="card-top-row">
+                    <div class="degree-main-info">
+                        <div>
+                            <span class="degree-univ-badge" style="background:${uColor.bg}; color:${uColor.text};">
+                                ${r.univ}
+                            </span>
+                            <span style="font-family:monospace; font-size:0.75em; color:var(--text-subtle); margin-left:6px;">
+                                #${r.id}
+                            </span>
+                        </div>
+                        <h3 class="degree-title">${r.grado}</h3>
+                        <div class="degree-meta">
+                            <span class="meta-item">📍 ${r.pNom}</span>
+                            ${r.places ? `<span class="meta-item">👥 ${r.places} places</span>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="card-viability-badge">
+                        ${semaforHTML}
+                        ${teNotaSimulada && r.notaAccesTotal !== null ? `
+                            <span style="font-size:0.75em; color:var(--text-muted); margin-top:4px;">
+                                Nota accés: <strong>${r.notaAccesTotal.toFixed(3)}</strong>
+                            </span>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <div class="card-middle-grid">
+                    <div class="info-cell">
+                        <span class="info-cell-label">Nota de Tall 2025</span>
+                        <span class="info-cell-val">${r.nota > 0 ? r.nota.toFixed(3) : 'Sense nota'}</span>
+                    </div>
+
+                    <div class="info-cell">
+                        <span class="info-cell-label">Ponderació de matèries</span>
+                        <span class="info-cell-val highlight">+${(r.total * 10).toFixed(2)} pts</span>
+                        ${ponderacionsActives ? `<div class="pond-tags">${ponderacionsActives}</div>` : ''}
+                    </div>
+
+                    <div class="info-cell">
+                        <span class="info-cell-label">Sortida Laboral AQU</span>
+                        <span class="info-cell-val" style="color:#d97706;">⭐ ${r.prof.toFixed(1)} / 10</span>
+                    </div>
+                </div>
+
+                <div class="card-bottom-row">
+                    <div class="aqu-badge">
+                        Inserció laboral AQU: ${r.prof}/10 (${aquLabel})
+                    </div>
+
+                    <button class="btn-ask-degree" onclick="preguntarSobreGrau('${r.grado.replace(/'/g, "\\'")}', '${r.univ}')">
+                        ✨ Preguntar a l'IA sobre aquest grau
+                    </button>
+                </div>
+            </article>
+        `;
+    }).join('');
 }
 
 function limpiar(t) { 
@@ -536,85 +1501,158 @@ function aNum(v) {
     return isNaN(n) ? 0 : n; 
 }
 
-function abrirConsultaIAGeneral() {
-    if (ultimasCarrerasFiltradas.length === 0) {
-        alert("No hi ha carreres per consultar. Aplica els filtres primer.");
-        return;
-    }
-    historialIA = [];
-    document.getElementById('panelIA').style.display = 'block';
-    document.getElementById('respuesta-ia').innerText = '';
-    document.getElementById('input-ia').value = '';
-    document.getElementById('input-ia').focus();
-    document.getElementById('panelIA').scrollIntoView({ behavior: 'smooth' });
+function reiniciarFiltros() {
+    materiesSeleccionades = [];
+    pobsSel = [];
+    document.querySelectorAll('#poblacionsList input[type=checkbox]').forEach(c => c.checked = false);
+    document.getElementById('txtPobsHeader').innerText = "Totes";
+    document.getElementById('fMinPond').value = "0";
+    document.getElementById('fMinProf').value = "0";
+    document.getElementById('fOrden').value = "semafor_desc";
+    document.getElementById('inputNMB').value = "";
+    document.getElementById('inputQFG').value = "";
+    document.getElementById('chkAmagarNoImpartides').checked = false;
+    renderChipsMateries();
+    actualizarTodo();
 }
 
-function cerrarIA() { 
-    document.getElementById('panelIA').style.display = 'none'; 
+window.onclick = function(e) { 
+    if (!e.target.matches('.multiselect-header') && !e.target.closest('.multiselect-options')) {
+        const o = document.getElementById('poblacionsList');
+        if (o) o.style.display = 'none';
+    } 
+};
+
+/* ACCIONS D'UTILITAT: EXCEL I PDFS */
+function exportExcel() {
+    if (ultimasCarrerasFiltradas.length === 0) {
+        alert("No hi ha dades per exportar.");
+        return;
+    }
+
+    const datos = ultimasCarrerasFiltradas.map(r => {
+        let fila = {
+            "SORTIDA_AQU": r.prof,
+            "CODI": r.id,
+            "GRAU": r.grado,
+            "UNIVERSITAT": r.univ,
+            "POBLACIO": r.pNom,
+            "NOTA_TALL_2025": r.nota.toFixed(3),
+            "PONDERACIO_TOTAL": (r.total * 10).toFixed(2),
+            "NOTA_ACCES_SIMULADA": r.notaAccesTotal ? r.notaAccesTotal.toFixed(3) : "No indicada",
+            "MARGE_SEGURETAT": r.margeSeguretat !== null ? r.margeSeguretat.toFixed(3) : "No indicada"
+        };
+        
+        Object.entries(r.ponderaciones).forEach(([materia, valor]) => {
+            fila[`POND_${materia.replace('(*)', '').trim()}`] = valor.toFixed(2);
+        });
+        
+        return fila;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(datos);
+    const colWidths = [
+        { wch: 12 }, { wch: 10 }, { wch: 50 }, { wch: 20 },
+        { wch: 15 }, { wch: 14 }, { wch: 16 }, { wch: 18 }, { wch: 16 }
+    ];
+    ws['!cols'] = colWidths;
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Resultats Batxi2Uni");
+    XLSX.writeFile(wb, "Simulacio_Graus_PAU_2026.xlsx");
+}
+
+async function descargarPDFsGeneralitat() {
+    try {
+        const zip = new JSZip();
+        const [res1, res2] = await Promise.all([
+            fetch(PDF_NOTES_TALL),
+            fetch(PDF_PONDERACIONS)
+        ]);
+
+        if (!res1.ok || !res2.ok) throw new Error("Error descarregant els PDFs.");
+
+        const blob1 = await res1.blob();
+        const blob2 = await res2.blob();
+
+        zip.file("Notes_de_Tall_Generalitat_2025.pdf", blob1);
+        zip.file("Ponderacions_Generalitat_2026.pdf", blob2);
+
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(zipBlob);
+        link.download = "Documents_Oficials_PAU_Generalitat_2026.zip";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        alert("❌ Error descarregant els PDFs oficials.");
+        console.error(error);
+    }
+}
+
+/* ========== COPILOT D'IA (GEMMA 4 STREAMING I CLAUS) ========== */
+function preguntarQuickPrompt(text) {
+    document.getElementById('input-ia').value = text;
+    enviarConsultaIA();
+}
+
+function preguntarSobreGrau(nomGrau, univ) {
+    document.getElementById('input-ia').value = `Explica'm detalladament el grau en ${nomGrau} a la ${univ}: pla d'estudis, sortides professionals reals i consells per entrar-hi.`;
+    document.getElementById('input-ia').focus();
+    enviarConsultaIA();
 }
 
 async function enviarConsultaIA() {
-
     const input = document.getElementById("input-ia");
     const resDiv = document.getElementById("respuesta-ia");
     const preguntaUser = input.value.trim();
     
     if(!preguntaUser) {
-        resDiv.innerText = "Por favor, escribe una pregunta.";
+        resDiv.innerHTML = "<p style='color:var(--text-muted); font-size:0.85em;'>Si us plau, escriu una pregunta.</p>";
         return;
     }
 
-    resDiv.innerHTML = "<em>L'IA està pensant...</em>";
+    resDiv.innerHTML = `<div class="ai-response"><em style="color:var(--ai-accent);">L'assistent Gemma 4 està analitzant la teva consulta...</em></div>`;
     input.value = ""; 
 
     const API_BASE = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
         ? window.location.origin
         : "https://api.batxi2uni.run.place";
 
-    // demanar el token
+    // 1. Obtenir token temporal de sessió
     let token;
     try {
         const tokenRes = await fetch(`${API_BASE}/token`);
         const tokenData = await tokenRes.json();
         token = tokenData.token;
     } catch(e) {
-        resDiv.innerHTML = `<p style="color:red;">❌ Error d'autenticació</p>`;
+        resDiv.innerHTML = `<div class="ai-response"><p style="color:red;">❌ Error d'autenticació amb el servidor.</p></div>`;
         return;
     }
 
-    // Assegurar que historialIA existeix
     if (!Array.isArray(historialIA)) {
         historialIA = [];
     }
 
-    const asignaturasSeleccionadas = Array.from(document.querySelectorAll('.m-sel'))
-        .map(s => s.value)
-        .filter(v => v);
-    
-    const fMinProf = document.getElementById('fMinProf')?.value || "0";
-    const fMinPond = document.getElementById('fMinPond')?.value || "0";
-    const fOrden = document.getElementById('fOrden')?.value || "total_desc";
+    const nmb = document.getElementById('inputNMB')?.value || "No indicada";
+    const qfg = document.getElementById('inputQFG')?.value || "No indicada";
+    const notaSimulada = document.getElementById('txtNotaAccesGlobal')?.innerText || "--";
 
     const topCarreras = ultimasCarrerasFiltradas.slice(0, 30);
     const lineasCarreras = topCarreras
-        .map((carrera, idx) => `${idx + 1}. ${carrera.grado} (${carrera.univ}, ${carrera.pNom}) - Sortida Prof: ${carrera.prof}/10 - Nota tall: ${carrera.nota.toFixed(3)} - Punts personals: ${carrera.total.toFixed(2)}`)
+        .map((c, idx) => `${idx + 1}. ${c.grado} (${c.univ}, ${c.pNom}) - Tall 2025: ${c.nota.toFixed(3)} - AQU: ${c.prof}/10 - Ponderació: +${(c.total * 10).toFixed(2)} pts ${c.notaAccesTotal ? `- Nota Simulada: ${c.notaAccesTotal.toFixed(3)}` : ''}`)
         .join('\n');
 
-    const contextoFormatado = `[📚 DADES DEL STUDENT]
-Asignaturas seleccionades: ${asignaturasSeleccionadas.length > 0 ? asignaturasSeleccionadas.join(', ') : 'Cap'}
+    const contextoFormatado = `[📚 DADES DE L'ESTUDIANT]
+Matèries triades: ${materiesSeleccionades.length > 0 ? materiesSeleccionades.join(', ') : 'Cap seleccionada'}
+Nota Batxillerat: ${nmb} | Nota PAU General: ${qfg} | Nota Accés Simulada: ${notaSimulada}
 
-[📋 CARRERES MÉS RELLEVANTS]
-Total disponible: ${ultimasCarrerasFiltradas.length} carreres (mostrant les ${topCarreras.length} millors segons els filtres)
-
+[📋 MILLORS GRAUS FILTRATS]
+Total graus trobats: ${ultimasCarrerasFiltradas.length} (mostrant els ${topCarreras.length} primers)
 ${lineasCarreras}
 
-[🔧 FILTRES ACTIUS]
-Poblacions: ${pobsSel.length > 0 ? pobsSel.join(', ') : 'Totes'}
-Nota Prof. mín: ${fMinProf}
-Ponderació mín: ${fMinPond}
-Ordenació: ${fOrden}
-
-[❓ PREGUNTA DEL STUDENT]
+[❓ PREGUNTA DE L'ESTUDIANT]
 ${preguntaUser}`;
 
     const promptFinal = historialIA.length === 0 ? contextoFormatado : preguntaUser;
@@ -642,12 +1680,12 @@ ${preguntaUser}`;
 
         const contentType = response.headers.get("content-type") || "";
 
-        // Si el backend respon amb Server-Sent Events (streaming en temps real)
+        // Si respon amb Server-Sent Events (streaming)
         if (contentType.includes("text/event-stream") && response.body) {
             const reader = response.body.getReader();
             const decoder = new TextDecoder("utf-8");
             let accumulated = "";
-            resDiv.innerHTML = `<div class="ai-response"><div class="ai-stream-content" style="white-space: pre-wrap; line-height: 1.5;"></div></div>`;
+            resDiv.innerHTML = `<div class="ai-response"><div class="ai-stream-content" style="white-space: pre-wrap;"></div></div>`;
             const contentEl = resDiv.querySelector(".ai-stream-content");
 
             let buffer = "";
@@ -658,7 +1696,6 @@ ${preguntaUser}`;
                 if (done) break;
                 buffer += decoder.decode(value, { stream: true });
                 
-                // Dividir per salts de línia robustament (admet CRLF i LF)
                 const lines = buffer.split(/\r?\n/);
                 buffer = lines.pop() ?? "";
 
@@ -680,14 +1717,11 @@ ${preguntaUser}`;
                                 accumulated = data.fullText;
                             }
                         }
-                    } catch (err) {
-                        // Ignorar trossos no JSON
-                    }
+                    } catch (err) {}
                 }
                 if (streamError) break;
             }
 
-            // Processar qualsevol línia restant al buffer
             if (!streamError && buffer.trim()) {
                 const line = buffer.trim();
                 if (line.startsWith("data:")) {
@@ -700,30 +1734,25 @@ ${preguntaUser}`;
                 }
             }
 
-            if (streamError) {
-                throw new Error(streamError);
-            }
-
-            if (!accumulated) {
-                throw new Error("No s'ha rebut cap resposta de l'assistent d'IA.");
-            }
+            if (streamError) throw new Error(streamError);
+            if (!accumulated) throw new Error("No s'ha rebut cap resposta de l'assistent.");
 
             historialIA.push({ role: "assistant", content: accumulated });
             resDiv.innerHTML = formatAiResponse(accumulated);
             return;
         }
 
-        // Resposta JSON clàssica (o preguntes de confirmació)
+        // Resposta JSON clàssica
         const data = await response.json();
         const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
         const respuestaHTML = data[0]?.html || formatAiResponse(respuestaTexto);
 
         historialIA.push({ role: "assistant", content: respuestaTexto });
         resDiv.innerHTML = respuestaHTML;
-        
+
     } catch (e) {
-        resDiv.innerHTML = `<p style="color:red;">❌ Error: ${e.message}</p>`;
-        console.error("Error complet:", e);
+        resDiv.innerHTML = `<div class="ai-response"><p style="color:red;">❌ Error: ${e.message}</p></div>`;
+        console.error("Error consulta IA:", e);
         if (historialIA.length > 0) historialIA.pop();
     }
 }
@@ -766,118 +1795,7 @@ function formatInline(str) {
         .replace(/\*(.+?)\*/g, "<em>$1</em>");
 }
 
-function exportExcel() {
-    // Crear datos limpios desde ultimasCarrerasFiltradas
-    const datos = ultimasCarrerasFiltradas.map(r => {
-        let fila = {
-            "SORTIDA": r.prof,
-            "CODI": r.id,
-            "GRAU": r.grado,
-            "UNIVERSITAT": r.univ,
-            "POBLACIO": r.pNom,
-            "NOTA TALL": r.nota.toFixed(3),
-            "PUNTS TOTALS": r.total.toFixed(2)
-        };
-        
-        // Añadir cada materia como columna
-        Object.entries(r.ponderaciones).forEach(([materia, valor]) => {
-            fila[`PONDERACIO: ${materia}`] = valor.toFixed(2);
-        });
-        
-        return fila;
-    });
-
-    // Crear workbook
-    const ws = XLSX.utils.json_to_sheet(datos);
-    
-    // Ajustar ancho de columnas
-    const colWidths = [
-        { wch: 8 },   // SORTIDA
-        { wch: 10 },  // CODI
-        { wch: 50 },  // GRAU
-        { wch: 20 },  // UNIVERSITAT
-        { wch: 15 },  // POBLACIO
-        { wch: 12 },  // NOTA TALL
-        { wch: 12 }   // PUNTS TOTALS
-    ];
-    ws['!cols'] = colWidths;
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Resultats SJ Pro");
-    XLSX.writeFile(wb, "Simulacio_Graus_2026.xlsx");
-}
-
-async function descargarPDFsGeneralitat() {
-
-    if (!PDF_NOTES_TALL || !PDF_PONDERACIONS) {
-        alert("No hi ha PDFs configurats.");
-        return;
-    }
-
-    try {
-        const btn = event.target;
-        const textoOriginal = btn.innerHTML;
-        btn.innerHTML = "⏳ Preparant ZIP...";
-        btn.disabled = true;
-
-        const zip = new JSZip();
-
-        // Descargar ambos PDFs como blobs
-        const [res1, res2] = await Promise.all([
-            fetch(PDF_NOTES_TALL),
-            fetch(PDF_PONDERACIONS)
-        ]);
-
-        if (!res1.ok || !res2.ok) {
-            throw new Error("Error descarregant els PDFs.");
-        }
-
-        const blob1 = await res1.blob();
-        const blob2 = await res2.blob();
-
-        // Añadir al ZIP
-        zip.file("Notes_de_Tall_Generalitat.pdf", blob1);
-        zip.file("Ponderacions_Generalitat.pdf", blob2);
-
-        // Generar ZIP
-        const zipBlob = await zip.generateAsync({ type: "blob" });
-
-        // Forzar descarga
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(zipBlob);
-        link.download = "PDFs_Generalitat_2026.zip";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Restaurar botón
-        btn.innerHTML = textoOriginal;
-        btn.disabled = false;
-
-    } catch (error) {
-        alert("❌ Error descarregant els PDFs.");
-        console.error(error);
-    }
-}
-
-function reiniciarFiltros() {
-    document.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false);
-    pobsSel = [];
-    document.querySelector('.multiselect-header').innerText = "Totes";
-    document.getElementById('fMinPond').value = "0";
-    document.getElementById('fMinProf').value = "0";
-    document.getElementById('fOrden').value = "total_desc";
-    document.querySelectorAll('.m-sel').forEach(s => s.value = "");
-    actualizarTodo();
-}
-
-window.onclick = function(e) { 
-    if (!e.target.matches('.multiselect-header') && !e.target.closest('.multiselect-options')) {
-        document.getElementById('poblacionsList').style.display = 'none';
-    } 
-}
-// Enviar consulta IA con Enter (Shift+Enter para salto de línea)
-document.getElementById('input-ia').addEventListener('keydown', function(e) {
+document.getElementById('input-ia')?.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         enviarConsultaIA();
