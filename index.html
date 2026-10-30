@@ -56,13 +56,13 @@
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-page);
             color: var(--text-main);
-            padding: 16px 20px;
+            padding: 14px 18px;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1480px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
@@ -71,8 +71,8 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 14px 22px;
-            margin-bottom: 20px;
+            padding: 12px 20px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -88,13 +88,13 @@
         }
 
         .brand-logo {
-            height: 40px;
+            height: 38px;
             width: auto;
             border-radius: 8px;
         }
 
         .brand-title {
-            font-size: 1.3em;
+            font-size: 1.25em;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.02em;
@@ -122,7 +122,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 14px;
+            padding: 7px 13px;
             font-size: 0.82em;
             font-weight: 600;
             border-radius: var(--radius-btn);
@@ -217,38 +217,64 @@
             line-height: 1.5;
         }
 
-        /* ========== COCKPIT LAYOUT (SPLIT SCREEN) ========== */
+        /* ========== ARQUITECTURA 3 COLUMNES (COCKPIT - DECK - FILTRES/IA) ========== */
         #mainUI {
             display: none;
         }
 
-        .cockpit-layout {
+        .cockpit-3col-layout {
             display: grid;
-            grid-template-columns: 420px 1fr;
-            gap: 24px;
+            grid-template-columns: 360px 1fr 390px;
+            gap: 20px;
             align-items: start;
         }
 
-        @media (max-width: 1100px) {
-            .cockpit-layout {
-                grid-template-columns: 1fr;
+        @media (max-width: 1360px) {
+            .cockpit-3col-layout {
+                grid-template-columns: 330px 1fr 360px;
+                gap: 16px;
             }
         }
 
-        /* ========== COLUMNA ESQUERRA: CONTROLS (STICKY) ========== */
-        .cockpit-controls {
+        @media (max-width: 1080px) {
+            .cockpit-3col-layout {
+                grid-template-columns: 1fr;
+            }
+            .cockpit-col-sticky {
+                position: static !important;
+                max-height: none !important;
+                overflow-y: visible !important;
+            }
+        }
+
+        /* COLUMNES LATERALS AMB SCROLL INDEPENDENT (SOLUCIÓ PROBLEMA 1) */
+        .cockpit-col-sticky {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             position: sticky;
-            top: 16px;
+            top: 14px;
+            max-height: calc(100vh - 28px);
+            overflow-y: auto;
+            padding-right: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        .cockpit-col-sticky::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cockpit-col-sticky::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 9999px;
         }
 
         .card-panel {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 20px;
+            padding: 18px 20px;
             box-shadow: var(--shadow-sm);
         }
 
@@ -256,7 +282,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .panel-title {
@@ -274,23 +300,23 @@
         .calculator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 14px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         .calc-field label {
             display: block;
-            font-size: 0.75em;
+            font-size: 0.72em;
             font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             text-transform: uppercase;
         }
 
         .calc-input {
             width: 100%;
-            padding: 10px 12px;
-            font-size: 1.1em;
+            padding: 9px 12px;
+            font-size: 1.05em;
             font-weight: 800;
             font-family: inherit;
             border: 1px solid var(--border-card);
@@ -310,14 +336,14 @@
         .calc-summary-pill {
             background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
             color: white;
-            border-radius: var(--radius-card);
-            padding: 16px 20px;
+            border-radius: var(--radius-btn);
+            padding: 14px 18px;
             text-align: center;
-            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
         }
 
         .calc-summary-label {
-            font-size: 0.75em;
+            font-size: 0.72em;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             opacity: 0.9;
@@ -325,15 +351,15 @@
         }
 
         .calc-summary-score {
-            font-size: 2.1em;
+            font-size: 1.95em;
             font-weight: 900;
             letter-spacing: -0.03em;
-            margin: 4px 0;
+            margin: 2px 0;
             font-variant-numeric: tabular-nums;
         }
 
         .calc-breakdown {
-            font-size: 0.78em;
+            font-size: 0.75em;
             opacity: 0.88;
             font-weight: 500;
         }
@@ -343,18 +369,18 @@
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            max-height: 260px;
+            max-height: 380px;
             overflow-y: auto;
             padding: 4px 0;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .chip-subject {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 7px 12px;
-            font-size: 0.8em;
+            padding: 6px 11px;
+            font-size: 0.78em;
             font-weight: 600;
             border-radius: var(--radius-chip);
             border: 1px solid var(--border-card);
@@ -383,8 +409,8 @@
         }
 
         .filter-toggle-container {
-            margin-top: 10px;
-            font-size: 0.78em;
+            margin-top: 8px;
+            font-size: 0.75em;
             color: var(--text-muted);
             display: flex;
             align-items: center;
@@ -392,21 +418,21 @@
             cursor: pointer;
         }
 
-        /* 3. FILTRES AVANÇATS */
+        /* 3. FILTRES AVANÇATS (A LA COLUMNA DRETA) */
         .filters-form-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .form-row {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .form-row label {
-            font-size: 0.75em;
+            font-size: 0.72em;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
@@ -414,8 +440,8 @@
 
         select.custom-select {
             width: 100%;
-            padding: 10px 12px;
-            font-size: 0.88em;
+            padding: 9px 11px;
+            font-size: 0.85em;
             font-weight: 600;
             font-family: inherit;
             border: 1px solid var(--border-card);
@@ -429,10 +455,10 @@
         .multiselect-header {
             background: var(--bg-page);
             border: 1px solid var(--border-card);
-            padding: 10px 12px;
+            padding: 9px 11px;
             border-radius: var(--radius-btn);
             cursor: pointer;
-            font-size: 0.88em;
+            font-size: 0.85em;
             font-weight: 600;
             display: flex;
             justify-content: space-between;
@@ -457,8 +483,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 12px;
-            font-size: 0.85em;
+            padding: 7px 11px;
+            font-size: 0.82em;
             font-weight: 500;
             cursor: pointer;
             border-bottom: 1px solid var(--border-light);
@@ -468,13 +494,13 @@
             background: var(--bg-page);
         }
 
-        /* 4. COPILOT D'IA XAT CONVERSACIONAL */
+        /* 4. COPILOT D'IA XAT CONVERSACIONAL (A LA COLUMNA DRETA, SEMPRE VISIBLE) */
         .ai-widget {
             border-color: #ddd6fe;
             background: var(--bg-card);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .ai-header-bar {
@@ -484,12 +510,12 @@
         }
 
         .ai-badge {
-            font-size: 0.72em;
+            font-size: 0.7em;
             font-weight: 800;
             background: #ede9fe;
             color: var(--ai-accent);
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 2px 7px;
+            border-radius: 5px;
         }
 
         .ai-quick-prompts {
@@ -503,9 +529,9 @@
             background: #faf5ff;
             border: 1px solid #e9d5ff;
             color: #6b21a8;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 0.78em;
+            padding: 5px 9px;
+            border-radius: 7px;
+            font-size: 0.75em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s;
@@ -516,14 +542,13 @@
             border-color: var(--ai-accent);
         }
 
-        /* FIL DE CONVERSA (CHAT THREAD) */
         .chat-thread-box {
-            height: 320px;
+            height: 280px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 12px;
+            gap: 8px;
+            padding: 10px;
             background: #fdfcff;
             border: 1px solid #ede9fe;
             border-radius: var(--radius-btn);
@@ -533,9 +558,9 @@
         .chat-msg {
             display: flex;
             flex-direction: column;
-            max-width: 90%;
-            font-size: 0.86em;
-            line-height: 1.5;
+            max-width: 92%;
+            font-size: 0.84em;
+            line-height: 1.45;
             animation: fadeIn 0.2s ease-out;
         }
 
@@ -548,8 +573,8 @@
             align-self: flex-end;
             background: var(--primary);
             color: white;
-            padding: 10px 14px;
-            border-radius: 14px 14px 2px 14px;
+            padding: 8px 12px;
+            border-radius: 12px 12px 2px 12px;
             box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
         }
 
@@ -558,43 +583,39 @@
             background: white;
             border: 1px solid #e2e8f0;
             color: var(--text-main);
-            padding: 12px 14px;
-            border-radius: 14px 14px 14px 2px;
+            padding: 10px 12px;
+            border-radius: 12px 12px 12px 2px;
             box-shadow: var(--shadow-sm);
         }
 
         .chat-msg-header {
-            font-size: 0.72em;
+            font-size: 0.7em;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             opacity: 0.75;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .chat-msg.user .chat-msg-header { color: rgba(255,255,255,0.8); }
         .chat-msg.assistant .chat-msg-header { color: var(--ai-accent); }
 
-        .chat-msg.assistant p { margin-bottom: 8px; }
+        .chat-msg.assistant p { margin-bottom: 6px; }
         .chat-msg.assistant p:last-child { margin-bottom: 0; }
-        .chat-msg.assistant ul, .chat-msg.assistant ol { padding-left: 18px; margin-bottom: 8px; }
-        .chat-msg.assistant li { margin-bottom: 4px; }
+        .chat-msg.assistant ul, .chat-msg.assistant ol { padding-left: 16px; margin-bottom: 6px; }
+        .chat-msg.assistant li { margin-bottom: 3px; }
         .chat-msg.assistant strong { font-weight: 700; color: #1e1b4b; }
 
-        /* INDICADOR DE GENERACIÓ EN DIRECTE */
         .chat-typing {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            font-size: 0.78em;
+            font-size: 0.75em;
             color: var(--ai-accent);
             font-style: italic;
         }
 
         .dot-pulse {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: var(--ai-accent);
             border-radius: 50%;
             animation: pulseDot 1.4s infinite ease-in-out;
@@ -609,13 +630,13 @@
 
         .chat-input-bar {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .chat-input-field {
             flex: 1;
-            padding: 10px 14px;
-            font-size: 0.88em;
+            padding: 9px 12px;
+            font-size: 0.85em;
             font-family: inherit;
             border: 1px solid #ddd6fe;
             border-radius: var(--radius-btn);
@@ -633,9 +654,9 @@
             background: var(--ai-accent);
             color: white;
             border: none;
-            padding: 10px 16px;
+            padding: 9px 14px;
             border-radius: var(--radius-btn);
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 700;
             cursor: pointer;
             transition: background 0.15s;
@@ -648,7 +669,7 @@
             background: #6d28d9;
         }
 
-        /* ========== COLUMNA DRETA: FEED DE GRAUS (MOCKUP 1 FIDELITY) ========== */
+        /* ========== COLUMNA CENTRAL: FEED DE GRAUS (MOCKUP 1 FIDELITY) ========== */
         .cockpit-deck {
             display: flex;
             flex-direction: column;
@@ -659,12 +680,12 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 18px 24px;
+            padding: 16px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 12px;
             box-shadow: var(--shadow-sm);
         }
 
@@ -694,7 +715,7 @@
         .traffic-pill.amber { background: var(--warning-light); color: #b45309; }
         .traffic-pill.red { background: var(--danger-light); color: #b91c1c; }
 
-        /* TARGETES DE GRAU (EXACTE MOCKUP 1) */
+        /* TARGETES DE GRAU */
         .degree-cards-list {
             display: flex;
             flex-direction: column;
@@ -705,7 +726,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 22px 26px;
+            padding: 22px 24px;
             box-shadow: var(--shadow-sm);
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -722,13 +743,13 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .degree-header-left {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
         }
 
         .univ-pill-tag {
@@ -737,7 +758,7 @@
             gap: 6px;
             font-size: 0.78em;
             font-weight: 800;
-            padding: 4px 10px;
+            padding: 3px 9px;
             border-radius: 6px;
             color: white;
             letter-spacing: 0.04em;
@@ -745,7 +766,7 @@
         }
 
         .degree-title {
-            font-size: 1.25em;
+            font-size: 1.22em;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.02em;
@@ -755,13 +776,12 @@
         .degree-meta-line {
             display: flex;
             align-items: center;
-            gap: 14px;
-            font-size: 0.85em;
+            gap: 12px;
+            font-size: 0.82em;
             color: var(--text-muted);
             flex-wrap: wrap;
         }
 
-        /* SEMÀFOR DE VIABILITAT DESTACAT */
         .card-viability-badge {
             display: flex;
             flex-direction: column;
@@ -771,7 +791,7 @@
         }
 
         .semafor-pill {
-            font-size: 0.88em;
+            font-size: 0.86em;
             font-weight: 800;
             padding: 8px 16px;
             border-radius: var(--radius-chip);
@@ -806,15 +826,14 @@
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
         }
 
-        /* TAULA D'INFORMACIÓ DEL GRAU (3 COLUMNES) */
         .card-stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
-            padding: 16px 20px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            padding: 14px 18px;
             background: var(--bg-page);
             border-radius: var(--radius-btn);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             border: 1px solid var(--border-light);
         }
 
@@ -847,13 +866,12 @@
             color: #d97706;
         }
 
-        /* PONDERACIONS TAGS */
         .pond-tags-row {
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             font-size: 0.82em;
         }
 
@@ -871,7 +889,6 @@
             font-weight: 800;
         }
 
-        /* ACCIONS DE LA CARD */
         .card-footer-row {
             display: flex;
             justify-content: space-between;
@@ -879,7 +896,7 @@
             gap: 12px;
             flex-wrap: wrap;
             border-top: 1px solid var(--border-light);
-            padding-top: 14px;
+            padding-top: 12px;
         }
 
         .aqu-pill-badge {
@@ -890,7 +907,7 @@
             font-size: 0.82em;
             background: #fffbeb;
             color: #92400e;
-            padding: 5px 12px;
+            padding: 4px 11px;
             border-radius: var(--radius-chip);
             border: 1px solid #fde68a;
         }
@@ -902,7 +919,7 @@
             background: white;
             color: var(--ai-accent);
             border: 1px solid #ddd6fe;
-            padding: 8px 14px;
+            padding: 7px 13px;
             border-radius: var(--radius-btn);
             font-weight: 700;
             font-size: 0.82em;
@@ -917,8 +934,8 @@
         }
 
         @media print {
-            .top-navbar, .cockpit-controls, .btn-card-ai, #pantallaInicio, #zonaCarga { display: none !important; }
-            .cockpit-layout { display: block; }
+            .top-navbar, .cockpit-col-sticky, .btn-card-ai, #pantallaInicio, #zonaCarga { display: none !important; }
+            .cockpit-3col-layout { display: block; }
             body { padding: 0; background: white; }
             .degree-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; margin-bottom: 16px; }
         }
@@ -975,14 +992,14 @@
         </div>
     </div>
 
-    <!-- MAIN UI: COCKPIT SPLIT SCREEN (EXACTE MOCKUP 1) -->
+    <!-- MAIN UI: ARQUITECTURA 3 COLUMNES -->
     <div id="mainUI">
-        <div class="cockpit-layout">
+        <div class="cockpit-3col-layout">
 
-            <!-- COLUMNA ESQUERRA: CONTROLS DE PRODUCTIVITAT -->
-            <aside class="cockpit-controls">
+            <!-- COLUMNA 1 (ESQUERRA): SIMULADOR I MATÈRIES (STICKY AMB SCROLL INDEPENDENT) -->
+            <aside class="cockpit-col-sticky">
 
-                <!-- 1. CALCULADORA DE NOTA SOBRE 14 (AMB VALORS ACTIUS PER DEFECTE) -->
+                <!-- 1. CALCULADORA DE NOTA SOBRE 14 -->
                 <div class="card-panel">
                     <div class="panel-heading">
                         <span class="panel-title">📊 1. Nota d'Accés sobre 14</span>
@@ -1016,7 +1033,7 @@
                     </select>
                 </div>
 
-                <!-- 3. TRIA DE MATÈRIES DE MODALITAT (XIPS INTERACTIUS) -->
+                <!-- 3. TRIA DE MATÈRIES DE MODALITAT (XIPS) -->
                 <div class="card-panel">
                     <div class="panel-heading">
                         <span class="panel-title">📚 2. Matèries de Modalitat</span>
@@ -1033,10 +1050,33 @@
                     </div>
                 </div>
 
-                <!-- 4. FILTRES AVANÇATS I ORDENACIÓ -->
+            </aside>
+
+            <!-- COLUMNA 2 (CENTRE): GRAUS UNIVERSITARIS (FEED PRINCIPAL) -->
+            <main class="cockpit-deck">
+
+                <div class="deck-header">
+                    <div class="deck-stats">
+                        <span class="count-badge"><span id="txtContador">0</span> graus trobats</span>
+                        <div class="traffic-summary" id="trafficSummary">
+                            <!-- Omplert dinàmicament quan hi ha nota de 14 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="degree-cards-list" id="degreeCardsList">
+                    <!-- Targetes de graus generades per JS -->
+                </div>
+
+            </main>
+
+            <!-- COLUMNA 3 (DRETA): FILTRES A DALT I COPILOT D'IA SEMPRE VISIBLE A SOTA -->
+            <aside class="cockpit-col-sticky">
+
+                <!-- 1. FILTRES AVANÇATS I ORDENACIÓ (A DALT A LA DRETA) -->
                 <div class="card-panel">
                     <div class="panel-heading">
-                        <span class="panel-title">🔧 3. Filtres i Ordenació</span>
+                        <span class="panel-title">🔧 Filtres i Ordenació</span>
                     </div>
 
                     <div class="filters-form-grid">
@@ -1083,7 +1123,7 @@
                     </div>
                 </div>
 
-                <!-- 5. COPILOT D'IA XAT CONVERSACIONAL REAL (GEMMA 4) -->
+                <!-- 2. COPILOT D'IA XAT CONVERSACIONAL (A SOTA A LA DRETA, SEMPRE VISIBLE!) -->
                 <div class="card-panel ai-widget">
                     <div class="ai-header-bar">
                         <span class="panel-title" style="color:var(--ai-accent);">✨ Copilot d'IA Batxi2Uni</span>
@@ -1099,11 +1139,11 @@
                         <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Compara les diferències entre estudiar Enginyeria a la UPC vs UB vs UAB.')">⚖️ Compara UPC vs UB vs UAB</button>
                     </div>
 
-                    <!-- CONTENIDOR DE MISSATGES HISTÒRICS (CHAT THREAD) -->
+                    <!-- FIL DE CONVERSA (CHAT THREAD) -->
                     <div class="chat-thread-box" id="chatThread">
                         <div class="chat-msg assistant">
                             <div class="chat-msg-header">✨ Gemma 4 · Copilot d'Orientació</div>
-                            <p>Hola! He calculat la teva nota d'accés simulada en <strong>11.920 / 14</strong> amb les teves matèries de <strong>Matemàtiques i Física</strong>. Pots fer-me qualsevol pregunta sobre notes de tall, graus, sortides professionals o demanar-me una comparativa entre universitats!</p>
+                            <p>Hola! He calculat la teva nota d'accés simulada en <strong>11.920 / 14</strong> amb les teves matèries de <strong>Matemàtiques i Física</strong>. Pots fer-me preguntes sobre qualsevol carrera del centre o comparar opcions!</p>
                         </div>
                     </div>
 
@@ -1115,24 +1155,6 @@
                 </div>
 
             </aside>
-
-            <!-- COLUMNA DRETA: FEED DE GRAUS (DECK) -->
-            <main class="cockpit-deck">
-
-                <div class="deck-header">
-                    <div class="deck-stats">
-                        <span class="count-badge"><span id="txtContador">0</span> graus trobats</span>
-                        <div class="traffic-summary" id="trafficSummary">
-                            <!-- Omplert dinàmicament quan hi ha nota de 14 -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="degree-cards-list" id="degreeCardsList">
-                    <!-- Targetes de graus generades per JS -->
-                </div>
-
-            </main>
 
         </div>
     </div>
