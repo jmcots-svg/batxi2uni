@@ -114,10 +114,10 @@ def parse_ponderacions_pdf(pdf_bytes: bytes, num_subject_cols: int = 27):
                         # Netejar espais duplicats i dobles cometes
                         name = re.sub(r"\s+", " ", raw_name)
                         univ = (row[2] or "").strip().replace("\n", "")
-                        branca = (row[3] or "").strip().replace("\n", "")
+                        branca = ""
                         
-                        # Les columnes 4 fins a 4 + num_subject_cols són les ponderacions
-                        raw_weights = row[4:4 + num_subject_cols]
+                        # Les columnes 3 fins a 3 + num_subject_cols són exactament les 27 ponderacions
+                        raw_weights = row[3:3 + num_subject_cols]
                         clean_weights = []
                         for cell in raw_weights:
                             val = (cell or "").strip().replace(".", ",")
