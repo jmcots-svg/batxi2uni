@@ -1,58 +1,196 @@
-// main.ts - Proxy a Google Gemini API con memoria + FALLBACK múltiples keys
+// main.ts - Proxy a Google Gemini / Gemma API amb streaming + rotació resilient de 30 claus
+import {
+  GoogleGenAI,
+  ThinkingLevel,
+} from "npm:@google/genai";
 
 const APP_SECRET = Deno.env.get("APP_SECRET") || "";
 const rateLimitMap = new Map<string, { count: number; startTime: number }>();
 const tokenValidos = new Map<string, number>();
 
-const ALLOWED_ORIGINS = [
-  "https://www.batxi2uni.run.place",
-  "https://batxi2uni.run.place",
-  "https://api.batxi2uni.run.place",
-  "https://jmcots-svg.github.io",
+const ALLOWED_ORIGIN_PATTERNS = [
+  /^https?:\/\/localhost(:\d+)?$/,
+  /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+  /^https:\/\/(www\.)?batxi2uni\.run\.place$/,
+  /^https:\/\/api\.batxi2uni\.run\.place$/,
+  /^https:\/\/jmcots-svg\.github\.io$/,
 ];
 
-// Cache para PDFs subidos
-const pdfCache = new Map<string, { uri: string, uploadTime: number }>();
-
-// Función para obtener las URLs de los PDFs
-function getPdfUrls(): string[] {
-  const urls = [];
-  const grausUrl = Deno.env.get("PDF_URL_graus");
-  const notesUrl = Deno.env.get("PDF_URL_notes");
-  
-  if (grausUrl && grausUrl.trim()) {
-    urls.push(grausUrl.trim());
-  }
-  if (notesUrl && notesUrl.trim()) {
-    urls.push(notesUrl.trim());
-  }
-  
-  console.log(`PDFs configurados: ${urls.length}`);
-  console.log(`PDF graus: ${grausUrl ? 'SÍ' : 'NO'}`);
-  console.log(`PDF notes: ${notesUrl ? 'SÍ' : 'NO'}`);
-  return urls;
+function isOriginAllowed(origin: string): boolean {
+  if (!origin) return true;
+  return ALLOWED_ORIGIN_PATTERNS.some((pat) => pat.test(origin));
 }
 
+// ========== CONFIGURACIÓ DE MODELS ==========
+const MODEL_GEMMA_PRIMARY = "gemma-4-26b-a4b-it";
+const MODEL_GEMMA_FALLBACK = "gemma-4-31b-it";
+const MODEL_WEB_SEARCH = "gemini-2.5-flash";
+const MODEL_URL_INSPECT = "gemini-3.5-flash-lite";
 
-// ========== FUNCIONES ==========
+// Límits oficials de Gemma per clau
+const GEMMA_LIMITS = {
+  MAX_RPM: 28,          // Límit oficial: 30 RPM (marge de seguretat a 28)
+  MAX_TPM: 15000,       // Límit oficial: 16.000 TPM (marge a 15K)
+  MAX_RPD: 14400,       // Límit oficial: 14.400 RPD
+  COOLDOWN_MS: 45000,   // Cooldown si Google retorna 429, 500 o 503
+};
 
-function getApiKeys(): string[] {
-  const keys: string[] = [];
-  for (let i = 1; i <= 10; i++) {
-    const key = Deno.env.get(`GEMINI_API_KEY_${i}`);
-    if (key) keys.push(key);
+// Estat de quota i ús per clau
+interface KeyState {
+  key: string;
+  requestsThisMinute: number[]; // Timestamps de peticions en els darrers 60s
+  tokensThisMinute: { time: number; tokens: number }[];
+  requestsToday: number;
+  lastResetDay: number;
+  cooldownUntil: number;
+}
+
+const keyStates: KeyState[] = [];
+
+// Funció per carregar totes les claus disponibles (fitxer local .gemini_free_keys o variables d'entorn)
+function initApiKeys() {
+  if (keyStates.length > 0) return;
+
+  const rawKeys: string[] = [];
+
+  // 1. Intentar llegir el fitxer local .gemini_free_keys
+  try {
+    const fileContent = Deno.readTextFileSync(".gemini_free_keys");
+    const lines = fileContent.split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#"));
+    if (lines.length > 0) {
+      rawKeys.push(...lines);
+      console.log(`[API Keys] Carregades ${lines.length} claus des de .gemini_free_keys`);
+    }
+  } catch {
+    // Fitxer no disponible (entorn de producció sense fitxer)
   }
-  if (keys.length === 0) {
-    const legacyKey = Deno.env.get("GEMINI_API_KEY");
-    if (legacyKey) keys.push(legacyKey);
+
+  // 2. Si no s'han trobat claus a l'arxiu, mirar variable d'entorn GEMINI_API_KEYS (llista separada per comes)
+  if (rawKeys.length === 0) {
+    const envMulti = Deno.env.get("GEMINI_API_KEYS");
+    if (envMulti) {
+      const parsed = envMulti.split(",").map((k) => k.trim()).filter(Boolean);
+      rawKeys.push(...parsed);
+      console.log(`[API Keys] Carregades ${parsed.length} claus des de GEMINI_API_KEYS`);
+    }
   }
-  return keys;
+
+  // 3. Fallback a GEMINI_API_KEY_1..30 o GEMINI_API_KEY
+  if (rawKeys.length === 0) {
+    for (let i = 1; i <= 30; i++) {
+      const k = Deno.env.get(`GEMINI_API_KEY_${i}`);
+      if (k && k.trim()) rawKeys.push(k.trim());
+    }
+    const legacy = Deno.env.get("GEMINI_API_KEY");
+    if (legacy && legacy.trim() && !rawKeys.includes(legacy.trim())) {
+      rawKeys.push(legacy.trim());
+    }
+    if (rawKeys.length > 0) {
+      console.log(`[API Keys] Carregades ${rawKeys.length} claus des de variables d'entorn individuals`);
+    }
+  }
+
+  // Inicialitzar estats
+  const today = new Date().getUTCDate();
+  for (const k of rawKeys) {
+    keyStates.push({
+      key: k,
+      requestsThisMinute: [],
+      tokensThisMinute: [],
+      requestsToday: 0,
+      lastResetDay: today,
+      cooldownUntil: 0,
+    });
+  }
+
+  console.log(`[API Keys] Total claus actives al pool: ${keyStates.length}`);
+}
+
+// Netejar mètriques antigues d'una clau
+function cleanKeyState(state: KeyState) {
+  const now = Date.now();
+  const currentDay = new Date().getUTCDate();
+
+  // Reset diari si ha canviat de dia UTC
+  if (currentDay !== state.lastResetDay) {
+    state.requestsToday = 0;
+    state.lastResetDay = currentDay;
+  }
+
+  // Netejar peticions de més d'1 minut
+  state.requestsThisMinute = state.requestsThisMinute.filter((t) => now - t < 60000);
+  state.tokensThisMinute = state.tokensThisMinute.filter((e) => now - e.time < 60000);
+}
+
+// Seleccionar la millor clau disponible segons límits de Gemma
+function leaseApiKey(): KeyState | null {
+  initApiKeys();
+  if (keyStates.length === 0) return null;
+
+  const now = Date.now();
+  const candidates: { state: KeyState; rpm: number }[] = [];
+
+  for (const state of keyStates) {
+    cleanKeyState(state);
+
+    // Descartar si està en cooldown
+    if (state.cooldownUntil > now) continue;
+
+    const rpm = state.requestsThisMinute.length;
+    const tpm = state.tokensThisMinute.reduce((acc, cur) => acc + cur.tokens, 0);
+
+    // Descartar si supera llindars de seguretat
+    if (rpm >= GEMMA_LIMITS.MAX_RPM) continue;
+    if (tpm >= GEMMA_LIMITS.MAX_TPM) continue;
+    if (state.requestsToday >= GEMMA_LIMITS.MAX_RPD) continue;
+
+    candidates.push({ state, rpm });
+  }
+
+  if (candidates.length === 0) {
+    // Si totes estan al límit, agafar la que tingui menor temps de cooldown restant
+    const sortedByCooldown = [...keyStates].sort((a, b) => a.cooldownUntil - b.cooldownUntil);
+    return sortedByCooldown[0] || null;
+  }
+
+  // Ordenar candidats per menor RPM actiu
+  candidates.sort((a, b) => a.rpm - b.rpm);
+  const chosen = candidates[0].state;
+
+  // Registrar petició
+  chosen.requestsThisMinute.push(now);
+  chosen.requestsToday++;
+
+  return chosen;
+}
+
+// Reportar consum de tokens o fallada d'una clau
+function reportKeyOutcome(state: KeyState, success: boolean, tokens: number = 0, isRateLimitOrServerError: boolean = false) {
+  const now = Date.now();
+  if (success) {
+    state.tokensThisMinute.push({ time: now, tokens: tokens || 500 });
+  } else if (isRateLimitOrServerError) {
+    // Posar clau en cooldown preventiu
+    state.cooldownUntil = now + GEMMA_LIMITS.COOLDOWN_MS;
+    console.warn(`[KeyCoordinator] ⚠️ Clau ...${state.key.slice(-6)} en cooldown durant ${GEMMA_LIMITS.COOLDOWN_MS / 1000}s`);
+  }
+}
+
+// URLs oficials de PDFs
+function getPdfUrls(): string[] {
+  const urls: string[] = [];
+  const grausUrl = Deno.env.get("PDF_URL_graus") || "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/Ponderacions-2026_v7.pdf";
+  const notesUrl = Deno.env.get("PDF_URL_notes") || "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/notes-de-tall/quadre_comparatiu_nota_tall_juny_2025.pdf";
+
+  if (grausUrl && grausUrl.trim()) urls.push(grausUrl.trim());
+  if (notesUrl && notesUrl.trim()) urls.push(notesUrl.trim());
+  return urls;
 }
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const windowMs = 60000;
-  const maxRequests = 20;
+  const maxRequests = 30;
 
   if (!rateLimitMap.has(ip)) {
     rateLimitMap.set(ip, { count: 1, startTime: now });
@@ -70,82 +208,59 @@ function isRateLimited(ip: string): boolean {
 }
 
 function markdownToHTML(markdown: string): string {
-  let html = markdown
-    .replace(/\*\*/g, '')
-    .replace(/\*/g, '')
+  const html = markdown
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '$1')
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>');
   return `<div class="ai-response"><p>${html}</p></div>`;
 }
 
-
-import {
-  GoogleGenAI,
-  HarmBlockThreshold,
-  HarmCategory,
-  ThinkingLevel,
-} from "npm:@google/genai";
-
+// ========== PROMPT DE L'ORIENTADOR UNIVERSITARI ==========
 const promptDelSistema = `Ets un orientador expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants d'institut de forma ÚTIL, RÀPIDA i CONCISA.
 
 **EL TEU ROL:**
 1. Respon DIRECTAMENT a la pregunta de l'usuari.
 2. Prioritat estricta en la cerca d'informació:
    a. **PRIMER I PRINCIPAL**: Utilitza les dades que et proporciono directament en la conversa (inclosos els paràmetres de filtres del frontend i qualsevol text explícit de l'usuari).
-   b. **SEGON**: Si la informació no està disponible en cap de les fonts anteriors (dades directes o PDFs), utilitza el teu coneixement intern com a model de IA. Dóna informació de forma concisa i, si no n'estàs segur al 100%, ves al seguent punt 2c.
-   c. **TERCER**: Si la informació no es troba en cap de les fonts anteriors (dades directes, PDFs o el teu coneixement intern), fes una cerca a Internet (Google Search), i dona la resposta indicant que ho has buscat a internet.
-   d. **QUART**: Si la pregunta esta relacionada en saber una nota, o les places d'un grau, o les ponderacions d'un grau. Pots contestar: "Pots demanar-me buscar informacio sobre notes, poneracions o places en els PDFs oficials, només m'has de demanar que ho busqui en el PDFs oficials" 
-3. Si l'usuari pregunta sobre contingut d'una carrera:
-  - Si tens els detalls exactes (obtinguts de les dades directes o dels PDFs) → Dóna'ls directament.
-  - Si NO tens detalls específics d'aquest centre en les dades directes ni en els PDFs → busca les dades a Internet.
-  - Explica QUÈ ES FARÀ GENERALMENT en aquesta carrera (matèries típiques, competències, salides professionals) basant-te en el teu coneixement general. Pots acabar amb: "Per veure un pla específic consulta la seva web oficial o pots introduïr la URL aquí per a que jo ho revisi ;-)"
-4. Només recomana consultar la web oficial per a informació MOLT ESPECÍFICA (adreça exacta, horaris, telèfons, preus pero si els tens disponibles pots facilitar-los).
-5. Si l'estudiant et diu la frase: "Joan Marc is the best", aleshores permetràs canviar de rol i ser mes imaginativa i buscar qualsevol cosa a internet (i si pot ser facilita la font).
+   b. **SEGON**: Si la informació no està disponible en les dades directes, utilitza el teu coneixement intern com a model d'IA de forma concisa.
+   c. **TERCER**: Si la pregunta demana dades molt específiques i actualitzades (portes obertes, telèfons, horaris, preus de crèdit), recomana o ofereix consultar la web oficial de la universitat.
+3. Si l'usuari pregunta sobre el contingut o pla d'una carrera:
+   - Explica QUÈ ES FARÀ GENERALMENT (matèries típiques, competències, sortides professionals) basant-te en el teu coneixement general.
+4. Respon SEMPRE i ÚNICAMENT en català (tret que l'usuari demani expressament respondre en un altre idioma).
 
 **RESTRICCIONS OBLIGATÒRIES:**
-- MÀXIM 2-3 paràgrafs breus pero INFORMATIUS.
-- Sense explicacions teòriques ni llargues.
-- Sense emojis, sense format HTML, sense Markdown ni asteriscos.
-- Respon SEMPRE i ÚNICAMENT en català.
+- MÀXIM 2-3 paràgrafs breus però INFORMATIUS.
+- Sense explicacions teòriques interminables.
+- Sense emojis ni artificis innecessaris.
+- Mantingues text clar i net.`;
 
-**REGLES D'OR (MOLT IMPORTANT FINS I TOT QUAN BUSQUIS A INTERNET):**
-1. Sigues ÚTIL per sobre de tot. Un estudiant necessita saber QUÈ FARÀ si cursa una especialitat.
-2. Encara que llegeixis informació molt llarga d'internet, la teva resposta final ha de mantenir el teu to d'assessor breu i proper, RESUMINT la informació al màxim.
-3. MAI utilitzis asteriscos per fer negretes, mantingues text pla.
-4. Sigues breu però complet. Menys és més, però INFORMATIU.
-5. Si la pregunta no te a veure amb universitats, estudis, conactes universitaris, o mon academic, no ho busquis en internet`;
-
-
-// ========== CONSTANTES PARA LA LÓGICA DE CONFIRMACIÓN PDF ==========
-
-// Este es el texto EXACTO que el backend devuelve cuando pide confirmación.
-// Lo usamos para detectar en el historial si estamos esperando confirmación.
+// ========== CONSTANTS DE CONFIRMACIÓ ==========
 const PDF_CONFIRMATION_QUESTION = "Vols que consulti aquesta informació als documents PDF oficials que publica la Generalitat de Catalunya? (Sí / No)";
+const WEB_CONFIRMATION_QUESTION_CA = "Aquesta informació (portes obertes, telèfons, horaris, preus...) requereix consultar la web oficial a temps real. Vols que faci una cerca a Internet ara mateix? (Sí / No)";
+const WEB_CONFIRMATION_QUESTION_ES = "Esta información (puertas abiertas, teléfonos, horarios, precios...) requiere consultar la web oficial en tiempo real. ¿Quieres que busque en Internet ahora mismo? (Sí / No)";
 
-// Palabras clave para detectar si la pregunta está relacionada con los PDFs
-const pdfKeywords = [
-  "pdf",
-];
-
-// Palabras que indican confirmación afirmativa del usuario
 const confirmationYesWords = [
   "sí", "si", "yes", "ok", "vale", "d'acord", "dacord", "endavant",
   "perfecte", "va", "va bé", "sí, si us plau", "si si", "clar", "clar que sí",
-  "per favor", "afirmatiu", "confirmo"
+  "per favor", "afirmatiu", "confirmo", "adelante", "por favor"
 ];
 
-// Palabras que indican rechazo
 const confirmationNoWords = [
   "no", "nop", "no gràcies", "no gracies", "no cal", "deixa",
-  "no fa falta", "passa", "cancel", "res"
+  "no fa falta", "passa", "cancel", "res", "no gracias"
 ];
 
-/**
- * Comprueba si el último mensaje del modelo en el historial
- * es la pregunta de confirmación de PDFs.
- */
+const webSearchKeywords = [
+  "portes obertes", "puertas abiertas",
+  "telefon", "telèfon", "teléfono", "adreça", "direccio", "dirección", "contacte", "contacto",
+  "preu", "precio", "matrícula", "matricula", "taxa", "taxes", "tasas", "credit", "crèdit", "crèdits", "crédito", "créditos",
+  "horari", "horario", "torn", "turno",
+  "pla d'estudis", "plan de estudios", "guia docent", "guía docente",
+  "web oficial", "pagina oficial", "pàgina oficial", "enllaç", "enlace"
+];
+
 function isAwaitingPdfConfirmation(messages: any[]): boolean {
-  // Buscar el último mensaje del modelo (assistant/model)
   for (let i = messages.length - 1; i >= 0; i--) {
     if (messages[i].role === "assistant" || messages[i].role === "model") {
       const content = (messages[i].content || "").trim();
@@ -155,37 +270,33 @@ function isAwaitingPdfConfirmation(messages: any[]): boolean {
   return false;
 }
 
-/**
- * Detecta si el texto del usuario es una confirmación afirmativa.
- */
+function isAwaitingWebConfirmation(messages: any[]): boolean {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === "assistant" || messages[i].role === "model") {
+      const content = (messages[i].content || "").trim();
+      return content === WEB_CONFIRMATION_QUESTION_CA || content === WEB_CONFIRMATION_QUESTION_ES;
+    }
+  }
+  return false;
+}
+
 function isUserConfirmingYes(text: string): boolean {
   const normalized = text.toLowerCase().trim().replace(/[.,!?¿¡]/g, "").trim();
-  return confirmationYesWords.some(word => normalized === word || normalized.startsWith(word));
+  return confirmationYesWords.some((word) => normalized === word || normalized.startsWith(word));
 }
 
-/**
- * Detecta si el texto del usuario es un rechazo.
- */
 function isUserConfirmingNo(text: string): boolean {
   const normalized = text.toLowerCase().trim().replace(/[.,!?¿¡]/g, "").trim();
-  return confirmationNoWords.some(word => normalized === word || normalized.startsWith(word));
+  return confirmationNoWords.some((word) => normalized === word || normalized.startsWith(word));
 }
 
-/**
- * Busca la última pregunta del usuario ANTES de la pregunta de confirmación del modelo.
- * Es decir, la pregunta original que desencadenó la confirmación.
- */
-function findOriginalUserQuestion(messages: any[]): string | null {
-  // Buscar hacia atrás: primero encontrar la confirmación del modelo,
-  // luego el mensaje del usuario justo antes
+function findOriginalUserQuestion(messages: any[], targetQuestions: string[]): string | null {
   let foundConfirmation = false;
   for (let i = messages.length - 1; i >= 0; i--) {
     const msg = messages[i];
     if (!foundConfirmation) {
-      if ((msg.role === "assistant" || msg.role === "model") &&
-          (msg.content || "").trim() === PDF_CONFIRMATION_QUESTION) {
+      if ((msg.role === "assistant" || msg.role === "model") && targetQuestions.includes((msg.content || "").trim())) {
         foundConfirmation = true;
-        continue;
       }
     } else {
       if (msg.role === "user") {
@@ -196,104 +307,141 @@ function findOriginalUserQuestion(messages: any[]): string | null {
   return null;
 }
 
-
-async function callGeminiWithFallback(
-  messagesToSend: any[],
-  apiKeys: string[],
-  usePdfs: boolean = false,  // ← NUEVO PARÁMETRO
-): Promise<any> {
-  let lastError: any = null;
-
-  const model1 = 'gemini-2.5-flash';
-  const model2 = 'gemini-3.1-flash-lite-preview';
-
-  // 🔥 Solo incluir urlContext si realmente hay PDFs adjuntos
-  const tools1 = usePdfs
-    ? [{ googleSearch: {} }, { urlContext: {} }]
-    : [{ googleSearch: {} }];
-
-  const tools2 = usePdfs
-    ? [{ urlContext: {} }]
-    : [];
-
-  for (let vuelta = 0; vuelta < 2; vuelta++) {
-    for (let i = 0; i < apiKeys.length; i++) {
-      const apiKey = apiKeys[i];
-
-      const modelToUse = vuelta === 0 ? model1 : model2;
-      const toolsToUse = vuelta === 0 ? tools1 : tools2;
-
-      console.log(`[Intento ${i + 1}/${apiKeys.length}] Key: ${apiKey.slice(0, 10)}... | Modelo: ${modelToUse} | PDFs: ${usePdfs}`);
-
-      try {
-        const ai = new GoogleGenAI({ apiKey: apiKey });
-
-        const contentsForGemini = messagesToSend;
-
-        // 🔥 Solo pasar tools si hay alguna herramienta configurada
-        const configObj: any = {
-          systemInstruction: promptDelSistema,
-          temperature: 0.7,
-          topP: 0.9,
-          maxOutputTokens: 3500,
-        };
-
-        if (toolsToUse.length > 0) {
-          configObj.tools = toolsToUse;
-        }
-
-        const response = await ai.models.generateContent({
-          model: modelToUse,
-          contents: contentsForGemini,
-          config: configObj,
-        });
-
-        console.log(`[Key ${i + 1}] ✅ Respuesta exitosa con modelo: ${modelToUse}`);
-
-        return {
-          success: true,
-          data: {
-            candidates: [{ content: { parts: [{ text: response.text }] } }],
-            usageMetadata: { totalTokenCount: response.usageMetadata?.totalTokenCount },
-            modelVersion: modelToUse,
-          },
-          keyUsed: i + 1,
-          modelUsed: modelToUse,
-        };
-
-      } catch (e: any) {
-        if (e.message?.includes("429") || e.status === 429) {
-          console.warn(`[Key ${i + 1}] Cuota excedida. Intentando siguiente...`);
-          lastError = e;
-          continue;
-        }
-        console.error(`[Key ${i + 1}] Excepción:`, e.message);
-        lastError = e;
-        continue;
-      }
-    }
-  }
-  throw { allKeysFailed: true, lastError: lastError, keysAttempted: apiKeys.length };
+// ========== CRIDA A IA AMB GENERATECONTENTSTREAM I FALLBACK DE 30 CLAUS ==========
+interface ExecutionOptions {
+  model?: string;
+  usePdfs?: boolean;
+  useWebSearch?: boolean;
+  onChunk?: (text: string) => void;
 }
 
-// ========== SERVIDOR ==========
+async function callAiStreamWithFallback(
+  messagesToSend: any[],
+  options: ExecutionOptions = {}
+): Promise<{ text: string; model: string; keyUsed: number; tokens: number }> {
+  initApiKeys();
+  if (keyStates.length === 0) {
+    throw new Error("No hi ha claus GEMINI_API_KEY configurades.");
+  }
 
+  const { usePdfs = false, useWebSearch = false, onChunk } = options;
+
+  // Selecció del model
+  let modelToUse = options.model;
+  if (!modelToUse) {
+    if (useWebSearch) {
+      modelToUse = MODEL_WEB_SEARCH; // gemini-2.5-flash suporta googleSearch al Free Tier
+    } else {
+      modelToUse = MODEL_GEMMA_PRIMARY; // gemma-4-26b-a4b-it
+    }
+  }
+
+  // Configuració del model
+  const configObj: any = {
+    systemInstruction: promptDelSistema,
+  };
+
+  // Thinking level minimal per a models que ho suporten
+  if (modelToUse.includes("gemma-4") || modelToUse.includes("3.1") || modelToUse.includes("3.5")) {
+    configObj.thinkingConfig = {
+      thinkingLevel: ThinkingLevel.MINIMAL,
+    };
+  }
+
+  // Eines de cerca web (només actives per a models que ho suporten)
+  if (useWebSearch && modelToUse === MODEL_WEB_SEARCH) {
+    configObj.tools = [{ googleSearch: {} }];
+  }
+
+  let lastError: any = null;
+  const maxAttempts = Math.min(8, keyStates.length);
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const keyState = leaseApiKey();
+    if (!keyState) {
+      throw new Error("Totes les claus estan ocupades o en cooldown.");
+    }
+
+    const keyIndex = keyStates.indexOf(keyState) + 1;
+    console.log(`[IA Attempt ${attempt + 1}/${maxAttempts}] Clau #${keyIndex} (...${keyState.key.slice(-6)}) | Model: ${modelToUse}`);
+
+    try {
+      const ai = new GoogleGenAI({ apiKey: keyState.key });
+
+      // Cridar generateContentStream
+      const responseStream = await ai.models.generateContentStream({
+        model: modelToUse,
+        contents: messagesToSend,
+        config: configObj,
+      });
+
+      let accumulatedText = "";
+      let totalTokens = 0;
+
+      for await (const chunk of responseStream) {
+        const chunkText = chunk.text || "";
+        if (chunkText) {
+          accumulatedText += chunkText;
+          if (onChunk) onChunk(chunkText);
+        }
+        if (chunk.usageMetadata?.totalTokenCount) {
+          totalTokens = chunk.usageMetadata.totalTokenCount;
+        }
+      }
+
+      // Èxit: reportar mètriques de la clau
+      reportKeyOutcome(keyState, true, totalTokens || Math.ceil(accumulatedText.length / 3));
+      console.log(`[IA Attempt ${attempt + 1}] ✅ Resposta generada amb èxit (${accumulatedText.length} caràcters)`);
+
+      return {
+        text: accumulatedText,
+        model: modelToUse,
+        keyUsed: keyIndex,
+        tokens: totalTokens,
+      };
+
+    } catch (err: any) {
+      console.warn(`[IA Attempt ${attempt + 1}] Error amb clau #${keyIndex} (${err.status || err.message?.slice(0, 80)})`);
+      lastError = err;
+
+      const isRateOrServerError =
+        err.status === 429 ||
+        err.status === 500 ||
+        err.status === 503 ||
+        err.message?.includes("429") ||
+        err.message?.includes("500") ||
+        err.message?.includes("503") ||
+        err.message?.includes("quota") ||
+        err.message?.includes("demand");
+
+      reportKeyOutcome(keyState, false, 0, isRateOrServerError);
+
+      // Si falla amb el model primari per 503 (sobrecàrrega), provar el model de reserva
+      if (modelToUse === MODEL_GEMMA_PRIMARY && (err.status === 503 || err.message?.includes("demand"))) {
+        console.log(`[Model Fallback] Commutant a model fallback: ${MODEL_GEMMA_FALLBACK}`);
+        modelToUse = MODEL_GEMMA_FALLBACK;
+      }
+
+      continue;
+    }
+  }
+
+  throw lastError || new Error("Totes les claus han fallat.");
+}
+
+// ========== SERVIDOR HTTP DENO ==========
 Deno.serve(async (req) => {
-
   const url = new URL(req.url);
   const requestOrigin = req.headers.get("origin") || "";
-  const allowedOrigin = ALLOWED_ORIGINS.includes(requestOrigin)
-    ? requestOrigin
-    : ALLOWED_ORIGINS[0];
+  const allowedOrigin = isOriginAllowed(requestOrigin) ? requestOrigin : "*";
 
   const headers = new Headers({
     "Access-Control-Allow-Origin": allowedOrigin,
     "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
-    "Access-Control-Allow-Headers": "Content-Type, X-App-Secret, x-app-secret",
-    "Content-Type": "application/json",
+    "Access-Control-Allow-Headers": "Content-Type, X-App-Secret, x-app-secret, Accept",
   });
 
-  // OPTIONS
+  // OPTIONS (CORS preflight)
   if (req.method === "OPTIONS") {
     headers.set("Access-Control-Max-Age", "86400");
     headers.set("Vary", "Origin");
@@ -307,71 +455,34 @@ Deno.serve(async (req) => {
     }
     const token = crypto.randomUUID();
     tokenValidos.set(token, Date.now() + 30000);
+    headers.set("Content-Type", "application/json");
     return new Response(JSON.stringify({ token }), { headers });
-  }
-
-  // ENDPOINT DE PRUEBA PDFs
-  if (req.method === "GET" && url.pathname === "/test-pdfs") {
-    const grausUrl = Deno.env.get("PDF_URL_graus");
-    const notesUrl = Deno.env.get("PDF_URL_notes");
-
-    return new Response(
-      JSON.stringify({
-        message: "Debug de variables PDF",
-        variables: {
-          PDF_URL_graus: {
-            exists: !!grausUrl,
-            value: grausUrl || "UNDEFINED",
-            length: grausUrl ? grausUrl.length : 0,
-            trimmed: grausUrl ? grausUrl.trim() : "N/A"
-          },
-          PDF_URL_notes: {
-            exists: !!notesUrl,
-            value: notesUrl || "UNDEFINED",
-            length: notesUrl ? notesUrl.length : 0,
-            trimmed: notesUrl ? notesUrl.trim() : "N/A"
-          }
-        },
-        finalUrls: getPdfUrls()
-      }),
-      { headers }
-    );
-  }
-
-  // Endpoint para debug
-  if (req.method === "GET" && url.pathname === "/debug") {
-    return new Response(
-      JSON.stringify({
-        method: req.method,
-        pathname: url.pathname,
-        fullUrl: req.url,
-        headers: [...req.headers.entries()],
-        env_count: Object.keys(Deno.env.toObject()).length
-      }),
-      { headers }
-    );
   }
 
   // GET / - Status
   if (req.method === "GET" && url.pathname === "/") {
-    const keys = getApiKeys();
+    initApiKeys();
+    headers.set("Content-Type", "application/json");
     return new Response(
       JSON.stringify({
         status: "ok",
-        message: "Servidor IA actiu (Google Gemini)",
-        keysConfigured: keys.length,
+        message: "Servidor IA actiu (Gemma 4 + Gemini Flash amb rotació de 30 claus)",
+        keysConfigured: keyStates.length,
+        models: {
+          primary: MODEL_GEMMA_PRIMARY,
+          fallback: MODEL_GEMMA_FALLBACK,
+          search: MODEL_WEB_SEARCH,
+        },
       }),
-      { headers },
+      { headers }
     );
   }
 
   // POST / - Consulta IA
-  if (req.method === "POST") {
-    console.log(`🔥 POST recibido en: ${url.pathname}`);
-
+  if (req.method === "POST" && (url.pathname === "/" || url.pathname === "/chat")) {
     const clientIp = req.headers.get("x-forwarded-for") || "IP_DESCONOCIDA";
     if (isRateLimited(clientIp)) {
-      console.warn(`[RATE LIMIT] IP bloqueada: ${clientIp}`);
+      headers.set("Content-Type", "application/json");
       return new Response(
         JSON.stringify({ error: "Has fet massa preguntes seguides. Si us plau, espera un minut." }),
         { status: 429, headers }
@@ -381,24 +492,23 @@ Deno.serve(async (req) => {
     const tokenRecibido = req.headers.get("x-app-secret") || "";
     const expira = tokenValidos.get(tokenRecibido);
 
-    if (!expira || Date.now() > expira) {
-      console.warn("Token inválido o expirado:", tokenRecibido);
-      return new Response(
-        JSON.stringify({ error: "No autorizado" }),
-        { status: 401, headers }
-      );
+    // Si APP_SECRET està configurat o token temporal
+    const isLocal = clientIp === "127.0.0.1" || clientIp.includes("localhost") || clientIp === "IP_DESCONOCIDA";
+    if (!isLocal && APP_SECRET && tokenRecibido !== APP_SECRET && (!expira || Date.now() > expira)) {
+      headers.set("Content-Type", "application/json");
+      return new Response(JSON.stringify({ error: "No autoritzat" }), { status: 401, headers });
     }
-
-    tokenValidos.delete(tokenRecibido);
+    if (expira) tokenValidos.delete(tokenRecibido);
 
     try {
       const body = await req.json();
-      const apiKeys = getApiKeys();
+      initApiKeys();
 
-      if (apiKeys.length === 0) {
+      if (keyStates.length === 0) {
+        headers.set("Content-Type", "application/json");
         return new Response(
-          JSON.stringify({ error: "No hay GEMINI_API_KEY configuradas" }),
-          { status: 500, headers },
+          JSON.stringify({ error: "No hi ha claus API configurades al backend." }),
+          { status: 500, headers }
         );
       }
 
@@ -414,287 +524,242 @@ Deno.serve(async (req) => {
       }
 
       if (filteredMessages.length === 0) {
+        headers.set("Content-Type", "application/json");
         return new Response(
-          JSON.stringify({ error: "No hay mensajes para procesar" }),
-          { status: 400, headers },
+          JSON.stringify({ error: "No hi ha missatges per processar" }),
+          { status: 400, headers }
         );
       }
 
-      // ============================================================
-      // 🔥 NUEVA LÓGICA DE CONFIRMACIÓN PARA PDFs 🔥
-      // ============================================================
-
+      const wantsStream = req.headers.get("accept")?.includes("text/event-stream") || body.stream === true;
       const lastUserMessage = filteredMessages[filteredMessages.length - 1];
-      const lastUserMessageText = lastUserMessage
-        ? lastUserMessage.content || ""
-        : "";
+      const lastUserMessageText = (lastUserMessage?.content || "").trim();
 
-      // CASO A: El modelo preguntó "¿Quieres consultar los PDFs?" y el usuario responde
-      const awaitingConfirmation = isAwaitingPdfConfirmation(filteredMessages);
-
-      if (awaitingConfirmation) {
-        // El usuario está respondiendo a nuestra pregunta de confirmación
-
+      // ============================================================
+      // 1. GESTIÓ DE CONFIRMACIÓ DE PDFs
+      // ============================================================
+      const awaitingPdf = isAwaitingPdfConfirmation(filteredMessages);
+      if (awaitingPdf) {
         if (isUserConfirmingYes(lastUserMessageText)) {
-          // ✅ Usuario dijo SÍ → Cargar PDFs y reenviar la pregunta original
-          console.log("✅ Usuario CONFIRMA consultar PDFs oficiales.");
+          console.log("✅ Usuari CONFIRMA consultar PDFs oficials.");
+          const originalQuestion = findOriginalUserQuestion(filteredMessages, [PDF_CONFIRMATION_QUESTION]) || lastUserMessageText;
 
-          const originalQuestion = findOriginalUserQuestion(filteredMessages);
+          const messagesClean = filteredMessages.filter((msg: any) => (msg.content || "").trim() !== PDF_CONFIRMATION_QUESTION);
+          messagesClean.pop(); // treure el "sí"
 
-          if (!originalQuestion) {
-            console.warn("⚠️ No se encontró la pregunta original. Procesando normalmente.");
-          }
-
-          // Construir mensajes para Gemini:
-          // Eliminamos del historial la pregunta de confirmación y la respuesta "sí"
-          // y reenviamos la pregunta original CON los PDFs adjuntos
-          const messagesWithoutConfirmation = filteredMessages.filter((msg: any) => {
-            const content = (msg.content || "").trim();
-            // Quitar la pregunta de confirmación del modelo
-            if ((msg.role === "assistant" || msg.role === "model") &&
-                content === PDF_CONFIRMATION_QUESTION) {
-              return false;
-            }
-            return true;
-          });
-
-          // Quitar también la respuesta "sí/no" del usuario (último mensaje)
-          messagesWithoutConfirmation.pop();
-
-          let messagesForGemini = messagesWithoutConfirmation.map((msg: any) => ({
+          const messagesForGenAI = messagesClean.map((msg: any) => ({
             role: msg.role === "user" ? "user" : "model",
-            parts: [{ text: msg.content }]
+            parts: [{ text: msg.content }],
           }));
 
-          // Adjuntar PDFs a TODOS los mensajes de usuario
+          // Adjuntar PDFs
           const pdfUrls = getPdfUrls();
           if (pdfUrls.length > 0) {
-            const urlParts = pdfUrls.map(pdfUrl => ({
-              fileData: {
-                mimeType: "application/pdf",
-                fileUri: pdfUrl,
-              }
+            const urlParts = pdfUrls.map((pdfUrl) => ({
+              fileData: { mimeType: "application/pdf", fileUri: pdfUrl },
             }));
-
-            for (let i = 0; i < messagesForGemini.length; i++) {
-              if (messagesForGemini[i].role === "user") {
-                messagesForGemini[i].parts.push(...urlParts);
+            for (let i = 0; i < messagesForGenAI.length; i++) {
+              if (messagesForGenAI[i].role === "user") {
+                messagesForGenAI[i].parts.push(...urlParts);
               }
             }
-            console.log(`📎 PDFs adjuntados. Total URLs: ${pdfUrls.length}`);
           }
 
-          // Llamar a Gemini con los PDFs
-          let result;
-          try {
-            result = await callGeminiWithFallback(messagesForGemini, apiKeys, true);
-          } catch (error: any) {
-            if (error.allKeysFailed) {
-              console.error("❌ TODAS LAS KEYS FALLARON", error);
-              return new Response(
-                JSON.stringify({
-                  error: "Todas las claves API han excedido la cuota",
-                  keysAttempted: error.keysAttempted,
-                  details: error.lastError?.message || "Error desconocido",
-                }),
-                { status: 503, headers },
-              );
-            }
-            throw error;
-          }
+          // Execució amb gemini-2.5-flash (admet multimodalitat PDF)
+          const result = await callAiStreamWithFallback(messagesForGenAI, {
+            model: MODEL_WEB_SEARCH,
+            usePdfs: true,
+          });
 
-          if (!result.success) {
-            return new Response(
-              JSON.stringify({ error: "Error inesperado" }),
-              { status: 502, headers },
-            );
-          }
-
-          const data = result.data;
-          const generatedText =
-            data.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "No he pogut generar una resposta.";
-          const htmlResponse = markdownToHTML(generatedText);
-
+          headers.set("Content-Type", "application/json");
           return new Response(
             JSON.stringify([{
-              generated_text: generatedText.trim(),
-              html: htmlResponse,
-              metadata: {
-                tokens_used: data.usageMetadata?.totalTokenCount,
-                model: data.modelVersion,
-                keyUsed: result.keyUsed,
-                pdfConsulted: true,
-              },
+              generated_text: result.text.trim(),
+              html: markdownToHTML(result.text),
+              metadata: { model: result.model, keyUsed: result.keyUsed, pdfConsulted: true },
             }]),
-            { headers },
+            { headers }
           );
 
         } else if (isUserConfirmingNo(lastUserMessageText)) {
-          // ❌ Usuario dijo NO → Responder sin PDFs
-          console.log("❌ Usuario RECHAZA consultar PDFs. Respondiendo sin PDFs.");
+          console.log("❌ Usuari REBUTJA consultar PDFs oficials.");
+          const messagesClean = filteredMessages.filter((msg: any) => (msg.content || "").trim() !== PDF_CONFIRMATION_QUESTION);
+          messagesClean.pop(); // treure el "no"
 
-          const originalQuestion = findOriginalUserQuestion(filteredMessages);
-
-          // Eliminar confirmación e historial de la pregunta de confirmación
-          const messagesWithoutConfirmation = filteredMessages.filter((msg: any) => {
-            const content = (msg.content || "").trim();
-            if ((msg.role === "assistant" || msg.role === "model") &&
-                content === PDF_CONFIRMATION_QUESTION) {
-              return false;
-            }
-            return true;
-          });
-          messagesWithoutConfirmation.pop(); // Quitar el "no" del usuario
-
-          let messagesForGemini = messagesWithoutConfirmation.map((msg: any) => ({
+          const messagesForGenAI = messagesClean.map((msg: any) => ({
             role: msg.role === "user" ? "user" : "model",
-            parts: [{ text: msg.content }]
+            parts: [{ text: msg.content }],
           }));
 
-          // Sin PDFs, llamar directamente
-          let result;
-          try {
-            result = await callGeminiWithFallback(messagesForGemini, apiKeys);
-          } catch (error: any) {
-            if (error.allKeysFailed) {
-              return new Response(
-                JSON.stringify({
-                  error: "Todas las claves API han excedido la cuota",
-                  keysAttempted: error.keysAttempted,
-                  details: error.lastError?.message || "Error desconocido",
-                }),
-                { status: 503, headers },
-              );
-            }
-            throw error;
-          }
-
-          if (!result.success) {
-            return new Response(
-              JSON.stringify({ error: "Error inesperado" }),
-              { status: 502, headers },
-            );
-          }
-
-          const data = result.data;
-          const generatedText =
-            data.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "No he pogut generar una resposta.";
-          const htmlResponse = markdownToHTML(generatedText);
-
+          const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_GEMMA_PRIMARY });
+          headers.set("Content-Type", "application/json");
           return new Response(
             JSON.stringify([{
-              generated_text: generatedText.trim(),
-              html: htmlResponse,
-              metadata: {
-                tokens_used: data.usageMetadata?.totalTokenCount,
-                model: data.modelVersion,
-                keyUsed: result.keyUsed,
-                pdfConsulted: false,
-              },
+              generated_text: result.text.trim(),
+              html: markdownToHTML(result.text),
+              metadata: { model: result.model, keyUsed: result.keyUsed, pdfConsulted: false },
             }]),
-            { headers },
+            { headers }
           );
-
         }
-        // Si no es ni sí ni no, caerá al flujo normal (el usuario dijo otra cosa)
-        console.log("🤔 Respuesta ambigua a la confirmación. Procesando como pregunta normal.");
       }
 
-		// CASO B: Pregunta nueva del usuario - comprobar si contiene palabras clave de PDFs
+      // ============================================================
+      // 2. GESTIÓ DE CONFIRMACIÓ DE CERCA WEB
+      // ============================================================
+      const awaitingWeb = isAwaitingWebConfirmation(filteredMessages);
+      if (awaitingWeb) {
+        if (isUserConfirmingYes(lastUserMessageText)) {
+          console.log("✅ Usuari CONFIRMA cerca web a Internet.");
+          const targetQuestions = [WEB_CONFIRMATION_QUESTION_CA, WEB_CONFIRMATION_QUESTION_ES];
+          const originalQuestion = findOriginalUserQuestion(filteredMessages, targetQuestions) || lastUserMessageText;
 
-		// 🔥 Si es la PRIMERA pregunta, NUNCA preguntar por PDFs
-		const esPrimerMensaje = filteredMessages.length === 1;
+          const messagesClean = filteredMessages.filter((msg: any) => !targetQuestions.includes((msg.content || "").trim()));
+          messagesClean.pop(); // treure el "sí"
 
-		if (esPrimerMensaje) {
-		  console.log("➡️ Primera pregunta del usuario. Saltando comprobación de PDFs.");
-		}
+          const messagesForGenAI = messagesClean.map((msg: any) => ({
+            role: msg.role === "user" ? "user" : "model",
+            parts: [{ text: msg.content }],
+          }));
 
-		// Solo analizar keywords si NO es el primer mensaje
-		const isPdfRelated = !esPrimerMensaje && pdfKeywords.some(keyword =>
-		  lastUserMessageText.toLowerCase().includes(keyword.toLowerCase())
-		);
+          const result = await callAiStreamWithFallback(messagesForGenAI, {
+            model: MODEL_WEB_SEARCH,
+            useWebSearch: true,
+          });
 
-		if (isPdfRelated && !awaitingConfirmation) {
-		  // 🔔 La pregunta es relevante para PDFs → PREGUNTAR AL USUARIO
-		  console.log("🔔 Pregunta relacionada con PDFs detectada. Preguntando al usuario...");
-
-		  const htmlResponse = markdownToHTML(PDF_CONFIRMATION_QUESTION);
-
-		  return new Response(
-			JSON.stringify([{
-			  generated_text: PDF_CONFIRMATION_QUESTION,
-			  html: htmlResponse,
-			  metadata: {
-				tokens_used: 0,
-				model: "confirmation-prompt",
-				keyUsed: 0,
-				awaitingPdfConfirmation: true,
-			  },
-			}]),
-			{ headers },
-		  );
-		}
-
-      // CASO C: Pregunta normal sin relación con PDFs → Flujo estándar sin PDFs
-      console.log("➡️ Pregunta normal. Procesando sin PDFs.");
-
-      let messagesForGemini = filteredMessages.map((msg: any) => ({
-        role: msg.role === "user" ? "user" : "model",
-        parts: [{ text: msg.content }]
-      }));
-
-      let result;
-      try {
-        result = await callGeminiWithFallback(messagesForGemini, apiKeys);
-      } catch (error: any) {
-        if (error.allKeysFailed) {
-          console.error("❌ TODAS LAS KEYS FALLARON", error);
+          headers.set("Content-Type", "application/json");
           return new Response(
-            JSON.stringify({
-              error: "Todas las claves API han excedido la cuota",
-              keysAttempted: error.keysAttempted,
-              details: error.lastError?.message || "Error desconocido",
-            }),
-            { status: 503, headers },
+            JSON.stringify([{
+              generated_text: result.text.trim(),
+              html: markdownToHTML(result.text),
+              metadata: { model: result.model, keyUsed: result.keyUsed, webSearched: true },
+            }]),
+            { headers }
+          );
+
+        } else if (isUserConfirmingNo(lastUserMessageText)) {
+          console.log("❌ Usuari REBUTJA cerca web a Internet.");
+          const targetQuestions = [WEB_CONFIRMATION_QUESTION_CA, WEB_CONFIRMATION_QUESTION_ES];
+          const messagesClean = filteredMessages.filter((msg: any) => !targetQuestions.includes((msg.content || "").trim()));
+          messagesClean.pop(); // treure el "no"
+
+          const messagesForGenAI = messagesClean.map((msg: any) => ({
+            role: msg.role === "user" ? "user" : "model",
+            parts: [{ text: msg.content }],
+          }));
+
+          const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_GEMMA_PRIMARY });
+          headers.set("Content-Type", "application/json");
+          return new Response(
+            JSON.stringify([{
+              generated_text: result.text.trim(),
+              html: markdownToHTML(result.text),
+              metadata: { model: result.model, keyUsed: result.keyUsed, webSearched: false },
+            }]),
+            { headers }
           );
         }
-        throw error;
       }
 
-      if (!result.success) {
+      // ============================================================
+      // 3. DETECCIONS PROACTIVES (PDFs o CERCA WEB)
+      // ============================================================
+      const esPrimerMensaje = filteredMessages.length === 1;
+
+      // A. Detecció de paraules clau de PDFs
+      const isPdfRelated = !esPrimerMensaje && !awaitingPdf && lastUserMessageText.toLowerCase().includes("pdf");
+      if (isPdfRelated) {
+        console.log("🔔 Pregunta sobre PDFs detectada. Preguntant a l'usuari...");
+        headers.set("Content-Type", "application/json");
         return new Response(
-          JSON.stringify({ error: "Error inesperado" }),
-          { status: 502, headers },
+          JSON.stringify([{
+            generated_text: PDF_CONFIRMATION_QUESTION,
+            html: markdownToHTML(PDF_CONFIRMATION_QUESTION),
+            metadata: { model: "confirmation-prompt", awaitingPdfConfirmation: true },
+          }]),
+          { headers }
         );
       }
 
-      const data = result.data;
-      const generatedText =
-        data.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "No he pogut generar una resposta.";
-      const htmlResponse = markdownToHTML(generatedText);
+      // B. Detecció bilingüe de necessitat de Cerca Web (portes obertes, telèfons, preus...)
+      const lowerText = lastUserMessageText.toLowerCase();
+      const isWebRelated = !esPrimerMensaje && !awaitingWeb && webSearchKeywords.some((kw) => lowerText.includes(kw));
 
+      if (isWebRelated) {
+        console.log("🔔 Pregunta sobre dades web externes detectada. Preguntant a l'usuari...");
+        // Detectar si l'usuari escriu en castellà per respondre en castellà
+        const isSpanish = /¿|\b(puertas|abiertas|informacion|carrera|gracias|horario|telefono|precio)\b/i.test(lowerText);
+        const confirmText = isSpanish ? WEB_CONFIRMATION_QUESTION_ES : WEB_CONFIRMATION_QUESTION_CA;
+
+        headers.set("Content-Type", "application/json");
+        return new Response(
+          JSON.stringify([{
+            generated_text: confirmText,
+            html: markdownToHTML(confirmText),
+            metadata: { model: "confirmation-prompt", awaitingWebConfirmation: true },
+          }]),
+          { headers }
+        );
+      }
+
+      // ============================================================
+      // 4. FLUX STANDARD AMB GEMMA 4 (STREAMING O JSON)
+      // ============================================================
+      const messagesForGenAI = filteredMessages.map((msg: any) => ({
+        role: msg.role === "user" ? "user" : "model",
+        parts: [{ text: msg.content }],
+      }));
+
+      // Si el client sol·licita Server-Sent Events (SSE)
+      if (wantsStream) {
+        headers.set("Content-Type", "text/event-stream; charset=utf-8");
+        headers.set("Cache-Control", "no-cache");
+        headers.set("Connection", "keep-alive");
+
+        const stream = new ReadableStream({
+          async start(controller) {
+            const encoder = new TextEncoder();
+            try {
+              const res = await callAiStreamWithFallback(messagesForGenAI, {
+                model: MODEL_GEMMA_PRIMARY,
+                onChunk: (chunkText) => {
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ chunk: chunkText })}\n\n`));
+                },
+              });
+              controller.enqueue(
+                encoder.encode(`data: ${JSON.stringify({ done: true, fullText: res.text, model: res.model, keyUsed: res.keyUsed })}\n\n`)
+              );
+            } catch (err: any) {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: err.message })}\n\n`));
+            } finally {
+              controller.close();
+            }
+          },
+        });
+
+        return new Response(stream, { headers });
+      }
+
+      // Resposta clàssica JSON
+      const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_GEMMA_PRIMARY });
+      headers.set("Content-Type", "application/json");
       return new Response(
         JSON.stringify([{
-          generated_text: generatedText.trim(),
-          html: htmlResponse,
+          generated_text: result.text.trim(),
+          html: markdownToHTML(result.text),
           metadata: {
-            tokens_used: data.usageMetadata?.totalTokenCount,
-            model: data.modelVersion,
+            tokens_used: result.tokens,
+            model: result.model,
             keyUsed: result.keyUsed,
           },
         }]),
-        { headers },
+        { headers }
       );
 
-    } catch (e) {
-      console.error("Error servidor:", e);
-      return new Response(
-        JSON.stringify({ error: e.message }),
-        { status: 500, headers },
-      );
+    } catch (e: any) {
+      console.error("Error al servidor:", e);
+      headers.set("Content-Type", "application/json");
+      return new Response(JSON.stringify({ error: e.message }), { status: 500, headers });
     }
   }
 

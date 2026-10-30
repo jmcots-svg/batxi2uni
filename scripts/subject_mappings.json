@@ -1,0 +1,167 @@
+{
+  "description": "Mapeig de matèries de 2n de batxillerat de la PAU adaptades a l'institut",
+  "mappings": [
+    {
+      "pdf_col_index": 4,
+      "pdf_canonical_name": "Anàlisi Musical",
+      "csv_name": "Anàlisi Musical (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 5,
+      "pdf_canonical_name": "Arts Escèniques",
+      "csv_name": "Arts Escèniques (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 6,
+      "pdf_canonical_name": "Biologia",
+      "csv_name": "Biologia",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 7,
+      "pdf_canonical_name": "Ciències Generals",
+      "csv_name": "Ciències Generals (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 8,
+      "pdf_canonical_name": "Cor i tècnica Vocal",
+      "csv_name": "Cor i tècnica Vocal (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 9,
+      "pdf_canonical_name": "Dibuix Artístic",
+      "csv_name": "Dibuix Artístic",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 10,
+      "pdf_canonical_name": "Dibuix Tècnic",
+      "csv_name": "Dibuix Tècnic",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 11,
+      "pdf_canonical_name": "Dibuix Tècnic aplicat a les Arts i el Disseny",
+      "csv_name": "Dibuix Tècnic aplicat a les Arts",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 12,
+      "pdf_canonical_name": "Disseny",
+      "csv_name": "Disseny",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 13,
+      "pdf_canonical_name": "Física",
+      "csv_name": "Física",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 14,
+      "pdf_canonical_name": "Fonaments Artístics",
+      "csv_name": "Fonaments Artístics (Historia de l'Art)",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 15,
+      "pdf_canonical_name": "Funcionament de l’Empresa i Models de Negoci",
+      "csv_name": "Funcionament de l’Empresa i Models de Negoci (Empresa)",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 16,
+      "pdf_canonical_name": "Geografia",
+      "csv_name": "Geografia",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 17,
+      "pdf_canonical_name": "Geologia i Ciències Ambientals",
+      "csv_name": "Geologia i Ciències Ambientals (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 18,
+      "pdf_canonical_name": "Història de la Música i de la Dansa",
+      "csv_name": "Història de la Música i de la Dansa (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 19,
+      "pdf_canonical_name": "Història de l'Art",
+      "csv_name": "Història de l'Art",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 20,
+      "pdf_canonical_name": "Literatura Castellana",
+      "csv_name": "Literatura Castellana (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 21,
+      "pdf_canonical_name": "Literatura Catalana",
+      "csv_name": "Literatura Catalana (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 22,
+      "pdf_canonical_name": "Literatura Dramàtica",
+      "csv_name": "Literatura Dramàtica (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 23,
+      "pdf_canonical_name": "Llengua i Cultura Gregues (Grec)",
+      "csv_name": "Llengua i Cultura Gregues (Grec) (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 24,
+      "pdf_canonical_name": "Llengua i Cultura Llatines (Llatí)",
+      "csv_name": "Llengua i Cultura Llatines (Llatí) (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 25,
+      "pdf_canonical_name": "Matemàtiques",
+      "csv_name": "Matemàtiques",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 26,
+      "pdf_canonical_name": "Matemàtiques Aplicades a les CC.SS",
+      "csv_name": "Matemàtiques Aplicades",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 27,
+      "pdf_canonical_name": "Moviments culturals i artístics",
+      "csv_name": "Moviments culturals i artístics (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 28,
+      "pdf_canonical_name": "Química",
+      "csv_name": "Química",
+      "oferta_institut": true
+    },
+    {
+      "pdf_col_index": 29,
+      "pdf_canonical_name": "Tècniques d’Expressió Graficoplàstica",
+      "csv_name": "Tècniques d’Expressió Graficoplàstica (*)",
+      "oferta_institut": false
+    },
+    {
+      "pdf_col_index": 30,
+      "pdf_canonical_name": "Tecnologia i Enginyeria",
+      "csv_name": "Tecnologia",
+      "oferta_institut": true
+    }
+  ]
+}

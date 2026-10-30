@@ -1,0 +1,18 @@
+# Dependency directories
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment & API keys
+.env
+.env.*
+.gemini_free_keys
+.gemini_active_keys
+.gemini_paid_key
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
