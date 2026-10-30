@@ -403,6 +403,96 @@
             box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
         }
 
+        .chip-subject.weights-02 {
+            border-color: #10b981;
+            background: #f0fdf4;
+            color: #065f46;
+        }
+        .chip-subject.weights-02:hover {
+            border-color: #059669;
+            background: #dcfce7;
+        }
+        .chip-subject.weights-02.selected {
+            background: #059669;
+            border-color: #059669;
+            color: white;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+        }
+
+        .chip-subject.weights-01 {
+            border-color: #f59e0b;
+            background: #fffbeb;
+            color: #92400e;
+        }
+        .chip-subject.weights-01:hover {
+            border-color: #d97706;
+            background: #fef3c7;
+        }
+        .chip-subject.weights-01.selected {
+            background: #d97706;
+            border-color: #d97706;
+            color: white;
+            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+        }
+
+        .chip-subject.weights-00 {
+            opacity: 0.55;
+        }
+
+        .chip-pond-badge {
+            font-size: 0.82em;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 999px;
+            letter-spacing: -0.2px;
+            margin-left: 4px;
+            display: inline-block;
+        }
+        .chip-pond-badge.p02 {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        .chip-subject.selected .chip-pond-badge.p02 {
+            background: rgba(255, 255, 255, 0.28);
+            color: white;
+        }
+        .chip-pond-badge.p01 {
+            background: #fef3c7;
+            color: #b45309;
+        }
+        .chip-subject.selected .chip-pond-badge.p01 {
+            background: rgba(255, 255, 255, 0.28);
+            color: white;
+        }
+        .chip-pond-badge.p00 {
+            background: #f1f5f9;
+            color: #94a3b8;
+        }
+        .chip-subject.selected .chip-pond-badge.p00 {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-card-ref {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 12px;
+            font-size: 0.78em;
+            font-weight: 700;
+            border-radius: 8px;
+            border: 1px solid #d8b4fe;
+            background: #faf5ff;
+            color: #7c3aed;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-card-ref:hover {
+            background: #7c3aed;
+            color: white;
+            border-color: #7c3aed;
+        }
+
         .chip-subject.not-offered {
             opacity: 0.65;
             font-style: italic;
@@ -1023,14 +1113,18 @@
                     </div>
                 </div>
 
-                <!-- 2. SELECTOR DE GRAU (SI S'HA TRIAT EL MODE 'SI') -->
-                <div id="panelGrado" class="card-panel" style="display:none; background:#faf5ff; border-color:#d8b4fe;">
-                    <div class="panel-heading">
+                <!-- 2. SELECTOR DE GRAU DE REFERÈNCIA (PONDERACIONS) -->
+                <div id="panelGrado" class="card-panel" style="background:#faf5ff; border-color:#d8b4fe;">
+                    <div class="panel-heading" style="display:flex; justify-content:space-between; align-items:center;">
                         <span class="panel-title" style="color:#7c3aed;">🎯 Grau de Referència</span>
+                        <button id="btnNetejarGrauRef" onclick="netejarGrauReferencia()" style="display:none; background:none; border:none; color:#a855f7; font-size:0.75em; font-weight:700; cursor:pointer;" title="Treure grau de referència">✕ Netejar</button>
                     </div>
-                    <select id="selGrado" class="custom-select" onchange="cambioGrado()">
-                        <option value="">-- Selecciona un Grau --</option>
+                    <select id="selGrado" class="custom-select" onchange="cambioGrado()" style="border-color:#d8b4fe;">
+                        <option value="">-- Tria una carrera per veure què pondera --</option>
                     </select>
+                    <div id="infoPonderacionsGrauRef" style="display:none; font-size:0.75em; color:#6b21a8; margin-top:6px; font-weight:600; line-height:1.35;">
+                        ✨ Les matèries s'han ordenat segons la seva ponderació (+0.20 i +0.10) per a aquest grau!
+                    </div>
                 </div>
 
                 <!-- 3. TRIA DE MATÈRIES DE MODALITAT (XIPS) -->
@@ -1265,55 +1359,124 @@ function toggleMultiselect() {
     o.style.display = o.style.display === 'block' ? 'none' : 'block'; 
 }
 
+let grauReferenciaSeleccionat = "";
+let grauReferenciaWeights = {};
+
 function llenarGrados() {
     const grados = [...new Set(LINEAS.slice(1).map(r => limpiar(r[2])))].filter(x => x).sort();
-    document.getElementById('selGrado').innerHTML = '<option value="">-- Selecciona un Grau --</option>' + 
+    document.getElementById('selGrado').innerHTML = '<option value="">-- Tria una carrera per veure què pondera --</option>' + 
         grados.map(g => `<option value="${g}">${g}</option>`).join('');
 }
 
-function cambioGrado() {
-    const grado = document.getElementById('selGrado').value;
-    if(!grado) {
-        actualizarTodo();
-        return;
+function fixarGrauReferencia(nomGrau) {
+    const sel = document.getElementById('selGrado');
+    if (sel) {
+        sel.value = nomGrau;
+        cambioGrado();
+        document.getElementById('panelGrado')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-    const ok = new Set();
+}
+
+function netejarGrauReferencia() {
+    const sel = document.getElementById('selGrado');
+    if (sel) sel.value = "";
+    cambioGrado();
+}
+
+function calcularPonderacionsGrauReferencia() {
+    grauReferenciaWeights = {};
+    if (!grauReferenciaSeleccionat) return;
+
     LINEAS.forEach((r, i) => { 
-        if(i > 0 && limpiar(r[2]) === grado) { 
-            for(let m in ASIG_MAP) {
+        if (i > 0 && limpiar(r[2]) === grauReferenciaSeleccionat) { 
+            for (let m in ASIG_MAP) {
+                let maxW = grauReferenciaWeights[m] || 0;
                 ASIG_MAP[m].forEach(idx => { 
-                    if(aNum(r[idx]) >= 0.2) ok.add(m); 
-                }); 
+                    const val = aNum(r[idx]);
+                    if (val > maxW) maxW = val;
+                });
+                grauReferenciaWeights[m] = maxW;
             } 
         } 
     });
-    
-    // Auto-seleccionar fins a 4 matèries que ponderin 0.2
-    materiesSeleccionades = Array.from(ok).slice(0, 4);
+}
+
+function cambioGrado() {
+    const sel = document.getElementById('selGrado');
+    grauReferenciaSeleccionat = sel ? sel.value : "";
+    calcularPonderacionsGrauReferencia();
+
+    const btnNetejar = document.getElementById('btnNetejarGrauRef');
+    const infoPond = document.getElementById('infoPonderacionsGrauRef');
+    if (btnNetejar) btnNetejar.style.display = grauReferenciaSeleccionat ? 'inline-block' : 'none';
+    if (infoPond) infoPond.style.display = grauReferenciaSeleccionat ? 'block' : 'none';
+
+    // Si s'acaba de triar un grau i no teníem cap matèria seleccionada, auto-suggerim les de 0.2
+    if (grauReferenciaSeleccionat && materiesSeleccionades.length === 0) {
+        const millors = Object.keys(grauReferenciaWeights)
+            .filter(m => grauReferenciaWeights[m] >= 0.2 && !m.includes('(*)'))
+            .slice(0, 4);
+        if (millors.length > 0) {
+            materiesSeleccionades = millors;
+        }
+    }
+
     renderChipsMateries();
     actualizarTodo();
 }
 
-/* XIPS DE MATÈRIES */
+/* XIPS DE MATÈRIES AMB PONDERACIONS I SORT */
 function renderChipsMateries() {
     const container = document.getElementById('chipsMateriesContainer');
     const amagarNoImpartides = document.getElementById('chkAmagarNoImpartides')?.checked || false;
     
-    let llista = Object.keys(ASIG_MAP).sort((a,b) => a.localeCompare(b, 'ca'));
+    let llista = Object.keys(ASIG_MAP);
 
     if (amagarNoImpartides) {
         llista = llista.filter(m => !m.includes('(*)'));
     }
 
+    const hasRef = Boolean(grauReferenciaSeleccionat && Object.keys(grauReferenciaWeights).length > 0);
+
+    // Si hi ha grau de referència seleccionat, ordenem primer per ponderació (0.2 > 0.1 > 0.0)
+    llista.sort((a, b) => {
+        if (hasRef) {
+            const wA = grauReferenciaWeights[a] || 0;
+            const wB = grauReferenciaWeights[b] || 0;
+            if (wB !== wA) return wB - wA;
+        }
+        return a.localeCompare(b, 'ca');
+    });
+
     container.innerHTML = llista.map(materia => {
         const isSelected = materiesSeleccionades.includes(materia);
         const isNotOffered = materia.includes('(*)');
         const cleanName = materia.replace('(*)', '').trim();
+        const weight = hasRef ? (grauReferenciaWeights[materia] || 0) : null;
         
+        let weightClass = "";
+        let badgeHtml = "";
+        if (weight !== null) {
+            if (weight >= 0.2) {
+                weightClass = "weights-02";
+                badgeHtml = `<span class="chip-pond-badge p02">+0.20</span>`;
+            } else if (weight >= 0.1) {
+                weightClass = "weights-01";
+                badgeHtml = `<span class="chip-pond-badge p01">+0.10</span>`;
+            } else {
+                weightClass = "weights-00";
+                badgeHtml = `<span class="chip-pond-badge p00">0.0</span>`;
+            }
+        }
+
         return `
-            <div class="chip-subject ${isSelected ? 'selected' : ''} ${isNotOffered ? 'not-offered' : ''}" 
-                 onclick="toggleMateria('${materia.replace(/'/g, "\\'")}')">
-                ${isSelected ? '✓' : '+'} ${cleanName} ${isNotOffered ? '<span style="font-size:0.8em; opacity:0.7;">(*)</span>' : ''}
+            <div class="chip-subject ${isSelected ? 'selected' : ''} ${isNotOffered ? 'not-offered' : ''} ${weightClass}" 
+                 onclick="toggleMateria('${materia.replace(/'/g, "\\'")}')"
+                 title="${weight !== null ? 'Ponderació per a ' + grauReferenciaSeleccionat + ': +' + weight.toFixed(2) : ''}">
+                <span>${isSelected ? '✓' : '+'}</span>
+                <span>${cleanName}</span>
+                ${isNotOffered ? '<span style="font-size:0.8em; opacity:0.7;">(*)</span>' : ''}
+                ${badgeHtml}
             </div>
         `;
     }).join('');
@@ -1591,12 +1754,17 @@ function renderDeckGraus(graus, teNotaSimulada) {
 
                 <div class="card-footer-row">
                     <div class="aqu-pill-badge">
-                        Inserció laboral AQU: ${r.prof}/10 (${aquLabel})
+                        Inserció laboral AQU: ${r.prof.toFixed(1)}/10 (${aquLabel})
                     </div>
 
-                    <button class="btn-card-ai" onclick="preguntarSobreGrau('${r.grado.replace(/'/g, "\\'")}', '${r.univ}')">
-                        ✨ Preguntar a l'IA sobre aquest grau
-                    </button>
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <button class="btn-card-ref" onclick="fixarGrauReferencia('${r.grado.replace(/'/g, "\\'")}')" title="Veure quines assignatures ponderen per a aquesta carrera">
+                            🎯 Veure ponderacions
+                        </button>
+                        <button class="btn-card-ai" onclick="preguntarSobreGrau('${r.grado.replace(/'/g, "\\'")}', '${r.univ}')">
+                            💬 Preguntar a en Bernat
+                        </button>
+                    </div>
                 </div>
             </article>
         `;
@@ -1878,6 +2046,15 @@ ${preguntaUser}`;
             const decoder = new TextDecoder("utf-8");
             let buffer = "";
 
+            let userScrolledUp = false;
+            const onUserScroll = () => {
+                const distFromBottom = thread.scrollHeight - thread.scrollTop - thread.clientHeight;
+                userScrolledUp = (distFromBottom > 60);
+            };
+            thread.addEventListener('scroll', onUserScroll, { passive: true });
+
+            let isFirstChunk = true;
+
             while (true) {
                 let done = false;
                 let value;
@@ -1905,7 +2082,18 @@ ${preguntaUser}`;
                         if (data.chunk) {
                             accumulated += data.chunk;
                             contentBox.innerHTML = formatAiResponse(accumulated);
-                            thread.scrollTop = thread.scrollHeight;
+                            
+                            if (isFirstChunk) {
+                                // En el primer tros de resposta, assegurem que la part inicial és visible sense saltar
+                                aiMsgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                isFirstChunk = false;
+                            } else if (!userScrolledUp) {
+                                // Només acompanyem el text si l'usuari no ha pujat a llegir
+                                const distFromBottom = thread.scrollHeight - thread.scrollTop - thread.clientHeight;
+                                if (distFromBottom > 0 && distFromBottom < 80) {
+                                    thread.scrollTop = thread.scrollHeight;
+                                }
+                            }
                         } else if (data.done && data.fullText && !accumulated) {
                             accumulated = data.fullText;
                             contentBox.innerHTML = formatAiResponse(accumulated);
@@ -1916,11 +2104,12 @@ ${preguntaUser}`;
                 }
             }
 
-            // Si hem rebut text, desar al fil
+            thread.removeEventListener('scroll', onUserScroll);
+
+            // Si hem rebut text, desar al fil (NO forcem scroll al final per no tallar la lectura de l'alumne!)
             if (accumulated.trim()) {
                 historialIA.push({ role: "assistant", content: accumulated });
                 contentBox.innerHTML = formatAiResponse(accumulated);
-                thread.scrollTop = thread.scrollHeight;
                 return;
             }
         }
@@ -1930,7 +2119,6 @@ ${preguntaUser}`;
         const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
         historialIA.push({ role: "assistant", content: respuestaTexto });
         contentBox.innerHTML = formatAiResponse(respuestaTexto);
-        thread.scrollTop = thread.scrollHeight;
 
     } catch (e) {
         console.warn("Streaming fallit o xarxa, intentant fallback JSON directe:", e);
@@ -1982,7 +2170,24 @@ function formatAiResponse(markdown) {
 
     for (let line of lines) {
         const trimmed = line.trim();
-        if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+        
+        // Suport per a capçaleres Markdown (# ## ### ####)
+        if (/^###\s+(.+)/.test(trimmed)) {
+            if (inUl) { html += "</ul>"; inUl = false; }
+            if (inOl) { html += "</ol>"; inOl = false; }
+            const headerText = trimmed.replace(/^###\s+/, "");
+            html += `<h4 style="margin:12px 0 4px; font-weight:700; color:var(--primary); font-size:1.02em;">${formatInline(headerText)}</h4>`;
+        } else if (/^##\s+(.+)/.test(trimmed)) {
+            if (inUl) { html += "</ul>"; inUl = false; }
+            if (inOl) { html += "</ol>"; inOl = false; }
+            const headerText = trimmed.replace(/^##\s+/, "");
+            html += `<h3 style="margin:14px 0 6px; font-weight:800; color:var(--primary); font-size:1.08em;">${formatInline(headerText)}</h3>`;
+        } else if (/^#\s+(.+)/.test(trimmed)) {
+            if (inUl) { html += "</ul>"; inUl = false; }
+            if (inOl) { html += "</ol>"; inOl = false; }
+            const headerText = trimmed.replace(/^#\s+/, "");
+            html += `<h2 style="margin:16px 0 8px; font-weight:800; color:var(--primary); font-size:1.15em;">${formatInline(headerText)}</h2>`;
+        } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
             if (inOl) { html += "</ol>"; inOl = false; }
             if (!inUl) { html += "<ul>"; inUl = true; }
             html += "<li>" + formatInline(trimmed.slice(2)) + "</li>";
@@ -2008,7 +2213,8 @@ function formatAiResponse(markdown) {
 function formatInline(str) {
     return str
         .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>");
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replace(/`([^`]+)`/g, "<code style='background:rgba(0,0,0,0.06); padding:2px 5px; border-radius:4px; font-size:0.9em;'>$1</code>");
 }
 
 document.getElementById('input-ia')?.addEventListener('keydown', function(e) {

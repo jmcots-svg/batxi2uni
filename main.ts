@@ -209,8 +209,12 @@ function isRateLimited(ip: string): boolean {
 
 function markdownToHTML(markdown: string): string {
   const html = markdown
+    .replace(/^### (.*$)/gim, '<h4 style="margin:8px 0 4px; font-weight:700; color:#4f46e5;">$1</h4>')
+    .replace(/^## (.*$)/gim, '<h3 style="margin:10px 0 6px; font-weight:800; color:#4f46e5;">$1</h3>')
+    .replace(/^# (.*$)/gim, '<h2 style="margin:12px 0 8px; font-weight:800; color:#4f46e5;">$1</h2>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '$1')
+    .replace(/`([^`]+)`/g, '<code style="background:#f1f5f9; padding:2px 4px; border-radius:4px;">$1</code>')
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>');
   return `<div class="ai-response"><p>${html}</p></div>`;
@@ -233,6 +237,7 @@ NORMES ABSOLUTES D'IDENTITAT I COMUNICACIÓ:
 4. ESTIL I FORMAT:
    - Respon sempre en català (tret que l'estudiant et parli expressament en castellà o un altre idioma).
    - Fes servir un to proper i motivador (tutegem l'estudiant amb respecte i confiança).
+   - Fes servir negretes (**terme**) o llistes (- element) en lloc de títols amb coixinets (###), per a una lectura visualment neta i adaptada a la bombolla del xat.
    - Respostes estructurades, directes i al gra (fent servir negretes per a xifres o termes clau).
    - Explica de forma realista si la seva nota d'accés simulada li dóna marge de seguretat (zona verda: > +0.5 punts sobre el tall; zona groga: entre -0.3 i +0.5 punts; zona vermella: requereix millorar nota).`;
 

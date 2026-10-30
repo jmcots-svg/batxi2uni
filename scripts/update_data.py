@@ -137,10 +137,48 @@ def parse_ponderacions_pdf(pdf_bytes: bytes, num_subject_cols: int = 27):
     print(f"  ✓ Total graus extrets de Ponderacions: {len(degrees)}")
     return degrees
 
+# Mapeig manual per a codis que van canviar entre convocatòries o noves ofertes 2026
+CODE_OVERRIDES = {
+    "11119": "11020",  # Matemàtiques / Física (Simultaneïtat) UB -> Física / Matemàtiques (13,170)
+    "11120": "11065",  # Dret / Ciència Política UB -> Ciències Polítiques / Dret (11,475)
+    "11121": "11008",  # Ciència Política i de l'Administració UB -> (8,678)
+    "11122": "11018",  # Enginyeria Informàtica UB -> (10,246)
+    "11123": "11041",  # Matemàtiques UB -> (12,286)
+    "11124": "11016",  # Matemàtiques / Enginyeria Informàtica UB -> (12,898)
+    "11125": "11008",  # Administració i Direcció Pública UB -> (8,678)
+    "21171": {"poblacio": "Cerdanyola del Vallès", "univ": "UAB", "places": "20", "nota": "5"},  # Nova oferta 2026
+    "21172": "21115",  # Telecomunicació UAB -> (8,203)
+    "21173": "21030",  # Estudis d'Àsia Oriental -Coreà- UAB -> (6,980)
+    "21174": "21040",  # Història UAB -> (5,000)
+    "21175": {"poblacio": "Cerdanyola del Vallès", "univ": "UAB", "places": "60", "nota": "5"},
+    "31138": "31096",  # Ciències del Mar UPC -> (7,662)
+    "41073": "41052",  # Videojocs / Informàtica Tecnocampus UPF -> (5,000)
+    "41074": "41045",  # Videojocs Tecnocampus UPF -> (5,000)
+    "41075": "41049",  # Mitjans Audiovisuals Tecnocampus UPF -> (5,000)
+    "41076": {"poblacio": "Mataró", "univ": "UPF", "places": "40", "nota": "5"},  # Nova oferta 2026
+    "61083": {"poblacio": "Lleida", "univ": "UdL", "places": "40", "nota": "5"},  # Nova oferta 2026
+    "61084": "61030",  # Medicina UdL -> (12,467)
+    "71089": "71012",  # Educació Social URV -> (7,994)
+    "71090": "71020",  # Pedagogia URV -> (8,355)
+    "81089": "81069",  # Filosofia / Economia UdG -> (8,086)
+    "81090": "81053",  # Dret / ADE UdG -> (9,838)
+    "81091": "81046",  # Enginyeria Industrial / ADE UdG -> (10,198)
+    "81092": "81010",  # Comunicació Cultural / Polítiques UdG -> (7,578)
+    "81093": {"poblacio": "Girona", "univ": "UdG", "places": "40", "nota": "5"},  # Nova oferta 2026
+    "81095": "81003",  # ADE UdG -> (9,218)
+    "81096": "81052",  # ADE / Economia UdG -> (10,000)
+    "81097": "81011",  # Comptabilitat i Finances UdG -> (7,872)
+    "81098": "81016",  # Economia UdG -> (8,832)
+    "91065": {"poblacio": "Vic", "univ": "UVic-UCC", "places": "40", "nota": "5"},
+    "91066": {"poblacio": "Manresa", "univ": "UVic-UCC", "places": "40", "nota": "5"},
+    "91923": {"poblacio": "Castelldefels", "univ": "UPC", "places": "40", "nota": "5"},
+    "91924": "91918",  # Fisioteràpia anglès -> (7,534)
+}
+
 def parse_notes_tall_pdf(pdf_bytes: bytes):
     """
     Extreu les notes de tall, places i població del PDF de Notes de tall.
-    Retorna un diccionari {codi_grau: {poblacio, places, nota, univ}}
+    Retorna un diccionari {codi_grau: {name, poblacio, places, nota, univ}}
     """
     print("📄 Processant taules del PDF de Notes de Tall...")
     notes = {}
@@ -153,21 +191,23 @@ def parse_notes_tall_pdf(pdf_bytes: bytes):
                         continue
                     code = (row[0] or "").strip()
                     if re.match(r"^\d{5}$", code):
+                        name = (row[1] or "").strip().replace("\n", " ")
                         poblacio = (row[2] or "").strip().replace("\n", " ")
                         univ = (row[3] or "").strip().replace("\n", "")
                         places = (row[4] or "").strip().replace("\n", "")
                         
-                        # Nota PAU/CFGS final (generalment a la columna 6 o 5 depenent del format)
-                        # Al quadre comparatiu: col 5 és inici del procés, col 6 és final del procés
-                        nota_final = (row[6] or "").strip().replace("\n", "").replace(".", ",")
-                        if not nota_final and len(row) > 5:
-                            nota_final = (row[5] or "").strip().replace("\n", "").replace(".", ",")
+                        # Al quadre comparatiu: col 5 és inici del procés (1a assignació de juny - nota oficial de referència)
+                        # col 6 és final del procés
+                        nota_final = (row[5] or "").strip().replace("\n", "").replace(".", ",")
+                        if not nota_final and len(row) > 6:
+                            nota_final = (row[6] or "").strip().replace("\n", "").replace(".", ",")
 
                         # Validar format numèric de nota (ex: 7,424 o 5 o 5,000)
                         if nota_final and not re.match(r"^\d+(?:,\d+)?$", nota_final):
                             nota_final = "5"
 
                         notes[code] = {
+                            "name": name,
                             "poblacio": poblacio,
                             "univ": univ,
                             "places": places,
@@ -271,6 +311,26 @@ def main():
     for code in sorted_codes:
         deg = degrees[code]
         note_info = notes.get(code, {})
+        
+        # Si no s'ha trobat pel codi directe, comprovar CODE_OVERRIDES
+        if not note_info:
+            override = CODE_OVERRIDES.get(code)
+            if isinstance(override, dict):
+                note_info = override
+            elif isinstance(override, str) and override in notes:
+                note_info = notes[override]
+
+        # Si encara no s'ha trobat, fallback per coincidència de nom de grau i universitat
+        if not note_info:
+            target_univ = deg["univ"]
+            target_name = deg["name"].lower()
+            for n_code, n_data in notes.items():
+                if n_data.get("univ") == target_univ:
+                    curr_name = n_data.get("name", "").lower()
+                    # Comprovar si contenen les mateixes paraules clau principals
+                    if curr_name and (curr_name in target_name or target_name in curr_name):
+                        note_info = n_data
+                        break
         
         # Poblacio, places, nota
         poblacio = note_info.get("poblacio", "")
