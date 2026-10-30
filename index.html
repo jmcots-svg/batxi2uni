@@ -7,9 +7,9 @@
     <link rel="shortcut icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
 
-    <meta name="description" content="Calculadora de notes d'accés, ponderacions i notes de tall 2026. Simula la teva nota sobre 14 amb semàfor de viabilitat i orientació per IA.">
+    <meta name="description" content="Calculadora de notes d'accés, ponderacions i notes de tall 2026. Simula la teva nota sobre 14 amb semàfor de viabilitat i copilot d'IA Gemma 4.">
     <meta name="keywords" content="notes de tall 2026, ponderacions selectivitat catalunya, calculadora nota acces 14 punts, graus universitaris catalunya, pau 2026">
-    <meta property="og:title" content="Batxi2Uni · Calculadora d'Accés i Ponderacions 2026">
+    <meta property="og:title" content="Batxi2Uni · Calculadora d'Accés i Ponderacions PAU 2026">
     <meta property="og:description" content="Simula la teva nota sobre 14 punts, compara graus a Catalunya i descobreix les teves opcions segures i al límit.">
     <meta property="og:image" content="https://batxi2uni.run.place/logo.png">
 
@@ -40,12 +40,12 @@
             --warning-light: #fffbeb;
             --danger: #ef4444;
             --danger-light: #fef2f2;
-            --ai-accent: #8b5cf6;
+            --ai-accent: #7c3aed;
             --ai-light: #f5f3ff;
             --radius-card: 16px;
             --radius-btn: 10px;
             --radius-chip: 9999px;
-            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
             --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
             --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08);
         }
@@ -56,13 +56,13 @@
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-page);
             color: var(--text-main);
-            padding: 16px;
+            padding: 16px 20px;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1480px;
             margin: 0 auto;
         }
 
@@ -71,7 +71,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 14px 20px;
+            padding: 14px 22px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -88,13 +88,13 @@
         }
 
         .brand-logo {
-            height: 42px;
+            height: 40px;
             width: auto;
             border-radius: 8px;
         }
 
         .brand-title {
-            font-size: 1.25em;
+            font-size: 1.3em;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.02em;
@@ -105,7 +105,7 @@
             font-weight: 700;
             background: var(--primary-light);
             color: var(--primary);
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: var(--radius-chip);
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -131,7 +131,6 @@
             color: var(--text-main);
             cursor: pointer;
             transition: all 0.15s ease;
-            text-decoration: none;
         }
 
         .btn-action:hover {
@@ -154,15 +153,15 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 48px 24px;
+            padding: 50px 24px;
             text-align: center;
             box-shadow: var(--shadow-md);
             margin: 20px auto;
-            max-width: 850px;
+            max-width: 860px;
         }
 
         .hero-title {
-            font-size: 2em;
+            font-size: 2.1em;
             font-weight: 800;
             letter-spacing: -0.03em;
             color: var(--text-main);
@@ -172,8 +171,8 @@
         .hero-desc {
             font-size: 1.05em;
             color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 32px auto;
+            max-width: 620px;
+            margin: 0 auto 36px auto;
         }
 
         .decision-cards {
@@ -187,7 +186,7 @@
             background: var(--bg-page);
             border: 2px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 28px 20px;
+            padding: 28px 24px;
             cursor: pointer;
             text-align: left;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -201,12 +200,12 @@
         }
 
         .decision-card-icon {
-            font-size: 2em;
+            font-size: 2.2em;
             margin-bottom: 12px;
         }
 
         .decision-card-title {
-            font-size: 1.15em;
+            font-size: 1.2em;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 6px;
@@ -225,22 +224,24 @@
 
         .cockpit-layout {
             display: grid;
-            grid-template-columns: 390px 1fr;
-            gap: 20px;
+            grid-template-columns: 420px 1fr;
+            gap: 24px;
             align-items: start;
         }
 
-        @media (max-width: 1060px) {
+        @media (max-width: 1100px) {
             .cockpit-layout {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* ========== COLUMNA ESQUERRA: CONTROLS OPERATIUS ========== */
+        /* ========== COLUMNA ESQUERRA: CONTROLS (STICKY) ========== */
         .cockpit-controls {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
+            position: sticky;
+            top: 16px;
         }
 
         .card-panel {
@@ -259,96 +260,92 @@
         }
 
         .panel-title {
-            font-size: 0.9em;
-            font-weight: 700;
+            font-size: 0.85em;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        /* CALCULADORA DE NOTA SOBRE 14 */
+        /* 1. CALCULADORA DE NOTA */
         .calculator-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 12px;
+            margin-bottom: 14px;
         }
 
         .calc-field label {
             display: block;
             font-size: 0.75em;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
         }
 
         .calc-input {
             width: 100%;
-            padding: 10px;
-            font-size: 1em;
-            font-weight: 700;
+            padding: 10px 12px;
+            font-size: 1.1em;
+            font-weight: 800;
             font-family: inherit;
             border: 1px solid var(--border-card);
             border-radius: var(--radius-btn);
             background: var(--bg-page);
             color: var(--text-main);
             outline: none;
-            transition: border-color 0.15s;
+            transition: all 0.15s;
         }
 
         .calc-input:focus {
             border-color: var(--primary);
             background: white;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
         }
 
         .calc-summary-pill {
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
             color: white;
-            border-radius: var(--radius-btn);
-            padding: 14px 16px;
+            border-radius: var(--radius-card);
+            padding: 16px 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
         }
 
         .calc-summary-label {
-            font-size: 0.72em;
+            font-size: 0.75em;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             opacity: 0.9;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .calc-summary-score {
-            font-size: 1.8em;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-top: 2px;
+            font-size: 2.1em;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin: 4px 0;
+            font-variant-numeric: tabular-nums;
         }
 
         .calc-breakdown {
-            font-size: 0.75em;
-            opacity: 0.85;
-            margin-top: 4px;
+            font-size: 0.78em;
+            opacity: 0.88;
+            font-weight: 500;
         }
 
-        /* SELECTOR DE GRAU DE REFERENCIA */
-        #panelGrado {
-            display: none;
-            background: #faf5ff;
-            border-color: #d8b4fe;
-        }
-
-        /* XIPS DE MATÈRIES */
+        /* 2. MATÈRIES (CHIPS) */
         .chips-container {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
-            max-height: 280px;
+            max-height: 260px;
             overflow-y: auto;
-            padding: 4px;
+            padding: 4px 0;
             margin-top: 8px;
         }
 
@@ -356,8 +353,8 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 6px 12px;
-            font-size: 0.78em;
+            padding: 7px 12px;
+            font-size: 0.8em;
             font-weight: 600;
             border-radius: var(--radius-chip);
             border: 1px solid var(--border-card);
@@ -385,17 +382,8 @@
             font-style: italic;
         }
 
-        .selected-counter {
-            font-size: 0.78em;
-            color: var(--text-muted);
-            margin-top: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
         .filter-toggle-container {
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 0.78em;
             color: var(--text-muted);
             display: flex;
@@ -404,7 +392,7 @@
             cursor: pointer;
         }
 
-        /* FILTRES I ORDENACIÓ */
+        /* 3. FILTRES AVANÇATS */
         .filters-form-grid {
             display: flex;
             flex-direction: column;
@@ -419,14 +407,14 @@
 
         .form-row label {
             font-size: 0.75em;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
         }
 
         select.custom-select {
             width: 100%;
-            padding: 10px;
+            padding: 10px 12px;
             font-size: 0.88em;
             font-weight: 600;
             font-family: inherit;
@@ -437,7 +425,6 @@
             outline: none;
         }
 
-        /* MULTISELECT CIUTATS */
         .multiselect-container { position: relative; width: 100%; }
         .multiselect-header {
             background: var(--bg-page);
@@ -481,27 +468,40 @@
             background: var(--bg-page);
         }
 
-        /* COPILOT IA WIDGET */
+        /* 4. COPILOT D'IA XAT CONVERSACIONAL */
         .ai-widget {
-            border-color: #c4b5fd;
-            background: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%);
+            border-color: #ddd6fe;
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .ai-widget-title {
+        .ai-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-badge {
+            font-size: 0.72em;
+            font-weight: 800;
+            background: #ede9fe;
             color: var(--ai-accent);
+            padding: 3px 8px;
+            border-radius: 6px;
         }
 
         .ai-quick-prompts {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 12px;
+            gap: 5px;
         }
 
         .ai-prompt-chip {
             text-align: left;
-            background: white;
-            border: 1px solid #ddd6fe;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
             color: #6b21a8;
             padding: 6px 10px;
             border-radius: 8px;
@@ -516,71 +516,139 @@
             border-color: var(--ai-accent);
         }
 
-        .ai-input-container {
+        /* FIL DE CONVERSA (CHAT THREAD) */
+        .chat-thread-box {
+            height: 320px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
+            gap: 10px;
+            padding: 12px;
+            background: #fdfcff;
+            border: 1px solid #ede9fe;
+            border-radius: var(--radius-btn);
+            scroll-behavior: smooth;
+        }
+
+        .chat-msg {
+            display: flex;
+            flex-direction: column;
+            max-width: 90%;
+            font-size: 0.86em;
+            line-height: 1.5;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-msg.user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 14px 14px 2px 14px;
+            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        .chat-msg.assistant {
+            align-self: flex-start;
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: var(--text-main);
+            padding: 12px 14px;
+            border-radius: 14px 14px 14px 2px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chat-msg-header {
+            font-size: 0.72em;
+            font-weight: 700;
+            margin-bottom: 4px;
+            opacity: 0.75;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chat-msg.user .chat-msg-header { color: rgba(255,255,255,0.8); }
+        .chat-msg.assistant .chat-msg-header { color: var(--ai-accent); }
+
+        .chat-msg.assistant p { margin-bottom: 8px; }
+        .chat-msg.assistant p:last-child { margin-bottom: 0; }
+        .chat-msg.assistant ul, .chat-msg.assistant ol { padding-left: 18px; margin-bottom: 8px; }
+        .chat-msg.assistant li { margin-bottom: 4px; }
+        .chat-msg.assistant strong { font-weight: 700; color: #1e1b4b; }
+
+        /* INDICADOR DE GENERACIÓ EN DIRECTE */
+        .chat-typing {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.78em;
+            color: var(--ai-accent);
+            font-style: italic;
+        }
+
+        .dot-pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--ai-accent);
+            border-radius: 50%;
+            animation: pulseDot 1.4s infinite ease-in-out;
+        }
+        .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
+        .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes pulseDot {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-input-bar {
+            display: flex;
             gap: 8px;
         }
 
-        .ai-textarea {
-            width: 100%;
-            padding: 10px 12px;
+        .chat-input-field {
+            flex: 1;
+            padding: 10px 14px;
             font-size: 0.88em;
             font-family: inherit;
             border: 1px solid #ddd6fe;
             border-radius: var(--radius-btn);
-            background: white;
-            resize: none;
             outline: none;
+            background: white;
+            transition: all 0.15s;
         }
 
-        .ai-textarea:focus {
+        .chat-input-field:focus {
             border-color: var(--ai-accent);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
         }
 
-        .btn-ai-submit {
+        .btn-chat-send {
             background: var(--ai-accent);
             color: white;
             border: none;
-            padding: 10px 14px;
+            padding: 10px 16px;
             border-radius: var(--radius-btn);
-            font-size: 0.85em;
+            font-size: 0.9em;
             font-weight: 700;
             cursor: pointer;
             transition: background 0.15s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
         }
 
-        .btn-ai-submit:hover {
-            background: #7c3aed;
+        .btn-chat-send:hover {
+            background: #6d28d9;
         }
 
-        #respuesta-ia {
-            margin-top: 12px;
-            font-size: 0.88em;
-            line-height: 1.5;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .ai-response {
-            background: white;
-            border: 1px solid #ddd6fe;
-            border-radius: var(--radius-btn);
-            padding: 14px;
-            color: #1e1b4b;
-        }
-
-        .ai-response p { margin-bottom: 8px; }
-        .ai-response p:last-child { margin-bottom: 0; }
-        .ai-response ul, .ai-response ol { padding-left: 18px; margin-bottom: 8px; }
-        .ai-response li { margin-bottom: 4px; }
-
-        /* ========== COLUMNA DRETA: FEED DE GRAUS (DECK) ========== */
+        /* ========== COLUMNA DRETA: FEED DE GRAUS (MOCKUP 1 FIDELITY) ========== */
         .cockpit-deck {
             display: flex;
             flex-direction: column;
@@ -591,265 +659,268 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 16px 20px;
+            padding: 18px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 14px;
             box-shadow: var(--shadow-sm);
         }
 
-        .deck-stats {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
         .count-badge {
-            font-size: 1.1em;
+            font-size: 1.15em;
             font-weight: 800;
             color: var(--text-main);
+            letter-spacing: -0.01em;
         }
 
         .traffic-summary {
             display: flex;
-            gap: 6px;
-            font-size: 0.78em;
+            gap: 8px;
+            font-size: 0.8em;
             font-weight: 700;
         }
 
         .traffic-pill {
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: var(--radius-chip);
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
 
-        .traffic-pill.green { background: var(--success-light); color: #065f46; }
-        .traffic-pill.amber { background: var(--warning-light); color: #92400e; }
-        .traffic-pill.red { background: var(--danger-light); color: #991b1b; }
+        .traffic-pill.green { background: var(--success-light); color: #047857; }
+        .traffic-pill.amber { background: var(--warning-light); color: #b45309; }
+        .traffic-pill.red { background: var(--danger-light); color: #b91c1c; }
 
-        /* CARDS DE GRAU */
+        /* TARGETES DE GRAU (EXACTE MOCKUP 1) */
         .degree-cards-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .degree-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-card);
-            padding: 18px 20px;
+            padding: 22px 26px;
             box-shadow: var(--shadow-sm);
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
 
         .degree-card:hover {
             border-color: #cbd5e1;
             box-shadow: var(--shadow-md);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .card-top-row {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 16px;
+            margin-bottom: 16px;
         }
 
-        .degree-main-info {
+        .degree-header-left {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
 
-        .degree-univ-badge {
+        .univ-pill-tag {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.75em;
+            font-size: 0.78em;
             font-weight: 800;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
             color: white;
             letter-spacing: 0.04em;
+            align-self: flex-start;
         }
 
         .degree-title {
-            font-size: 1.15em;
+            font-size: 1.25em;
             font-weight: 800;
             color: var(--text-main);
-            letter-spacing: -0.01em;
-            line-height: 1.3;
+            letter-spacing: -0.02em;
+            line-height: 1.35;
         }
 
-        .degree-meta {
+        .degree-meta-line {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.82em;
+            gap: 14px;
+            font-size: 0.85em;
             color: var(--text-muted);
             flex-wrap: wrap;
         }
 
-        .meta-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* VIABILITAT I SEMAFOR */
+        /* SEMÀFOR DE VIABILITAT DESTACAT */
         .card-viability-badge {
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: flex-end;
             text-align: right;
-            min-width: 130px;
+            min-width: 140px;
         }
 
         .semafor-pill {
-            font-size: 0.85em;
+            font-size: 0.88em;
             font-weight: 800;
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: var(--radius-chip);
             letter-spacing: 0.02em;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            box-shadow: var(--shadow-sm);
         }
 
         .semafor-pill.segura {
-            background: var(--success-light);
-            color: #047857;
-            border: 1px solid #a7f3d0;
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
         }
 
         .semafor-pill.limit {
-            background: var(--warning-light);
-            color: #b45309;
-            border: 1px solid #fde68a;
+            background: #f59e0b;
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
         }
 
         .semafor-pill.aspiracional {
-            background: var(--danger-light);
-            color: #b91c1c;
-            border: 1px solid #fecaca;
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
         }
 
         .semafor-pill.ponderacio {
-            background: var(--primary-light);
-            color: var(--primary);
-            border: 1px solid #c7d2fe;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
         }
 
-        .card-middle-grid {
+        /* TAULA D'INFORMACIÓ DEL GRAU (3 COLUMNES) */
+        .card-stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            padding: 12px 14px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            padding: 16px 20px;
             background: var(--bg-page);
             border-radius: var(--radius-btn);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-light);
         }
 
-        .info-cell {
+        .stat-box {
             display: flex;
             flex-direction: column;
+            gap: 2px;
         }
 
-        .info-cell-label {
-            font-size: 0.7em;
+        .stat-label {
+            font-size: 0.72em;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             color: var(--text-subtle);
         }
 
-        .info-cell-val {
-            font-size: 1.05em;
+        .stat-val {
+            font-size: 1.15em;
             font-weight: 800;
             color: var(--text-main);
+            font-variant-numeric: tabular-nums;
         }
 
-        .info-cell-val.highlight {
+        .stat-val.primary {
             color: var(--primary);
         }
 
-        .card-bottom-row {
+        .stat-val.gold {
+            color: #d97706;
+        }
+
+        /* PONDERACIONS TAGS */
+        .pond-tags-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            font-size: 0.82em;
+        }
+
+        .pond-tag-chip {
+            background: white;
+            border: 1px solid var(--border-card);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .pond-tag-chip strong {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        /* ACCIONS DE LA CARD */
+        .card-footer-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
-            font-size: 0.82em;
+            border-top: 1px solid var(--border-light);
+            padding-top: 14px;
         }
 
-        .aqu-badge {
+        .aqu-pill-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             font-weight: 700;
+            font-size: 0.82em;
             background: #fffbeb;
             color: #92400e;
-            padding: 4px 10px;
-            border-radius: 8px;
+            padding: 5px 12px;
+            border-radius: var(--radius-chip);
             border: 1px solid #fde68a;
         }
 
-        .btn-ask-degree {
+        .btn-card-ai {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             background: white;
             color: var(--ai-accent);
             border: 1px solid #ddd6fe;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: var(--radius-btn);
             font-weight: 700;
-            font-size: 0.8em;
+            font-size: 0.82em;
             cursor: pointer;
             transition: all 0.15s;
         }
 
-        .btn-ask-degree:hover {
+        .btn-card-ai:hover {
             background: #f5f3ff;
             border-color: var(--ai-accent);
-        }
-
-        /* PONDERACIO DESGLOSSAMENT */
-        .pond-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 4px;
-        }
-
-        .pond-tag {
-            background: white;
-            border: 1px solid var(--border-card);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.72em;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .pond-tag span {
-            color: var(--primary);
-            font-weight: 800;
+            transform: translateY(-1px);
         }
 
         @media print {
-            .top-navbar, .cockpit-controls, .btn-ask-degree, #pantallaInicio, #zonaCarga { display: none !important; }
+            .top-navbar, .cockpit-controls, .btn-card-ai, #pantallaInicio, #zonaCarga { display: none !important; }
             .cockpit-layout { display: block; }
             body { padding: 0; background: white; }
-            .degree-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; margin-bottom: 12px; }
+            .degree-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; margin-bottom: 16px; }
         }
     </style>
 </head>
@@ -878,7 +949,7 @@
 
     <!-- PANTALLA INICIAL D'ELECCIÓ (ONBOARDING) -->
     <div id="zonaCarga" style="text-align:center; padding:60px 20px;">
-        <h3 style="color:var(--text-muted);">Carregant ponderacions i notes de tall 2026...</h3>
+        <h3 style="color:var(--text-muted);">Carregant ponderacions i notes de tall oficials 2026...</h3>
     </div>
 
     <div id="pantallaInicio" style="display:none;">
@@ -904,14 +975,14 @@
         </div>
     </div>
 
-    <!-- MAIN UI: COCKPIT SPLIT SCREEN -->
+    <!-- MAIN UI: COCKPIT SPLIT SCREEN (EXACTE MOCKUP 1) -->
     <div id="mainUI">
         <div class="cockpit-layout">
 
             <!-- COLUMNA ESQUERRA: CONTROLS DE PRODUCTIVITAT -->
             <aside class="cockpit-controls">
 
-                <!-- 1. CALCULADORA DE NOTA SOBRE 14 -->
+                <!-- 1. CALCULADORA DE NOTA SOBRE 14 (AMB VALORS ACTIUS PER DEFECTE) -->
                 <div class="card-panel">
                     <div class="panel-heading">
                         <span class="panel-title">📊 1. Nota d'Accés sobre 14</span>
@@ -920,25 +991,25 @@
                     <div class="calculator-grid">
                         <div class="calc-field">
                             <label for="inputNMB">Batxillerat (60%)</label>
-                            <input type="number" id="inputNMB" class="calc-input" placeholder="8.20" step="0.05" min="0" max="10" oninput="actualizarTodo()">
+                            <input type="text" inputmode="decimal" id="inputNMB" class="calc-input" value="8.20" placeholder="8.20" oninput="actualizarTodo()">
                         </div>
                         <div class="calc-field">
                             <label for="inputQFG">PAU General (40%)</label>
-                            <input type="number" id="inputQFG" class="calc-input" placeholder="7.50" step="0.05" min="0" max="10" oninput="actualizarTodo()">
+                            <input type="text" inputmode="decimal" id="inputQFG" class="calc-input" value="7.50" placeholder="7.50" oninput="actualizarTodo()">
                         </div>
                     </div>
 
                     <div class="calc-summary-pill">
                         <div class="calc-summary-label">La teva Nota d'Accés Simulada</div>
-                        <div class="calc-summary-score" id="txtNotaAccesGlobal">-- / 14</div>
-                        <div class="calc-breakdown" id="txtDesglossamentAcces">Introdueix notes per activar el semàfor</div>
+                        <div class="calc-summary-score" id="txtNotaAccesGlobal">11.920 / 14</div>
+                        <div class="calc-breakdown" id="txtDesglossamentAcces">Base: 7.92 + Ponderació màx: +4.00</div>
                     </div>
                 </div>
 
                 <!-- 2. SELECTOR DE GRAU (SI S'HA TRIAT EL MODE 'SI') -->
-                <div id="panelGrado" class="card-panel">
+                <div id="panelGrado" class="card-panel" style="display:none; background:#faf5ff; border-color:#d8b4fe;">
                     <div class="panel-heading">
-                        <span class="panel-title">🎯 Grau de Referència</span>
+                        <span class="panel-title" style="color:#7c3aed;">🎯 Grau de Referència</span>
                     </div>
                     <select id="selGrado" class="custom-select" onchange="cambioGrado()">
                         <option value="">-- Selecciona un Grau --</option>
@@ -949,24 +1020,16 @@
                 <div class="card-panel">
                     <div class="panel-heading">
                         <span class="panel-title">📚 2. Matèries de Modalitat</span>
-                        <span id="txtComptadorMateries" style="font-size:0.75em; font-weight:700; color:var(--primary);">0/4</span>
+                        <span id="txtComptadorMateries" style="font-size:0.78em; font-weight:800; color:var(--primary);">2/4</span>
                     </div>
 
                     <div class="filter-toggle-container">
                         <input type="checkbox" id="chkAmagarNoImpartides" onchange="toggleAmagarNoImpartides()">
-                        <label for="chkAmagarNoImpartides">Ocultar matèries no impartides al meu centre (*)</label>
+                        <label for="chkAmagarNoImpartides">Ocultar matèries no impartides al meu institut (*)</label>
                     </div>
 
                     <div class="chips-container" id="chipsMateriesContainer">
                         <!-- Generat dinàmicament en JS -->
-                    </div>
-
-                    <!-- Selectors clàssics ocults per mantenir compatibilitat i estructura -->
-                    <div style="display:none;">
-                        <select id="m1" class="m-sel"></select>
-                        <select id="m2" class="m-sel"></select>
-                        <select id="m3" class="m-sel"></select>
-                        <select id="m4" class="m-sel"></select>
                     </div>
                 </div>
 
@@ -1010,8 +1073,8 @@
                         <div class="form-row">
                             <label>Ordenar per</label>
                             <select id="fOrden" class="custom-select" onchange="actualizarTodo()">
-                                <option value="total_desc">Punts de ponderació (més alt primer)</option>
                                 <option value="semafor_desc" selected>Marge de seguretat (més segura primer)</option>
+                                <option value="total_desc">Punts de ponderació (més alt primer)</option>
                                 <option value="nota_desc">Nota de tall (més alta primer)</option>
                                 <option value="nota_asc">Nota de tall (més assequible primer)</option>
                                 <option value="prof_desc">Sortida professional AQU (més alta)</option>
@@ -1020,30 +1083,40 @@
                     </div>
                 </div>
 
-                <!-- 5. COPILOT D'ORIENTACIÓ IA (GEMMA 4) -->
+                <!-- 5. COPILOT D'IA XAT CONVERSACIONAL REAL (GEMMA 4) -->
                 <div class="card-panel ai-widget">
-                    <div class="panel-heading">
-                        <span class="panel-title ai-widget-title">✨ Copilot d'IA Batxi2Uni</span>
-                        <span style="font-size:0.7em; background:#ede9fe; color:#6d28d9; padding:2px 6px; border-radius:4px; font-weight:700;">Gemma 4</span>
+                    <div class="ai-header-bar">
+                        <span class="panel-title" style="color:var(--ai-accent);">✨ Copilot d'IA Batxi2Uni</span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="ai-badge">Gemma 4</span>
+                            <button onclick="reiniciarChat()" title="Reiniciar conversa" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.85em;">🔄</button>
+                        </div>
                     </div>
 
                     <div class="ai-quick-prompts">
                         <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Quines carreres del meu llistat tenen millor inserció laboral segons AQU?')">🎓 Carreres amb més sortida professional</button>
-                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Segons la meva nota i matèries, quines 3 opcions em recomanes?')">🎯 Quines 3 opcions em recomanes?</button>
-                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Compara les diferències entre estudiar a la UPC, UB i UAB.')">⚖️ Compara UPC vs UB vs UAB</button>
+                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Segons la meva nota simulada i matèries, quines 3 millors opcions em recomanes?')">🎯 Quines 3 opcions em recomanes?</button>
+                        <button class="ai-prompt-chip" onclick="preguntarQuickPrompt('Compara les diferències entre estudiar Enginyeria a la UPC vs UB vs UAB.')">⚖️ Compara UPC vs UB vs UAB</button>
                     </div>
 
-                    <div class="ai-input-container">
-                        <textarea id="input-ia" class="ai-textarea" rows="2" placeholder="Fes una pregunta sobre notes, graus, universitats o sortides..."></textarea>
-                        <button id="btn-preguntar-ia" class="btn-ai-submit" onclick="enviarConsultaIA()">Enviar consulta ➤</button>
+                    <!-- CONTENIDOR DE MISSATGES HISTÒRICS (CHAT THREAD) -->
+                    <div class="chat-thread-box" id="chatThread">
+                        <div class="chat-msg assistant">
+                            <div class="chat-msg-header">✨ Gemma 4 · Copilot d'Orientació</div>
+                            <p>Hola! He calculat la teva nota d'accés simulada en <strong>11.920 / 14</strong> amb les teves matèries de <strong>Matemàtiques i Física</strong>. Pots fer-me qualsevol pregunta sobre notes de tall, graus, sortides professionals o demanar-me una comparativa entre universitats!</p>
+                        </div>
                     </div>
 
-                    <div id="respuesta-ia"></div>
+                    <!-- BARRA D'ENTRADA DE MISSATGES -->
+                    <div class="chat-input-bar">
+                        <input type="text" id="input-ia" class="chat-input-field" placeholder="Escriu la teva pregunta aquí...">
+                        <button id="btn-preguntar-ia" class="btn-chat-send" onclick="enviarConsultaIA()">➤</button>
+                    </div>
                 </div>
 
             </aside>
 
-            <!-- COLUMNA DRETA: FEED DE GRAUS (DECISIONS) -->
+            <!-- COLUMNA DRETA: FEED DE GRAUS (DECK) -->
             <main class="cockpit-deck">
 
                 <div class="deck-header">
@@ -1073,12 +1146,14 @@ let MODO_APP = "NO";
 let pobsSel = [];
 let historialIA = [];
 let ultimasCarrerasFiltradas = [];
-let materiesSeleccionades = [];
+
+// Per defecte activem 2 matèries clau perquè el simulador funcioni des del primer segon
+let materiesSeleccionades = ['Matemàtiques', 'Física'];
 
 const PDF_NOTES_TALL = "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/notes-de-tall/quadre_comparatiu_nota_tall_juny_2025.pdf";
 const PDF_PONDERACIONS = "https://universitats.gencat.cat/web/.content/02_preinscripcio/enllac-documents/Ponderacions-2026_v7.pdf";
 
-// Paleta d'universitats oficials de Catalunya
+// Paleta oficial d'universitats
 const UNIV_COLORS = {
     'UPC': { bg: '#007BC0', text: '#fff' },
     'UB': { bg: '#0F4C81', text: '#fff' },
@@ -1106,10 +1181,10 @@ function parseData(textoRaw) {
     try {
         LINEAS = textoRaw.split(/\r?\n/).filter(l => l.trim() !== "").map(l => l.split(';'));
         const h = LINEAS[0];
-        for(let i=7; i<h.length; i++){
+        for(let i = 7; i < h.length; i++){
             let nom = h[i].replace(/"/g, '').trim();
             if(nom){ 
-                if(!ASIG_MAP[nom]) ASIG_MAP[nom]=[]; 
+                if(!ASIG_MAP[nom]) ASIG_MAP[nom] = []; 
                 ASIG_MAP[nom].push(i); 
             }
         }
@@ -1130,6 +1205,10 @@ function parseData(textoRaw) {
 
         document.getElementById('zonaCarga').style.display = 'none';
         document.getElementById('pantallaInicio').style.display = 'block';
+
+        // Executar un primer càlcul intern
+        actualizarTodo();
+
     } catch(e) {
         console.error("Error en parseData:", e);
         alert("Error processant dades: " + e.message);
@@ -1142,12 +1221,8 @@ function setModo(modo) {
     document.getElementById('mainUI').style.display = 'block';
     document.getElementById('panelGrado').style.display = (modo === 'SI') ? 'block' : 'none';
     
-    if(modo === 'NO') {
-        renderChipsMateries();
-        actualizarTodo();
-    } else {
-        actualizarTodo();
-    }
+    renderChipsMateries();
+    actualizarTodo();
 }
 
 function canviarMode() {
@@ -1197,7 +1272,7 @@ function cambioGrado() {
     actualizarTodo();
 }
 
-/* GESTIÓ DELS XIPS DE MATÈRIES */
+/* XIPS DE MATÈRIES */
 function renderChipsMateries() {
     const container = document.getElementById('chipsMateriesContainer');
     const amagarNoImpartides = document.getElementById('chkAmagarNoImpartides')?.checked || false;
@@ -1229,7 +1304,7 @@ function toggleMateria(materia) {
         materiesSeleccionades = materiesSeleccionades.filter(m => m !== materia);
     } else {
         if (materiesSeleccionades.length >= 4) {
-            alert("Ja has seleccionat el màxim de 4 matèries de modalitat.");
+            alert("Pots triar com a màxim 4 matèries de modalitat.");
             return;
         }
         materiesSeleccionades.push(materia);
@@ -1242,17 +1317,27 @@ function toggleAmagarNoImpartides() {
     renderChipsMateries();
 }
 
-/* CÀLCUL I ACTUALITZACIÓ DEL COCKPIT */
+/* HELPER PER LLEGIR INPUTS NUMÈRICS AMB COMA O PUNT */
+function getGradeInput(id, defaultVal = 0) {
+    const el = document.getElementById(id);
+    if (!el) return defaultVal;
+    const str = el.value.trim().replace(',', '.');
+    if (!str) return 0;
+    const n = parseFloat(str);
+    return isNaN(n) ? defaultVal : Math.max(0, Math.min(10, n));
+}
+
+/* CÀLCUL DEL COCKPIT I SEMÀFOR */
 function actualizarTodo() {
     const elegidas = materiesSeleccionades;
-    const minPond = parseFloat(document.getElementById('fMinPond').value) || 0;
-    const minProf = parseFloat(document.getElementById('fMinProf').value) || 0;
-    const orden = document.getElementById('fOrden').value;
+    const minPond = parseFloat(document.getElementById('fMinPond')?.value || "0");
+    const minProf = parseFloat(document.getElementById('fMinProf')?.value || "0");
+    const orden = document.getElementById('fOrden')?.value || "semafor_desc";
     const gRef = document.getElementById('selGrado')?.value || "";
 
-    // Càlcul de la nota d'accés sobre 14
-    const nmb = parseFloat(document.getElementById('inputNMB')?.value) || 0;
-    const qfg = parseFloat(document.getElementById('inputQFG')?.value) || 0;
+    // Llegir les notes de Batxillerat i PAU General amb suport per a coma decimal
+    const nmb = getGradeInput('inputNMB', 8.20);
+    const qfg = getGradeInput('inputQFG', 7.50);
     
     let notaBaseSobre10 = 0;
     let teNotaSimulada = false;
@@ -1261,7 +1346,7 @@ function actualizarTodo() {
         notaBaseSobre10 = (0.6 * nmb) + (0.4 * qfg);
         teNotaSimulada = true;
     } else if (nmb > 0) {
-        notaBaseSobre10 = nmb; // estimació preliminar només amb batxi
+        notaBaseSobre10 = nmb;
         teNotaSimulada = true;
     }
 
@@ -1307,7 +1392,6 @@ function actualizarTodo() {
         if (elegidas.length > 0 && sumaPonderacions < minPond) return;
 
         // Càlcul sobre 14 punts: Ponderació màxima és (sumaPonderacions * 10)
-        // ex: 0.2 + 0.2 = 0.40 -> suma fins a +4.000 punts
         const puntsPonderacioFaseEspecifica = sumaPonderacions * 10;
         const notaAccesTotal = teNotaSimulada ? (notaBaseSobre10 + puntsPonderacioFaseEspecifica) : null;
         const margeSeguretat = (notaAccesTotal !== null && notaTall > 0) ? (notaAccesTotal - notaTall) : null;
@@ -1347,12 +1431,12 @@ function actualizarTodo() {
     // Actualitzar comptadors
     document.getElementById('txtContador').innerText = filtrados.length;
 
-    // Actualitzar píndola resum de nota
+    // Actualitzar píndola resum de nota sobre 14
     if (teNotaSimulada && elegidas.length > 0) {
         const millorPondPunts = Math.max(...filtrados.map(f => f.total), 0) * 10;
         const notaMaxCalculada = (notaBaseSobre10 + millorPondPunts).toFixed(3);
         document.getElementById('txtNotaAccesGlobal').innerText = `${notaMaxCalculada} / 14`;
-        document.getElementById('txtDesglossamentAcces').innerText = `Base: ${notaBaseSobre10.toFixed(2)} + Ponderació: +${millorPondPunts.toFixed(2)}`;
+        document.getElementById('txtDesglossamentAcces').innerText = `Base (60%+40%): ${notaBaseSobre10.toFixed(2)} + Ponderació: +${millorPondPunts.toFixed(2)}`;
     } else if (teNotaSimulada) {
         document.getElementById('txtNotaAccesGlobal').innerText = `${notaBaseSobre10.toFixed(2)} / 10`;
         document.getElementById('txtDesglossamentAcces').innerText = `Tria matèries per sumar fins a +4 punts`;
@@ -1361,7 +1445,7 @@ function actualizarTodo() {
         document.getElementById('txtDesglossamentAcces').innerText = `Introdueix notes per activar el semàfor`;
     }
 
-    // Actualitzar comptador de semàfor
+    // Actualitzar resum del semàfor
     let segures = 0, limits = 0, aspiracionals = 0;
     if (teNotaSimulada) {
         filtrados.forEach(f => {
@@ -1388,16 +1472,15 @@ function renderDeckGraus(graus, teNotaSimulada) {
 
     if (graus.length === 0) {
         listContainer.innerHTML = `
-            <div class="card-panel" style="text-align:center; padding:40px 20px;">
-                <p style="color:var(--text-muted); font-size:1.1em;">No s'ha trobat cap grau amb els filtres actius.</p>
-                <button class="btn-action primary" onclick="reiniciarFiltros()" style="margin-top:12px;">Reiniciar filtres</button>
+            <div class="card-panel" style="text-align:center; padding:50px 20px;">
+                <p style="color:var(--text-muted); font-size:1.15em; font-weight:600;">No s'ha trobat cap grau amb els filtres actius.</p>
+                <button class="btn-action primary" onclick="reiniciarFiltros()" style="margin-top:16px;">Reiniciar filtres</button>
             </div>
         `;
         return;
     }
 
     listContainer.innerHTML = graus.map(r => {
-        // Universitat color badge
         const uColor = UNIV_COLORS[r.univ] || UNIV_COLORS['DEFAULT'];
 
         // Semàfor d'admissió
@@ -1421,7 +1504,7 @@ function renderDeckGraus(graus, teNotaSimulada) {
             .sort((a,b) => b[1] - a[1])
             .map(([materia, valor]) => {
                 const clean = materia.replace('(*)', '').trim();
-                return `<span class="pond-tag">${clean} <span>+${valor.toFixed(2)}</span></span>`;
+                return `<span class="pond-tag-chip">${clean} <strong>+${valor.toFixed(2)}</strong></span>`;
             })
             .join('');
 
@@ -1434,56 +1517,62 @@ function renderDeckGraus(graus, teNotaSimulada) {
         return `
             <article class="degree-card">
                 <div class="card-top-row">
-                    <div class="degree-main-info">
-                        <div>
-                            <span class="degree-univ-badge" style="background:${uColor.bg}; color:${uColor.text};">
+                    <div class="degree-header-left">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="univ-pill-tag" style="background:${uColor.bg}; color:${uColor.text};">
                                 ${r.univ}
                             </span>
-                            <span style="font-family:monospace; font-size:0.75em; color:var(--text-subtle); margin-left:6px;">
+                            <span style="font-family:monospace; font-size:0.8em; color:var(--text-subtle); font-weight:700;">
                                 #${r.id}
                             </span>
                         </div>
                         <h3 class="degree-title">${r.grado}</h3>
-                        <div class="degree-meta">
-                            <span class="meta-item">📍 ${r.pNom}</span>
-                            ${r.places ? `<span class="meta-item">👥 ${r.places} places</span>` : ''}
+                        <div class="degree-meta-line">
+                            <span>📍 ${r.pNom}</span>
+                            ${r.places ? `<span>👥 ${r.places} places</span>` : ''}
                         </div>
                     </div>
 
                     <div class="card-viability-badge">
                         ${semaforHTML}
                         ${teNotaSimulada && r.notaAccesTotal !== null ? `
-                            <span style="font-size:0.75em; color:var(--text-muted); margin-top:4px;">
-                                Nota accés: <strong>${r.notaAccesTotal.toFixed(3)}</strong>
+                            <span style="font-size:0.75em; color:var(--text-muted); margin-top:6px; font-weight:600;">
+                                La teva nota: <strong style="color:var(--text-main);">${r.notaAccesTotal.toFixed(3)}</strong>
                             </span>
                         ` : ''}
                     </div>
                 </div>
 
-                <div class="card-middle-grid">
-                    <div class="info-cell">
-                        <span class="info-cell-label">Nota de Tall 2025</span>
-                        <span class="info-cell-val">${r.nota > 0 ? r.nota.toFixed(3) : 'Sense nota'}</span>
+                <div class="card-stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Nota de Tall 2025</span>
+                        <span class="stat-val">${r.nota > 0 ? r.nota.toFixed(3) : 'Sense nota'}</span>
                     </div>
 
-                    <div class="info-cell">
-                        <span class="info-cell-label">Ponderació de matèries</span>
-                        <span class="info-cell-val highlight">+${(r.total * 10).toFixed(2)} pts</span>
-                        ${ponderacionsActives ? `<div class="pond-tags">${ponderacionsActives}</div>` : ''}
+                    <div class="stat-box">
+                        <span class="stat-label">La Teva Nota Simulada</span>
+                        <span class="stat-val primary">${teNotaSimulada && r.notaAccesTotal ? r.notaAccesTotal.toFixed(3) : '--'} / 14</span>
                     </div>
 
-                    <div class="info-cell">
-                        <span class="info-cell-label">Sortida Laboral AQU</span>
-                        <span class="info-cell-val" style="color:#d97706;">⭐ ${r.prof.toFixed(1)} / 10</span>
+                    <div class="stat-box">
+                        <span class="stat-label">Sortida Laboral AQU</span>
+                        <span class="stat-val gold">⭐ ${r.prof.toFixed(1)} / 10 · ${aquLabel}</span>
                     </div>
                 </div>
 
-                <div class="card-bottom-row">
-                    <div class="aqu-badge">
+                ${ponderacionsActives ? `
+                    <div class="pond-tags-row">
+                        <span style="color:var(--text-subtle); font-size:0.75em; font-weight:700; text-transform:uppercase;">Ponderen:</span>
+                        ${ponderacionsActives}
+                    </div>
+                ` : ''}
+
+                <div class="card-footer-row">
+                    <div class="aqu-pill-badge">
                         Inserció laboral AQU: ${r.prof}/10 (${aquLabel})
                     </div>
 
-                    <button class="btn-ask-degree" onclick="preguntarSobreGrau('${r.grado.replace(/'/g, "\\'")}', '${r.univ}')">
+                    <button class="btn-card-ai" onclick="preguntarSobreGrau('${r.grado.replace(/'/g, "\\'")}', '${r.univ}')">
                         ✨ Preguntar a l'IA sobre aquest grau
                     </button>
                 </div>
@@ -1502,15 +1591,15 @@ function aNum(v) {
 }
 
 function reiniciarFiltros() {
-    materiesSeleccionades = [];
+    materiesSeleccionades = ['Matemàtiques', 'Física'];
     pobsSel = [];
     document.querySelectorAll('#poblacionsList input[type=checkbox]').forEach(c => c.checked = false);
     document.getElementById('txtPobsHeader').innerText = "Totes";
-    document.getElementById('fMinPond').value = "0";
+    document.getElementById('fMinPond').value = "0.4";
     document.getElementById('fMinProf').value = "0";
     document.getElementById('fOrden').value = "semafor_desc";
-    document.getElementById('inputNMB').value = "";
-    document.getElementById('inputQFG').value = "";
+    document.getElementById('inputNMB').value = "8.20";
+    document.getElementById('inputQFG').value = "7.50";
     document.getElementById('chkAmagarNoImpartides').checked = false;
     renderChipsMateries();
     actualizarTodo();
@@ -1591,43 +1680,76 @@ async function descargarPDFsGeneralitat() {
     }
 }
 
-/* ========== COPILOT D'IA (GEMMA 4 STREAMING I CLAUS) ========== */
+/* ========== COPILOT D'IA XAT CONVERSACIONAL REAL (GEMMA 4) ========== */
+function reiniciarChat() {
+    historialIA = [];
+    const thread = document.getElementById('chatThread');
+    const notaSimulada = document.getElementById('txtNotaAccesGlobal')?.innerText || "11.920 / 14";
+    const mats = materiesSeleccionades.join(', ') || "Matemàtiques, Física";
+    
+    thread.innerHTML = `
+        <div class="chat-msg assistant">
+            <div class="chat-msg-header">✨ Gemma 4 · Copilot d'Orientació</div>
+            <p>Conversa reiniciada. He carregat les teves dades actives: nota d'accés <strong>${notaSimulada}</strong> i matèries <strong>${mats}</strong>. En què et puc ajudar?</p>
+        </div>
+    `;
+}
+
 function preguntarQuickPrompt(text) {
     document.getElementById('input-ia').value = text;
     enviarConsultaIA();
 }
 
 function preguntarSobreGrau(nomGrau, univ) {
-    document.getElementById('input-ia').value = `Explica'm detalladament el grau en ${nomGrau} a la ${univ}: pla d'estudis, sortides professionals reals i consells per entrar-hi.`;
+    document.getElementById('input-ia').value = `Explica'm el grau en ${nomGrau} a la ${univ}: assignatures més importants, sortides professionals reals i si la meva nota em permet entrar-hi amb seguretat.`;
     document.getElementById('input-ia').focus();
     enviarConsultaIA();
 }
 
 async function enviarConsultaIA() {
     const input = document.getElementById("input-ia");
-    const resDiv = document.getElementById("respuesta-ia");
+    const thread = document.getElementById("chatThread");
     const preguntaUser = input.value.trim();
     
-    if(!preguntaUser) {
-        resDiv.innerHTML = "<p style='color:var(--text-muted); font-size:0.85em;'>Si us plau, escriu una pregunta.</p>";
-        return;
-    }
+    if(!preguntaUser) return;
 
-    resDiv.innerHTML = `<div class="ai-response"><em style="color:var(--ai-accent);">L'assistent Gemma 4 està analitzant la teva consulta...</em></div>`;
     input.value = ""; 
+
+    // 1. Afegir bombolla de l'usuari a la conversa visible
+    const userMsgEl = document.createElement("div");
+    userMsgEl.className = "chat-msg user";
+    userMsgEl.innerHTML = `<div class="chat-msg-header">Tu</div><div>${escapeHtml(preguntaUser)}</div>`;
+    thread.appendChild(userMsgEl);
+    thread.scrollTop = thread.scrollHeight;
+
+    // 2. Afegir bombolla de càrrega de l'assistent
+    const aiMsgEl = document.createElement("div");
+    aiMsgEl.className = "chat-msg assistant";
+    aiMsgEl.innerHTML = `
+        <div class="chat-msg-header">✨ Gemma 4</div>
+        <div class="chat-content">
+            <div class="chat-typing">
+                <span class="dot-pulse"></span><span class="dot-pulse"></span><span class="dot-pulse"></span>
+                Gemma està analitzant la teva consulta...
+            </div>
+        </div>
+    `;
+    thread.appendChild(aiMsgEl);
+    thread.scrollTop = thread.scrollHeight;
+    const contentBox = aiMsgEl.querySelector(".chat-content");
 
     const API_BASE = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
         ? window.location.origin
         : "https://api.batxi2uni.run.place";
 
-    // 1. Obtenir token temporal de sessió
+    // 3. Obtenir token temporal de sessió
     let token;
     try {
         const tokenRes = await fetch(`${API_BASE}/token`);
         const tokenData = await tokenRes.json();
         token = tokenData.token;
     } catch(e) {
-        resDiv.innerHTML = `<div class="ai-response"><p style="color:red;">❌ Error d'autenticació amb el servidor.</p></div>`;
+        contentBox.innerHTML = `<p style="color:var(--danger); font-weight:700;">❌ Error d'autenticació amb el servidor.</p>`;
         return;
     }
 
@@ -1635,30 +1757,34 @@ async function enviarConsultaIA() {
         historialIA = [];
     }
 
-    const nmb = document.getElementById('inputNMB')?.value || "No indicada";
-    const qfg = document.getElementById('inputQFG')?.value || "No indicada";
-    const notaSimulada = document.getElementById('txtNotaAccesGlobal')?.innerText || "--";
+    const nmb = getGradeInput('inputNMB', 8.20);
+    const qfg = getGradeInput('inputQFG', 7.50);
+    const notaSimulada = document.getElementById('txtNotaAccesGlobal')?.innerText || "11.920 / 14";
 
     const topCarreras = ultimasCarrerasFiltradas.slice(0, 30);
     const lineasCarreras = topCarreras
-        .map((c, idx) => `${idx + 1}. ${c.grado} (${c.univ}, ${c.pNom}) - Tall 2025: ${c.nota.toFixed(3)} - AQU: ${c.prof}/10 - Ponderació: +${(c.total * 10).toFixed(2)} pts ${c.notaAccesTotal ? `- Nota Simulada: ${c.notaAccesTotal.toFixed(3)}` : ''}`)
+        .map((c, idx) => `${idx + 1}. ${c.grado} (${c.univ}, ${c.pNom}) - Tall: ${c.nota.toFixed(3)} - AQU: ${c.prof}/10 - Ponderació: +${(c.total * 10).toFixed(2)} pts ${c.notaAccesTotal ? `- Nota Simulada: ${c.notaAccesTotal.toFixed(3)}` : ''}`)
         .join('\n');
 
     const contextoFormatado = `[📚 DADES DE L'ESTUDIANT]
 Matèries triades: ${materiesSeleccionades.length > 0 ? materiesSeleccionades.join(', ') : 'Cap seleccionada'}
-Nota Batxillerat: ${nmb} | Nota PAU General: ${qfg} | Nota Accés Simulada: ${notaSimulada}
+Nota Batxillerat (60%): ${nmb.toFixed(2)} | Nota PAU General (40%): ${qfg.toFixed(2)} | Nota Accés Simulada (sobre 14): ${notaSimulada}
 
-[📋 MILLORS GRAUS FILTRATS]
-Total graus trobats: ${ultimasCarrerasFiltradas.length} (mostrant els ${topCarreras.length} primers)
+[📋 MILLORS GRAUS FILTRATS PER A L'ESTUDIANT]
+Total graus disponibles: ${ultimasCarrerasFiltradas.length} (mostrant les ${topCarreras.length} millors opcions)
 ${lineasCarreras}
 
 [❓ PREGUNTA DE L'ESTUDIANT]
 ${preguntaUser}`;
 
+    // Si és el primer missatge de la conversa, adjuntem tot el context de l'estudiant
     const promptFinal = historialIA.length === 0 ? contextoFormatado : preguntaUser;
     historialIA.push({ role: "user", content: promptFinal });
 
+    let accumulated = "";
+
     try {
+        // Intentar streaming SSE primer
         const response = await fetch(`${API_BASE}/`, {
             method: "POST",
             headers: { 
@@ -1680,19 +1806,23 @@ ${preguntaUser}`;
 
         const contentType = response.headers.get("content-type") || "";
 
-        // Si respon amb Server-Sent Events (streaming)
         if (contentType.includes("text/event-stream") && response.body) {
             const reader = response.body.getReader();
             const decoder = new TextDecoder("utf-8");
-            let accumulated = "";
-            resDiv.innerHTML = `<div class="ai-response"><div class="ai-stream-content" style="white-space: pre-wrap;"></div></div>`;
-            const contentEl = resDiv.querySelector(".ai-stream-content");
-
             let buffer = "";
-            let streamError = null;
 
             while (true) {
-                const { done, value } = await reader.read();
+                let done = false;
+                let value;
+                try {
+                    const chunkRes = await reader.read();
+                    done = chunkRes.done;
+                    value = chunkRes.value;
+                } catch (readErr) {
+                    console.warn("Stream interrupted, keeping partial text:", readErr);
+                    break;
+                }
+
                 if (done) break;
                 buffer += decoder.decode(value, { stream: true });
                 
@@ -1705,56 +1835,75 @@ ${preguntaUser}`;
                     const jsonStr = line.replace(/^data:\s*/, "");
                     try {
                         const data = JSON.parse(jsonStr);
-                        if (data.error) {
-                            streamError = data.error;
-                            break;
-                        }
                         if (data.chunk) {
                             accumulated += data.chunk;
-                            if (contentEl) contentEl.innerText = accumulated;
-                        } else if (data.done) {
-                            if (data.fullText && !accumulated) {
-                                accumulated = data.fullText;
-                            }
+                            contentBox.innerHTML = formatAiResponse(accumulated);
+                            thread.scrollTop = thread.scrollHeight;
+                        } else if (data.done && data.fullText && !accumulated) {
+                            accumulated = data.fullText;
+                            contentBox.innerHTML = formatAiResponse(accumulated);
+                        } else if (data.error) {
+                            throw new Error(data.error);
                         }
-                    } catch (err) {}
-                }
-                if (streamError) break;
-            }
-
-            if (!streamError && buffer.trim()) {
-                const line = buffer.trim();
-                if (line.startsWith("data:")) {
-                    try {
-                        const data = JSON.parse(line.replace(/^data:\s*/, ""));
-                        if (data.error) streamError = data.error;
-                        else if (data.chunk) accumulated += data.chunk;
-                        else if (data.done && data.fullText && !accumulated) accumulated = data.fullText;
                     } catch (_) {}
                 }
             }
 
-            if (streamError) throw new Error(streamError);
-            if (!accumulated) throw new Error("No s'ha rebut cap resposta de l'assistent.");
-
-            historialIA.push({ role: "assistant", content: accumulated });
-            resDiv.innerHTML = formatAiResponse(accumulated);
-            return;
+            // Si hem rebut text, desar al fil
+            if (accumulated.trim()) {
+                historialIA.push({ role: "assistant", content: accumulated });
+                contentBox.innerHTML = formatAiResponse(accumulated);
+                thread.scrollTop = thread.scrollHeight;
+                return;
+            }
         }
 
-        // Resposta JSON clàssica
+        // Si no és stream o ha retornat JSON clàssic (ex: preguntes de confirmació)
         const data = await response.json();
         const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
-        const respuestaHTML = data[0]?.html || formatAiResponse(respuestaTexto);
-
         historialIA.push({ role: "assistant", content: respuestaTexto });
-        resDiv.innerHTML = respuestaHTML;
+        contentBox.innerHTML = formatAiResponse(respuestaTexto);
+        thread.scrollTop = thread.scrollHeight;
 
     } catch (e) {
-        resDiv.innerHTML = `<div class="ai-response"><p style="color:red;">❌ Error: ${e.message}</p></div>`;
-        console.error("Error consulta IA:", e);
+        console.warn("Streaming fallit o xarxa, intentant fallback JSON directe:", e);
+
+        // Fallback resilient: crida clàssica sense streaming per evitar talls de connexió
+        try {
+            const fallbackTokenRes = await fetch(`${API_BASE}/token`);
+            const fallbackToken = (await fallbackTokenRes.json()).token;
+
+            const fallbackRes = await fetch(`${API_BASE}/`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-app-Secret": fallbackToken,
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ messages: historialIA, stream: false })
+            });
+
+            if (fallbackRes.ok) {
+                const data = await fallbackRes.json();
+                const respuestaTexto = data[0]?.generated_text || "Sense resposta.";
+                historialIA.push({ role: "assistant", content: respuestaTexto });
+                contentBox.innerHTML = formatAiResponse(respuestaTexto);
+                thread.scrollTop = thread.scrollHeight;
+                return;
+            }
+        } catch (fallbackErr) {
+            console.error("Fallback JSON també ha fallat:", fallbackErr);
+        }
+
+        contentBox.innerHTML = `<p style="color:var(--danger); font-weight:700;">❌ No s'ha pogut obtenir la resposta: ${e.message}</p>`;
         if (historialIA.length > 0) historialIA.pop();
     }
+}
+
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
 }
 
 function formatAiResponse(markdown) {
@@ -1786,7 +1935,7 @@ function formatAiResponse(markdown) {
     }
     if (inUl) html += "</ul>";
     if (inOl) html += "</ol>";
-    return `<div class="ai-response">${html}</div>`;
+    return html;
 }
 
 function formatInline(str) {
@@ -1796,7 +1945,7 @@ function formatInline(str) {
 }
 
 document.getElementById('input-ia')?.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter') {
         e.preventDefault();
         enviarConsultaIA();
     }
