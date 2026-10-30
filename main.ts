@@ -22,17 +22,17 @@ function isOriginAllowed(origin: string): boolean {
 }
 
 // ========== CONFIGURACIÓ DE MODELS ==========
-const MODEL_GEMMA_PRIMARY = "gemma-4-26b-a4b-it";
-const MODEL_GEMMA_FALLBACK = "gemma-4-31b-it";
-const MODEL_WEB_SEARCH = "gemini-2.5-flash";
-const MODEL_URL_INSPECT = "gemini-3.5-flash-lite";
+const MODEL_PRIMARY = "gemini-2.5-flash-lite";
+const MODEL_FALLBACK = "gemini-2.5-flash";
+const MODEL_BACKUP_GEMMA = "gemma-4-26b-a4b-it";
+const MODEL_SEARCH = "gemini-2.5-flash-lite";
 
-// Límits oficials de Gemma per clau
-const GEMMA_LIMITS = {
-  MAX_RPM: 28,          // Límit oficial: 30 RPM (marge de seguretat a 28)
-  MAX_TPM: 15000,       // Límit oficial: 16.000 TPM (marge a 15K)
-  MAX_RPD: 14400,       // Límit oficial: 14.400 RPD
-  COOLDOWN_MS: 45000,   // Cooldown si Google retorna 429, 500 o 503
+// Límits oficials de l'API per clau
+const API_LIMITS = {
+  MAX_RPM: 14,          // Marge segur sota 15 RPM per clau
+  MAX_TPM: 500000,      // Límit ampli per a Gemini Flash Lite
+  MAX_RPD: 1400,        // Marge segur sota 1500 RPD per clau
+  COOLDOWN_MS: 30000,   // Cooldown de 30s si Google retorna 429, 500 o 503
 };
 
 // Estat de quota i ús per clau
@@ -140,9 +140,9 @@ function leaseApiKey(): KeyState | null {
     const tpm = state.tokensThisMinute.reduce((acc, cur) => acc + cur.tokens, 0);
 
     // Descartar si supera llindars de seguretat
-    if (rpm >= GEMMA_LIMITS.MAX_RPM) continue;
-    if (tpm >= GEMMA_LIMITS.MAX_TPM) continue;
-    if (state.requestsToday >= GEMMA_LIMITS.MAX_RPD) continue;
+    if (rpm >= API_LIMITS.MAX_RPM) continue;
+    if (tpm >= API_LIMITS.MAX_TPM) continue;
+    if (state.requestsToday >= API_LIMITS.MAX_RPD) continue;
 
     candidates.push({ state, rpm });
   }
@@ -171,8 +171,8 @@ function reportKeyOutcome(state: KeyState, success: boolean, tokens: number = 0,
     state.tokensThisMinute.push({ time: now, tokens: tokens || 500 });
   } else if (isRateLimitOrServerError) {
     // Posar clau en cooldown preventiu
-    state.cooldownUntil = now + GEMMA_LIMITS.COOLDOWN_MS;
-    console.warn(`[KeyCoordinator] ⚠️ Clau ...${state.key.slice(-6)} en cooldown durant ${GEMMA_LIMITS.COOLDOWN_MS / 1000}s`);
+    state.cooldownUntil = now + API_LIMITS.COOLDOWN_MS;
+    console.warn(`[KeyCoordinator] ⚠️ Clau ...${state.key.slice(-6)} en cooldown durant ${API_LIMITS.COOLDOWN_MS / 1000}s`);
   }
 }
 
@@ -216,24 +216,25 @@ function markdownToHTML(markdown: string): string {
   return `<div class="ai-response"><p>${html}</p></div>`;
 }
 
-// ========== PROMPT DE L'ORIENTADOR UNIVERSITARI ==========
-const promptDelSistema = `Ets un orientador expert en orientació universitària a Catalunya. El teu objectiu és ajudar a estudiants d'institut de forma ÚTIL, RÀPIDA i CONCISA.
+// ========== PROMPT DE L'ORIENTADOR UNIVERSITARI (BERNAT) ==========
+const promptDelSistema = `Ets en Bernat, orientador universitari expert a Catalunya per a l'aplicació Batxi2Uni.
+Ets una persona càlida, professional, propera, dinàmica i molt pràctica que acompanya estudiants d'institut (16-18 anys) a triar el seu futur universitari.
 
-**EL TEU ROL:**
-1. Respon DIRECTAMENT a la pregunta de l'usuari.
-2. Prioritat estricta en la cerca d'informació:
-   a. **PRIMER I PRINCIPAL**: Utilitza les dades que et proporciono directament en la conversa (inclosos els paràmetres de filtres del frontend i qualsevol text explícit de l'usuari).
-   b. **SEGON**: Si la informació no està disponible en les dades directes, utilitza el teu coneixement intern com a model d'IA de forma concisa.
-   c. **TERCER**: Si la pregunta demana dades molt específiques i actualitzades (portes obertes, telèfons, horaris, preus de crèdit), recomana o ofereix consultar la web oficial de la universitat.
-3. Si l'usuari pregunta sobre el contingut o pla d'una carrera:
-   - Explica QUÈ ES FARÀ GENERALMENT (matèries típiques, competències, sortides professionals) basant-te en el teu coneixement general.
-4. Respon SEMPRE i ÚNICAMENT en català (tret que l'usuari demani expressament respondre en un altre idioma).
-
-**RESTRICCIONS OBLIGATÒRIES:**
-- MÀXIM 2-3 paràgrafs breus però INFORMATIUS.
-- Sense explicacions teòriques interminables.
-- Sense emojis ni artificis innecessaris.
-- Mantingues text clar i net.`;
+NORMES ABSOLUTES D'IDENTITAT I COMUNICACIÓ:
+1. IDENTITAT HUMANA: Mai, sota cap circumstància, diguis frases com "Com a model d'IA", "Com a intel·ligència artificial", "No tinc accés a la teva pantalla", "No tinc navegació en temps real", ni cap referència a programari o models LLM. Ets en Bernat, un orientador educatiu de carn i ossos.
+2. ACCÉS A LA PANTALLA I GRAUS: Tens accés complet i directe a les dades dels graus i de la pantalla proporcionades en el missatge. Si l'estudiant menciona un codi de carrera (ex. "#31006", "31006"), un grau o una universitat, identifica'l directament a partir de les dades del context.
+3. PREUS I MATRÍCULA A LES UNIVERSITATS PÚBLIQUES DE CATALUNYA:
+   - Els preus de matrícula a les universitats públiques catalanes (UB, UAB, UPC, UPF, UdG, UdL, URV) estan regulats pel decret oficial de preus públics de la Generalitat de Catalunya.
+   - El preu públic oficial per primera matrícula és d'aproximadament 17,69 € per crèdit ECTS.
+   - Un curs acadèmic complet de 60 crèdits ECTS té un cost aproximat d'uns 1.061 €/curs (més taxes de gestió acadèmica i assegurança escolar d'uns 70-140 €).
+   - Els graus universitaris duren 4 anys (240 crèdits ECTS en total), la qual cosa representa uns 4.244 € en taxes docents públiques per a tot el grau.
+   - Esmenta sempre la Beca Equitat de la Generalitat de Catalunya (que ofereix descomptes del 70% al 80% en la matrícula segons el tram de renda familiar) i les beques generals del Ministeri d'Educació.
+   - A les universitats privades o centres adscrits privats, el preu del crèdit és substancialment superior (entre 60 € i 130 €/crèdit, oscil·lant entre 4.000 € i 10.000 € per curs).
+4. ESTIL I FORMAT:
+   - Respon sempre en català (tret que l'estudiant et parli expressament en castellà o un altre idioma).
+   - Fes servir un to proper i motivador (tutegem l'estudiant amb respecte i confiança).
+   - Respostes estructurades, directes i al gra (fent servir negretes per a xifres o termes clau).
+   - Explica de forma realista si la seva nota d'accés simulada li dóna marge de seguretat (zona verda: > +0.5 punts sobre el tall; zona groga: entre -0.3 i +0.5 punts; zona vermella: requereix millorar nota).`;
 
 // ========== CONSTANTS DE CONFIRMACIÓ ==========
 const PDF_CONFIRMATION_QUESTION = "Vols que consulti aquesta informació als documents PDF oficials que publica la Generalitat de Catalunya? (Sí / No)";
@@ -330,9 +331,9 @@ async function callAiStreamWithFallback(
   let modelToUse = options.model;
   if (!modelToUse) {
     if (useWebSearch) {
-      modelToUse = MODEL_WEB_SEARCH; // gemini-2.5-flash suporta googleSearch al Free Tier
+      modelToUse = MODEL_SEARCH; // gemini-2.5-flash-lite amb googleSearch
     } else {
-      modelToUse = MODEL_GEMMA_PRIMARY; // gemma-4-26b-a4b-it
+      modelToUse = MODEL_PRIMARY; // gemini-2.5-flash-lite (ultra ràpid ~0.8s)
     }
   }
 
@@ -341,15 +342,8 @@ async function callAiStreamWithFallback(
     systemInstruction: promptDelSistema,
   };
 
-  // Thinking level minimal per a models que ho suporten
-  if (modelToUse.includes("gemma-4") || modelToUse.includes("3.1") || modelToUse.includes("3.5")) {
-    configObj.thinkingConfig = {
-      thinkingLevel: ThinkingLevel.MINIMAL,
-    };
-  }
-
-  // Eines de cerca web (només actives per a models que ho suporten)
-  if (useWebSearch && modelToUse === MODEL_WEB_SEARCH) {
+  // Eines de cerca web (actives per a Gemini)
+  if (useWebSearch && (modelToUse.includes("gemini") || modelToUse === MODEL_SEARCH)) {
     configObj.tools = [{ googleSearch: {} }];
   }
 
@@ -363,7 +357,7 @@ async function callAiStreamWithFallback(
     }
 
     const keyIndex = keyStates.indexOf(keyState) + 1;
-    console.log(`[IA Attempt ${attempt + 1}/${maxAttempts}] Clau #${keyIndex} (...${keyState.key.slice(-6)}) | Model: ${modelToUse}`);
+    console.log(`[IA Attempt ${attempt + 1}/${maxAttempts}] Clau #${keyIndex} (...${keyState.key.slice(-6)}) | Model: ${modelToUse} | Search: ${useWebSearch}`);
 
     try {
       const ai = new GoogleGenAI({ apiKey: keyState.key });
@@ -416,10 +410,13 @@ async function callAiStreamWithFallback(
 
       reportKeyOutcome(keyState, false, 0, isRateOrServerError);
 
-      // Si falla amb el model primari per 503 (sobrecàrrega), provar el model de reserva
-      if (modelToUse === MODEL_GEMMA_PRIMARY && (err.status === 503 || err.message?.includes("demand"))) {
-        console.log(`[Model Fallback] Commutant a model fallback: ${MODEL_GEMMA_FALLBACK}`);
-        modelToUse = MODEL_GEMMA_FALLBACK;
+      // Si falla amb el model primari, provar fallback
+      if (modelToUse === MODEL_PRIMARY) {
+        console.log(`[Model Fallback] Commutant a fallback: ${MODEL_FALLBACK}`);
+        modelToUse = MODEL_FALLBACK;
+      } else if (modelToUse === MODEL_FALLBACK) {
+        console.log(`[Model Fallback] Commutant a backup: ${MODEL_BACKUP_GEMMA}`);
+        modelToUse = MODEL_BACKUP_GEMMA;
       }
 
       continue;
@@ -466,12 +463,12 @@ Deno.serve(async (req) => {
     return new Response(
       JSON.stringify({
         status: "ok",
-        message: "Servidor IA actiu (Gemma 4 + Gemini Flash amb rotació de 30 claus)",
+        message: "Servidor IA actiu (Bernat · Orientador Universitari amb Gemini 2.5 Flash Lite + rotació de 30 claus)",
         keysConfigured: keyStates.length,
         models: {
-          primary: MODEL_GEMMA_PRIMARY,
-          fallback: MODEL_GEMMA_FALLBACK,
-          search: MODEL_WEB_SEARCH,
+          primary: MODEL_PRIMARY,
+          fallback: MODEL_FALLBACK,
+          search: MODEL_SEARCH,
         },
       }),
       { headers }
@@ -536,7 +533,7 @@ Deno.serve(async (req) => {
       const lastUserMessageText = (lastUserMessage?.content || "").trim();
 
       // ============================================================
-      // 1. GESTIÓ DE CONFIRMACIÓ DE PDFs
+      // 1. GESTIÓ DE CONFIRMACIÓ DE PDFs (opcional per l'usuari)
       // ============================================================
       const awaitingPdf = isAwaitingPdfConfirmation(filteredMessages);
       if (awaitingPdf) {
@@ -565,9 +562,8 @@ Deno.serve(async (req) => {
             }
           }
 
-          // Execució amb gemini-2.5-flash (admet multimodalitat PDF)
           const result = await callAiStreamWithFallback(messagesForGenAI, {
-            model: MODEL_WEB_SEARCH,
+            model: MODEL_SEARCH,
             usePdfs: true,
           });
 
@@ -591,7 +587,7 @@ Deno.serve(async (req) => {
             parts: [{ text: msg.content }],
           }));
 
-          const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_GEMMA_PRIMARY });
+          const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_PRIMARY });
           headers.set("Content-Type", "application/json");
           return new Response(
             JSON.stringify([{
@@ -605,113 +601,21 @@ Deno.serve(async (req) => {
       }
 
       // ============================================================
-      // 2. GESTIÓ DE CONFIRMACIÓ DE CERCA WEB
+      // 2. DETECCIÓ PROACTIVA: CERCA WEB O ORIENTACIÓ DIRECTA
       // ============================================================
-      const awaitingWeb = isAwaitingWebConfirmation(filteredMessages);
-      if (awaitingWeb) {
-        if (isUserConfirmingYes(lastUserMessageText)) {
-          console.log("✅ Usuari CONFIRMA cerca web a Internet.");
-          const targetQuestions = [WEB_CONFIRMATION_QUESTION_CA, WEB_CONFIRMATION_QUESTION_ES];
-          const originalQuestion = findOriginalUserQuestion(filteredMessages, targetQuestions) || lastUserMessageText;
-
-          const messagesClean = filteredMessages.filter((msg: any) => !targetQuestions.includes((msg.content || "").trim()));
-          messagesClean.pop(); // treure el "sí"
-
-          const messagesForGenAI = messagesClean.map((msg: any) => ({
-            role: msg.role === "user" ? "user" : "model",
-            parts: [{ text: msg.content }],
-          }));
-
-          const result = await callAiStreamWithFallback(messagesForGenAI, {
-            model: MODEL_WEB_SEARCH,
-            useWebSearch: true,
-          });
-
-          headers.set("Content-Type", "application/json");
-          return new Response(
-            JSON.stringify([{
-              generated_text: result.text.trim(),
-              html: markdownToHTML(result.text),
-              metadata: { model: result.model, keyUsed: result.keyUsed, webSearched: true },
-            }]),
-            { headers }
-          );
-
-        } else if (isUserConfirmingNo(lastUserMessageText)) {
-          console.log("❌ Usuari REBUTJA cerca web a Internet.");
-          const targetQuestions = [WEB_CONFIRMATION_QUESTION_CA, WEB_CONFIRMATION_QUESTION_ES];
-          const messagesClean = filteredMessages.filter((msg: any) => !targetQuestions.includes((msg.content || "").trim()));
-          messagesClean.pop(); // treure el "no"
-
-          const messagesForGenAI = messagesClean.map((msg: any) => ({
-            role: msg.role === "user" ? "user" : "model",
-            parts: [{ text: msg.content }],
-          }));
-
-          const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_GEMMA_PRIMARY });
-          headers.set("Content-Type", "application/json");
-          return new Response(
-            JSON.stringify([{
-              generated_text: result.text.trim(),
-              html: markdownToHTML(result.text),
-              metadata: { model: result.model, keyUsed: result.keyUsed, webSearched: false },
-            }]),
-            { headers }
-          );
-        }
-      }
-
-      // ============================================================
-      // 3. DETECCIONS PROACTIVES (PDFs o CERCA WEB)
-      // ============================================================
-      const userTextToCheck = lastUserMessageText.includes("[❓ PREGUNTA DEL STUDENT]")
-        ? (lastUserMessageText.split("[❓ PREGUNTA DEL STUDENT]")[1] || "").toLowerCase()
+      const userTextToCheck = lastUserMessageText.includes("[❓ PREGUNTA DE L'ESTUDIANT]")
+        ? (lastUserMessageText.split("[❓ PREGUNTA DE L'ESTUDIANT]")[1] || "").toLowerCase()
         : lastUserMessageText.toLowerCase();
 
-      // A. Detecció de paraules clau de PDFs
-      const isPdfRelated = !awaitingPdf && userTextToCheck.includes("pdf");
-      if (isPdfRelated) {
-        console.log("🔔 Pregunta sobre PDFs detectada. Preguntant a l'usuari...");
-        headers.set("Content-Type", "application/json");
-        return new Response(
-          JSON.stringify([{
-            generated_text: PDF_CONFIRMATION_QUESTION,
-            html: markdownToHTML(PDF_CONFIRMATION_QUESTION),
-            metadata: { model: "confirmation-prompt", awaitingPdfConfirmation: true },
-          }]),
-          { headers }
-        );
-      }
+      // Cerca web automàtica (sense bloquejar amb preguntes de confirmació!)
+      const isWebRelated = Boolean(body.useWebSearch) || webSearchKeywords.some((kw) => userTextToCheck.includes(kw));
 
-      // B. Detecció bilingüe de necessitat de Cerca Web (portes obertes, telèfons, preus...)
-      const isWebRelated = !awaitingWeb && webSearchKeywords.some((kw) => userTextToCheck.includes(kw));
-
-      if (isWebRelated) {
-        console.log("🔔 Pregunta sobre dades web externes detectada. Preguntant a l'usuari...");
-        // Detectar si l'usuari escriu en castellà per respondre en castellà
-        const isSpanish = /¿|\b(puertas|abiertas|informacion|carrera|gracias|horario|telefono|precio)\b/i.test(userTextToCheck);
-        const confirmText = isSpanish ? WEB_CONFIRMATION_QUESTION_ES : WEB_CONFIRMATION_QUESTION_CA;
-
-        headers.set("Content-Type", "application/json");
-        return new Response(
-          JSON.stringify([{
-            generated_text: confirmText,
-            html: markdownToHTML(confirmText),
-            metadata: { model: "confirmation-prompt", awaitingWebConfirmation: true },
-          }]),
-          { headers }
-        );
-      }
-
-      // ============================================================
-      // 4. FLUX STANDARD AMB GEMMA 4 (STREAMING O JSON)
-      // ============================================================
       const messagesForGenAI = filteredMessages.map((msg: any) => ({
         role: msg.role === "user" ? "user" : "model",
         parts: [{ text: msg.content }],
       }));
 
-      // Si el client sol·licita Server-Sent Events (SSE)
+      // Si el client sol·licita Server-Sent Events (SSE) streaming
       if (wantsStream) {
         headers.set("Content-Type", "text/event-stream; charset=utf-8");
         headers.set("Cache-Control", "no-cache");
@@ -722,7 +626,8 @@ Deno.serve(async (req) => {
             const encoder = new TextEncoder();
             try {
               const res = await callAiStreamWithFallback(messagesForGenAI, {
-                model: MODEL_GEMMA_PRIMARY,
+                model: isWebRelated ? MODEL_SEARCH : MODEL_PRIMARY,
+                useWebSearch: isWebRelated,
                 onChunk: (chunkText) => {
                   controller.enqueue(encoder.encode(`data: ${JSON.stringify({ chunk: chunkText })}\n\n`));
                 },
@@ -742,7 +647,11 @@ Deno.serve(async (req) => {
       }
 
       // Resposta clàssica JSON
-      const result = await callAiStreamWithFallback(messagesForGenAI, { model: MODEL_GEMMA_PRIMARY });
+      const result = await callAiStreamWithFallback(messagesForGenAI, {
+        model: isWebRelated ? MODEL_SEARCH : MODEL_PRIMARY,
+        useWebSearch: isWebRelated,
+      });
+
       headers.set("Content-Type", "application/json");
       return new Response(
         JSON.stringify([{
@@ -752,6 +661,7 @@ Deno.serve(async (req) => {
             tokens_used: result.tokens,
             model: result.model,
             keyUsed: result.keyUsed,
+            webSearched: isWebRelated,
           },
         }]),
         { headers }

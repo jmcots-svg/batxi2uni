@@ -7,7 +7,7 @@
     <link rel="shortcut icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
 
-    <meta name="description" content="Calculadora de notes d'accés, ponderacions i notes de tall 2026. Simula la teva nota sobre 14 amb semàfor de viabilitat i copilot d'IA Gemma 4.">
+    <meta name="description" content="Calculadora de notes d'accés, ponderacions i notes de tall 2026. Simula la teva nota sobre 14 amb semàfor de viabilitat i orientació universitària personalitzada.">
     <meta name="keywords" content="notes de tall 2026, ponderacions selectivitat catalunya, calculadora nota acces 14 punts, graus universitaris catalunya, pau 2026">
     <meta property="og:title" content="Batxi2Uni · Calculadora d'Accés i Ponderacions PAU 2026">
     <meta property="og:description" content="Simula la teva nota sobre 14 punts, compara graus a Catalunya i descobreix les teves opcions segures i al límit.">
@@ -1123,12 +1123,12 @@
                     </div>
                 </div>
 
-                <!-- 2. COPILOT D'IA XAT CONVERSACIONAL (A SOTA A LA DRETA, SEMPRE VISIBLE!) -->
+                <!-- 2. BERNAT · ASSESSOR I ORIENTADOR UNIVERSITARI (A SOTA A LA DRETA, SEMPRE VISIBLE!) -->
                 <div class="card-panel ai-widget">
                     <div class="ai-header-bar">
-                        <span class="panel-title" style="color:var(--ai-accent);">✨ Copilot d'IA Batxi2Uni</span>
+                        <span class="panel-title" style="color:var(--ai-accent);">💬 Bernat · Orientador Universitari</span>
                         <div style="display:flex; align-items:center; gap:8px;">
-                            <span class="ai-badge">Gemma 4</span>
+                            <span class="ai-badge" style="background:#e0e7ff; color:#4338ca; font-weight:700;">En línia</span>
                             <button onclick="reiniciarChat()" title="Reiniciar conversa" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.85em;">🔄</button>
                         </div>
                     </div>
@@ -1142,8 +1142,8 @@
                     <!-- FIL DE CONVERSA (CHAT THREAD) -->
                     <div class="chat-thread-box" id="chatThread">
                         <div class="chat-msg assistant">
-                            <div class="chat-msg-header">✨ Gemma 4 · Copilot d'Orientació</div>
-                            <p>Hola! He calculat la teva nota d'accés simulada en <strong>11.920 / 14</strong> amb les teves matèries de <strong>Matemàtiques i Física</strong>. Pots fer-me preguntes sobre qualsevol carrera del centre o comparar opcions!</p>
+                            <div class="chat-msg-header">✨ Bernat · Orientador</div>
+                            <p>Hola! Sóc en <strong>Bernat</strong>, el teu orientador universitari a Batxi2Uni. He analitzat la teva nota d'accés simulada i les teves matèries. Em pots preguntar sobre qualsevol carrera pel seu nom o codi (ex: <strong>#31006</strong>), comparar opcions o demanar preus de matrícula oficials!</p>
                         </div>
                     </div>
 
@@ -1702,7 +1702,7 @@ async function descargarPDFsGeneralitat() {
     }
 }
 
-/* ========== COPILOT D'IA XAT CONVERSACIONAL REAL (GEMMA 4) ========== */
+/* ========== BERNAT · ORIENTADOR UNIVERSITARI (XAT CONVERSACIONAL) ========== */
 function reiniciarChat() {
     historialIA = [];
     const thread = document.getElementById('chatThread');
@@ -1711,8 +1711,8 @@ function reiniciarChat() {
     
     thread.innerHTML = `
         <div class="chat-msg assistant">
-            <div class="chat-msg-header">✨ Gemma 4 · Copilot d'Orientació</div>
-            <p>Conversa reiniciada. He carregat les teves dades actives: nota d'accés <strong>${notaSimulada}</strong> i matèries <strong>${mats}</strong>. En què et puc ajudar?</p>
+            <div class="chat-msg-header">✨ Bernat · Orientador</div>
+            <p>Conversa reiniciada. He carregat les teves dades actives: nota d'accés <strong>${notaSimulada}</strong> i matèries <strong>${mats}</strong>. En què et puc ajudar avui?</p>
         </div>
     `;
 }
@@ -1723,7 +1723,7 @@ function preguntarQuickPrompt(text) {
 }
 
 function preguntarSobreGrau(nomGrau, univ) {
-    document.getElementById('input-ia').value = `Explica'm el grau en ${nomGrau} a la ${univ}: assignatures més importants, sortides professionals reals i si la meva nota em permet entrar-hi amb seguretat.`;
+    document.getElementById('input-ia').value = `Explica'm el grau en ${nomGrau} a la ${univ}: assignatures clau, sortides professionals reals i si la meva nota em permet entrar-hi amb seguretat.`;
     document.getElementById('input-ia').focus();
     enviarConsultaIA();
 }
@@ -1748,11 +1748,11 @@ async function enviarConsultaIA() {
     const aiMsgEl = document.createElement("div");
     aiMsgEl.className = "chat-msg assistant";
     aiMsgEl.innerHTML = `
-        <div class="chat-msg-header">✨ Gemma 4</div>
+        <div class="chat-msg-header">✨ Bernat · Orientador</div>
         <div class="chat-content">
             <div class="chat-typing">
                 <span class="dot-pulse"></span><span class="dot-pulse"></span><span class="dot-pulse"></span>
-                Gemma està analitzant la teva consulta...
+                En Bernat està consultant les opcions per a tu...
             </div>
         </div>
     `;
@@ -1783,9 +1783,46 @@ async function enviarConsultaIA() {
     const qfg = getGradeInput('inputQFG', 7.50);
     const notaSimulada = document.getElementById('txtNotaAccesGlobal')?.innerText || "11.920 / 14";
 
+    // 4. Detecció intel·ligent de grau consultat (per codi oficial #31006 o text)
+    let grauDetectatInfo = "";
+    const matchId = preguntaUser.match(/#?(\d{5})\b/);
+    let grauTrobat = null;
+
+    if (matchId) {
+        const codiBuscado = Number(matchId[1]);
+        grauTrobat = LINEAS.find(g => Number(g.id) === codiBuscado);
+    }
+
+    if (!grauTrobat) {
+        const lowerP = preguntaUser.toLowerCase();
+        grauTrobat = ultimasCarrerasFiltradas.find(g => {
+            const nomG = (g.grado || "").toLowerCase();
+            return nomG.length > 5 && lowerP.includes(nomG);
+        });
+    }
+
+    if (grauTrobat) {
+        const base = (nmb * 0.6) + (qfg * 0.4);
+        const notaSimGrau = grauTrobat.notaAccesTotal ? grauTrobat.notaAccesTotal : (base + (grauTrobat.total * 10));
+        const diff = (notaSimGrau - grauTrobat.nota).toFixed(3);
+        const sign = Number(diff) >= 0 ? "+" : "";
+        const semafor = Number(diff) >= 0.5 ? "🟢 Segura" : (Number(diff) >= -0.3 ? "🟡 Al límit" : "🔴 Aspiracional");
+
+        grauDetectatInfo = `
+[🎯 GRAU CONCRET IDENTIFICAT A PANTALLA]
+Codi: #${grauTrobat.id}
+Grau: ${grauTrobat.grado}
+Universitat: ${grauTrobat.univ} (${grauTrobat.univNom || ''})
+Campus / Població: ${grauTrobat.pNom}
+Places disponibles: ${grauTrobat.places || '100'}
+Nota de tall 2025: ${grauTrobat.nota.toFixed(3)}
+Inserció laboral AQU: ${grauTrobat.prof}/10
+Nota d'accés simulada de l'estudiant per aquest grau: ${notaSimGrau.toFixed(3)} / 14 (${semafor}: ${sign}${diff} punts sobre el tall)`;
+    }
+
     const topCarreras = ultimasCarrerasFiltradas.slice(0, 30);
     const lineasCarreras = topCarreras
-        .map((c, idx) => `${idx + 1}. ${c.grado} (${c.univ}, ${c.pNom}) - Tall: ${c.nota.toFixed(3)} - AQU: ${c.prof}/10 - Ponderació: +${(c.total * 10).toFixed(2)} pts ${c.notaAccesTotal ? `- Nota Simulada: ${c.notaAccesTotal.toFixed(3)}` : ''}`)
+        .map((c, idx) => `[#${c.id}] ${c.grado} (${c.univ}, ${c.pNom}) - Tall: ${c.nota.toFixed(3)} - AQU: ${c.prof}/10 - Ponderació: +${(c.total * 10).toFixed(2)} pts ${c.notaAccesTotal ? `- Nota simulada: ${c.notaAccesTotal.toFixed(3)}` : ''}`)
         .join('\n');
 
     const contextoFormatado = `[📚 DADES DE L'ESTUDIANT]
@@ -1793,14 +1830,22 @@ Matèries triades: ${materiesSeleccionades.length > 0 ? materiesSeleccionades.jo
 Nota Batxillerat (60%): ${nmb.toFixed(2)} | Nota PAU General (40%): ${qfg.toFixed(2)} | Nota Accés Simulada (sobre 14): ${notaSimulada}
 
 [📋 MILLORS GRAUS FILTRATS PER A L'ESTUDIANT]
-Total graus disponibles: ${ultimasCarrerasFiltradas.length} (mostrant les ${topCarreras.length} millors opcions)
-${lineasCarreras}
+Total graus disponibles: ${ultimasCarrerasFiltradas.length} (mostrant les ${topCarreras.length} millors opcions a la vista)
+${lineasCarreras}${grauDetectatInfo ? '\n' + grauDetectatInfo : ''}
 
 [❓ PREGUNTA DE L'ESTUDIANT]
 ${preguntaUser}`;
 
-    // Si és el primer missatge de la conversa, adjuntem tot el context de l'estudiant
-    const promptFinal = historialIA.length === 0 ? contextoFormatado : preguntaUser;
+    let promptFinal = "";
+    if (historialIA.length === 0) {
+        promptFinal = contextoFormatado;
+    } else {
+        // En torns successius, mantenim sempre les dades del perfil i el grau detectat si n'hi ha
+        promptFinal = `[DADES ACTIVES DE L'ESTUDIANT: Nota Batx ${nmb.toFixed(2)} | PAU ${qfg.toFixed(2)} | Simulada ${notaSimulada} | Matèries: ${materiesSeleccionades.join(', ')}]${grauDetectatInfo ? '\n' + grauDetectatInfo : ''}
+[❓ PREGUNTA DE L'ESTUDIANT]
+${preguntaUser}`;
+    }
+
     historialIA.push({ role: "user", content: promptFinal });
 
     let accumulated = "";
